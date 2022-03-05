@@ -64,9 +64,9 @@ export default function IndexPage(): JSX.Element {
             <meta name="twitter:card" content="summary_large_image" />
             <meta name="twitter:title" content="Wo ist der Regenbogen ICE?" />
             <meta name="twitter:description" content="Tracke den Regenbogen-ICE auf seinem Weg durch ganz Deutschland" />
-            <meta name="twitter:image:src" content={APP_BASE + '/images/twittercard_scaled.png'} />
+            <meta name="twitter:image:src" content={APP_BASE + '/images/twittercard.png'} />
             <meta property="og:title" content="Wo ist der Regenbogen ICE?" />
-            <meta property="og:image" content={APP_BASE + '/images/twittercard_scaled.png'} />
+            <meta property="og:image" content={APP_BASE + '/images/twittercard.png'} />
             <meta name="description" content="Tracke den Regenbogen-ICE auf dem ganzen Streckennetz der Deutschen Bahn!" />
             <meta name="keywords" content="regenbogen ice, regenbogen ice fahrplan, regenbogen ice strecke, regenbogen ice nummer, regenbogen ice deutsche bahn, regenbogen ice db, zug" />
         </Head>
