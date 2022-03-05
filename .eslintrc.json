@@ -1,0 +1,11 @@
+{
+  "extends": ["plugin:@typescript-eslint/recommended", "next/core-web-vitals"],
+  "rules": {
+    "@typescript-eslint/quotes": ["error", "single", {"allowTemplateLiterals": true}],
+    "@typescript-eslint/semi": ["error", "never"],
+    "@typescript-eslint/comma-dangle": ["error", "always-multiline"],
+    "react/jsx-no-target-blank": "off",
+    "@next/next/no-page-custom-font": "off",
+    "eol-last": "error"
+  }
+}

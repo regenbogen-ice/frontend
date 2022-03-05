@@ -1,0 +1,23 @@
+{
+    "id": "webfrontend",
+    "name": "Wo ist der Regenbogen ICE?",
+    "short_name": "Regenbogen ICE",
+    "description": "Findet den Regenbogen ICE der Deutschen Bahn",
+    "display": "standalone",
+    "start_url": "/?app=1",
+    "icons": [
+        {
+            "src": "/images/icon-bg-400.png",
+            "sizes": "400x400",
+            "type": "image/png"
+        }
+    ],
+    "theme_color": "#FF007A",
+    "screenshots": [
+        {
+            "src": "/images/screenshot1.png",
+            "sizes": "586x1041",
+            "type": "image/png"
+        }
+    ]
+}

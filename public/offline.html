@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Offline.</title>
+</head>
+<body>
+    <h1>Offline</h1>
+    <span>Du bist offline. Gehe online um diese App verwenden.</span>
+    <script>
+        setTimeout(() => window.location.reload(), 3000)
+    </script>
+    <style>
+        html {
+            font-size: 150%;
+        }
+        
+        body {
+            font-family: -system-ui, "Roboto", sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            min-height: 100vh;
+            margin: 0;
+            text-align: center;
+        }
+
+        body * {
+            margin: 10px 20px;
+        }
+    </style>
+</body>
+</html>
