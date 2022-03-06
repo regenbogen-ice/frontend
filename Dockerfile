@@ -1,6 +1,9 @@
 FROM node:16
 WORKDIR /app
 
+ENV BUILD_ENV=development
+ARG BUILD_ENV=development
+
 COPY ./package.json ./package.json
 COPY ./yarn.lock ./yarn.lock
 
