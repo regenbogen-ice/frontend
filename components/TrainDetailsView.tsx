@@ -96,6 +96,7 @@ const TrainStopContent = styled.span`
     margin-left: 3rem;
     margin-bottom: .5rem;
     margin-top: .5rem;
+    word-break: break-word;
 `
 /* eslint-disable */
 const FrontCircle: any = styled.div`
