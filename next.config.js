@@ -14,7 +14,6 @@ const configs = {
   },
 }
 
-console.log(process.env.BUILD_ENV)
 
 const config = configs[process.env.BUILD_ENV || 'development']
 
