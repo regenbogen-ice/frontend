@@ -21,7 +21,7 @@ function fixAPIResponse(rawResponse: TrainVehicleData) {
 export const fetchFromAPI = async (arg: string, method: string): Promise<any> => {
     let response: Response | null = null
 
-    if(arg == null) throw new Error('missing arg')
+    if(!arg) throw new Error('missing arg')
 
     switch(method) {
         case 'trainTrip':

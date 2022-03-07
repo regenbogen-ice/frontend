@@ -34,7 +34,7 @@ const GlobalStyles = createGlobalStyle`
 
 setTimeout(() => {
     if(typeof navigator !== 'undefined' && navigator.serviceWorker) {
-        navigator.serviceWorker.register('\/sw.js')
+        navigator.serviceWorker.register('/sw.js')
     }
 }, 1000)
 

@@ -68,11 +68,12 @@ export default function TrainHistoryView({basicData}: {basicData: TrainVehicleDa
         
         setLimitResults(false)
     }
-
+    
     if(data && !error) {
         const days = {}
 
-        data.trips.forEach(tfz => {
+        const trips = [...data.trips].reverse()
+        trips.forEach(tfz => {
             const time = DateTime.fromISO(tfz.initial_departure).toLocal()
 
             const date = time.toFormat('dd.MM.yyyy')
