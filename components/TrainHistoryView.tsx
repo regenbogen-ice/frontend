@@ -72,14 +72,15 @@ export default function TrainHistoryView({basicData}: {basicData: TrainVehicleDa
     if(data && !error) {
         const days = {}
 
-        const trips = [...data.trips].reverse()
-        trips.forEach(tfz => {
+        data.trips.forEach(tfz => {
             const time = DateTime.fromISO(tfz.initial_departure).toLocal()
 
             const date = time.toFormat('dd.MM.yyyy')
             if(!days[date]) days[date] = []
             days[date].push(tfz)
         })
+
+        Object.keys(days).forEach(day => days[day].reverse())
 
         let daysArr = Object.entries(days)
         
