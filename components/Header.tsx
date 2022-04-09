@@ -40,7 +40,7 @@ export default function Header() {
     return (
         <HeaderBar>
             <Link passHref href='/'>
-            	<TitleContainer>
+                <TitleContainer>
                     <WebsiteLogo src="/images/icon-bg-400.png"></WebsiteLogo>
                     <WebsiteTitle>Wo ist der Regenbogen ICE?</WebsiteTitle>
                 </TitleContainer>

@@ -328,7 +328,7 @@ function isTripObsolete(trip: TrainTripData): boolean {
 
 function RealTrainDetailsView({data}: {data: TrainVehicleData}): JSX.Element {
     const trips = [...data.trips].reverse()
-        .filter(trip => !(trip.stops.length == 0 || isTripObsolete(trip)))
+        .filter(trip => !(trip.stops.length === 0 || isTripObsolete(trip)))
 
     const stops: TrainStopData[] = trips.map((trip, index) => {
         const lineChange = {

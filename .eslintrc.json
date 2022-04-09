@@ -6,6 +6,11 @@
     "@typescript-eslint/comma-dangle": ["error", "always-multiline"],
     "react/jsx-no-target-blank": "off",
     "@next/next/no-page-custom-font": "off",
-    "eol-last": "error"
+    "eol-last": "error",
+    "no-redeclare": "error",
+    "eqeqeq": "error",
+    "no-tabs": "error",
+    "no-unneeded-ternary": "error",
+    "no-useless-return": "error"
   }
 }

@@ -68,7 +68,7 @@ export default function TrainHistoryView({basicData}: {basicData: TrainVehicleDa
         
         setLimitResults(false)
     }
-
+    
     if(data && !error) {
         const days = {}
 
@@ -79,6 +79,8 @@ export default function TrainHistoryView({basicData}: {basicData: TrainVehicleDa
             if(!days[date]) days[date] = []
             days[date].push(tfz)
         })
+
+        Object.keys(days).forEach(day => days[day].reverse())
 
         let daysArr = Object.entries(days)
         

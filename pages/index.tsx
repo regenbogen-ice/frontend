@@ -4,6 +4,7 @@ import TrainDetailsView from '../components/TrainDetailsView'
 import useSWR from 'swr'
 import { APP_BASE, RAINBOWTZN } from '../scripts/constants'
 import { fetchFromAPI } from '../scripts/dataSources'
+import type { TrainTripData } from '../scripts/dataSources'
 import { Skeleton } from '../components/Common'
 import { DateTime } from 'luxon'
 import Head from 'next/head'
@@ -56,7 +57,7 @@ const ExpandIcon = styled.div`
 
 export default function IndexPage(): JSX.Element {
 
-    const { data, error } = useSWR([RAINBOWTZN, 'trainTrip'], fetchFromAPI)
+    const { data, error }: { data?: TrainTripData, error?: Error } = useSWR([RAINBOWTZN, 'trainTrip'], fetchFromAPI)
 
     const head = (
         <Head>
@@ -121,7 +122,7 @@ export default function IndexPage(): JSX.Element {
             <PageHeader>
                 <WebsiteTitle>Wo ist der Regenbogen ICE?</WebsiteTitle>
                 {trainIndex === -1 ? (
-                    <QuickAnswer>Auf irgendeinem Abstellgleis{data.trips.length !== 0 ? <span> in der Nähe von <b>{data.zuege[0].destination_station}</b></span> : null}</QuickAnswer>
+                    <QuickAnswer>Auf irgendeinem Abstellgleis{data.trips.length !== 0 ? <span> in der Nähe von <b>{data.trips[0].destination_station}</b></span> : null}</QuickAnswer>
                 ) : (
                     <QuickAnswer>Als <b>ICE {data.trips[trainIndex].train_number}</b> zwischen <b>{data.trips[trainIndex].origin_station}</b> und <b>{data.trips[trainIndex].destination_station}</b></QuickAnswer>
                 )}

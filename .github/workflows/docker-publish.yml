@@ -7,11 +7,7 @@ name: Docker
 
 on:
   push:
-    branches: [ main, development ]
-    # Publish semver tags as releases.
-    tags: [ 'v*.*.*' ]
-  pull_request:
-    branches: [ main ]
+    branches: [ main, canary ]
 
 env:
   # Use docker.io for Docker Hub if empty
@@ -59,3 +55,5 @@ jobs:
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+          build-args: |
+            BUILD_ENV=${{ env.GITHUB_REF_NAME }}

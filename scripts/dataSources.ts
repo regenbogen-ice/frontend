@@ -4,10 +4,24 @@ export type TrainVehicleData = any
 export type TrainTripData = any
 export type AutoCompleteResult = string[]
 
+function fixAPIResponse(rawResponse: TrainVehicleData) {
+    // sometimes the api returns no stops even if you explicitly request it
+    // this is clearly a bug but the developer does not want to fix it
+    // therefore these wrong results have to be filtered
+
+    if(rawResponse.trips) {
+        const fixedTripsArray = rawResponse.trips.filter(trip => {
+            return trip.stops.length > 0
+        })
+        
+        return {...rawResponse, trips: fixedTripsArray}   
+    }
+}
+
 export const fetchFromAPI = async (arg: string, method: string): Promise<any> => {
     let response: Response | null = null
 
-    if(arg == null) throw new Error('missing arg')
+    if(!arg) throw new Error('missing arg')
 
     switch(method) {
         case 'trainTrip':
@@ -28,6 +42,7 @@ export const fetchFromAPI = async (arg: string, method: string): Promise<any> =>
 
     if(!response.ok) throw new Error('HTTP ' + response.status)
 
-    const json = await response.json()
+    let json = await response.json()
+    if(method === 'trainTrip') json = fixAPIResponse(json)
     return json
 }
