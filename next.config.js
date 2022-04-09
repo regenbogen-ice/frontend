@@ -15,7 +15,7 @@ const configs = {
 }
 
 
-const config = configs[process.env.BUILD_ENV || 'development']
+const config = configs[process.env.BUILD_ENV === "main" ? "production" : process.env.BUILD_ENV || 'development']
 
 module.exports = {
   reactStrictMode: true,
