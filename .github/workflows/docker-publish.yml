@@ -56,4 +56,4 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           build-args: |
-            BUILD_ENV=${{ github.GITHUB_REF_NAME }}
+            BUILD_ENV=${{ github.ref_name }}
