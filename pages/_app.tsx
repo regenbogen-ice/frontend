@@ -30,7 +30,7 @@ const GlobalStyles = createGlobalStyle`
             font-size: 60%;
         }
     }
-`
+` as any
 
 setTimeout(() => {
     if(typeof navigator !== 'undefined' && navigator.serviceWorker) {
