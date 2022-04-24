@@ -40,9 +40,11 @@ setTimeout(() => {
 
 export default function App({Component, pageProps}: AppProps): JSX.Element {
     useEffect(() => {
-        if (process.env.NEXT_PUBLIC_ACKEE_UUID)
+        if(process.env.NEXT_PUBLIC_ACKEE_UUID) {
             ackeeCreate('https://ackee.adridoesthings.com', { detailed: true }).record(process.env.NEXT_PUBLIC_ACKEE_UUID)
+        }
     }, [])
+
     return (
         <>
             <Head>

@@ -180,6 +180,19 @@ const NoTrainStops = styled.span`
     font-weight: bold;
 `
 
+const BlueDot = styled.div`
+    background-color: #426BFF;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    border: .3rem solid white;
+    position: absolute;
+    z-index: 10;
+    margin-left: 1px;
+    margin-top: -1.3rem;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+`
+
 function DummyDetailsView() {
     return null
 }
@@ -259,7 +272,7 @@ function TrainTimeLabel({times}: {times: string[]}): JSX.Element {
     const departureTime = DateTime.fromISO(times[times.length-1], {zone: 'UTC'})
     const hasDeparted = departureTime > DateTime.now()
 
-    const color = hasDeparted ? '#0275D8' : '#ff0000'
+    const color = hasDeparted ? '#0275D8' : '#999'
     const timeText = times.map(toSimpleTimeString).join(' - ')
 
     return (
@@ -314,8 +327,9 @@ function TrainStop({bubble, connections, type, information}: TrainStopData): JSX
                 {bubble === 'LINE_CHANGE' ? (
                     <TrainIcon viewBox="0 0 24 24"><path d="M12 2c-4 0-8 .5-8 4v9.5C4 17.43 5.57 19 7.5 19L6 20.5v.5h2.23l2-2H14l2 2h2v-.5L16.5 19c1.93 0 3.5-1.57 3.5-3.5V6c0-3.5-3.58-4-8-4zM7.5 17c-.83 0-1.5-.67-1.5-1.5S6.67 14 7.5 14s1.5.67 1.5 1.5S8.33 17 7.5 17zm3.5-7H6V6h5v4zm2 0V6h5v4h-5zm3.5 7c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></TrainIcon>
                 ) : (
-                    <FrontCircle large={bubble === 'BIG'} />
+                    <FrontCircle large={bubble === 'BIG'}/>
                 )}
+                {information.blueDot !== undefined ? <BlueDot style={{top: information.blueDot + '%'}} /> : null}
             </FrontIconContainer>
             {content}
         </TrainStopContainer>
@@ -327,6 +341,12 @@ function isTripObsolete(trip: TrainTripData): boolean {
 }
 
 function RealTrainDetailsView({data}: {data: TrainVehicleData}): JSX.Element {
+    // dirty rerender loop dont use
+    const [random, setRandom] = useState(0)
+    useEffect(() => {
+        setTimeout(() => setRandom(performance.now()), 1000)
+    }, [random])
+
     const trips = [...data.trips].reverse()
         .filter(trip => !(trip.stops.length === 0 || isTripObsolete(trip)))
 
@@ -363,6 +383,42 @@ function RealTrainDetailsView({data}: {data: TrainVehicleData}): JSX.Element {
     if(stops.length >= 2) {
         stops[0].connections = 'DOWN'
         stops[stops.length - 1].connections = 'UP'
+    }
+
+    for(let index = 0; index < stops.length; index++) {
+        const stop = stops[index]
+        if(stop.type === 'STATION') {
+            const times = [stop.information?.arrival, stop.information?.departure].filter(x=>x)
+            const startTime = DateTime.fromISO(times[0], { zone: 'UTC' }).toLocal()
+            
+            if(startTime > DateTime.now()) { // find the first stop where the train has not arrived yet
+                const lastStop = stops[index - 1]
+                
+                if(lastStop.type !== 'STATION') { // the train starts here
+                    if(startTime < DateTime.now().plus({minutes: 15})) {
+                        stop.information!.blueDot = 50
+                    }
+                } else {
+                    const lastStopDeparture = DateTime.fromISO(lastStop.information?.departure, { zone: 'UTC' }).toLocal()
+
+                    if(lastStopDeparture > DateTime.now()) { // if train has not departed from the last station
+                        lastStop.information.blueDot = 50
+                    } else {
+                        const total = lastStopDeparture.toUnixInteger() - startTime.toUnixInteger()
+                        const current = lastStopDeparture.toUnixInteger() - DateTime.now().toUnixInteger()
+                        const percentage = current * 100 / total
+
+                        if(percentage > 50) {
+                            stop.information.blueDot = percentage - 50
+                        } else {
+                            lastStop.information.blueDot = percentage + 50
+                        }
+                    }
+                }
+
+                break
+            }
+        }
     }
 
     return (
