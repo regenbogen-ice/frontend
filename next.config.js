@@ -6,6 +6,7 @@ const configs = {
   canary: {
     NEXT_PUBLIC_API_BASE: 'https://dev.regenbogen-ice.de',
     NEXT_PUBLIC_APP_BASE: 'https://dev.regenbogen-ice.de',
+    NEXT_PUBLIC_ACKEE_UUID: '5534184d-108a-47a9-aced-3376820bb486',
   },
   production: {
     NEXT_PUBLIC_API_BASE: 'https://regenbogen-ice.de',
