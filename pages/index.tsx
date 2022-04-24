@@ -124,7 +124,7 @@ export default function IndexPage(): JSX.Element {
                 {trainIndex === -1 ? (
                     <QuickAnswer>Auf irgendeinem Abstellgleis{data.trips.length !== 0 ? <span> in der Nähe von <b>{data.trips[0].destination_station}</b></span> : null}</QuickAnswer>
                 ) : (
-                    <QuickAnswer>Als <b>ICE {data.trips[trainIndex].train_number}</b> zwischen <b>{data.trips[trainIndex].origin_station}</b> und <b>{data.trips[trainIndex].destination_station}</b></QuickAnswer>
+                    <QuickAnswer>{doesIceStartInFuture(data.trips[trainIndex]) ? makeIceStartTimeMessage(data.trips[trainIndex]) : 'Jetzt gerade als'} <b>ICE {data.trips[trainIndex].train_number}</b> zwischen <b>{data.trips[trainIndex].origin_station}</b> und <b>{data.trips[trainIndex].destination_station}</b></QuickAnswer>
                 )}
                 <RainbowBand src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAGCAIAAACNcmNmAAAACXBIWXMAAC4jAAAuIwF4pT92AAAAIElEQVQI12N4wszM8L+HgeH/WwYmxslqDAy+/xlK2dsBXbUHbVjN9ncAAAAASUVORK5CYII=" />
                 <ExpandIcon onClick={onArrowClick}>
@@ -135,4 +135,36 @@ export default function IndexPage(): JSX.Element {
             <Footer />
         </>
     )
+}
+
+function doesIceStartInFuture(trainTrip: TrainTripData) {
+    const firstDepartureTime = getFirstDepartureTime(trainTrip)
+
+    return firstDepartureTime > DateTime.now()
+}
+
+function makeIceStartTimeMessage(trainTrip: TrainTripData) {
+    const firstDepartureTime = getFirstDepartureTime(trainTrip)
+
+    let dateText = ''
+
+    if(firstDepartureTime.toLocal() > DateTime.now().endOf('day')) { // if first departure is after today
+        if(firstDepartureTime.toLocal() > DateTime.now().plus({days: 1}).endOf('day')) { // if first departure is after tomorrow
+            dateText = 'dem ' + firstDepartureTime.toLocal().toFormat('dd.mm.') + ' um '
+        } else {
+            dateText = 'morgen um '
+        }
+    }
+
+    return 'Ab ' + dateText + firstDepartureTime.toLocal().toFormat('HH:mm') + ' als'
+}
+
+
+function getFirstDepartureTime(trainTrip: TrainTripData): DateTime {
+    if(!trainTrip.stops || !trainTrip.stops[0].departure) {
+        return null
+    }
+
+    const firstDeparture = trainTrip.stops[0].departure
+    return DateTime.fromISO(firstDeparture, { zone: 'UTC' })
 }
