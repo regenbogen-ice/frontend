@@ -1,4 +1,0 @@
-User-agent: *
-Disallow: /images/adridoesthings.webp
-Disallow: /images/philippirl.webp
-Disallow: /offline.html
