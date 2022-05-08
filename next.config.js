@@ -15,10 +15,27 @@ const configs = {
   },
 }
 
+let configKey = 'development'
 
-const config = configs[process.env.BUILD_ENV === 'main' ? 'production' : process.env.BUILD_ENV || 'development']
+if(process.env.BUILD_ENV) {
+
+  if(process.env.BUILD_ENV === 'main') {
+    configKey = 'production'
+  } else {
+    configKey = process.env.BUILD_ENV
+  }
+
+}
+
+const config = configs[configKey]
 
 module.exports = {
   reactStrictMode: true,
   env: config,
+  rewrites: async () => {
+    return [
+      {source: '/robots.txt', destination: '/api/robotstxt'},
+      {source: '/sitemap.xml', destination: '/api/sitemap'},
+    ]
+  },
 }

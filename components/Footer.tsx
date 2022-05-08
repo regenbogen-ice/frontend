@@ -3,7 +3,7 @@ import styled from 'styled-components'
 const FooterContainer = styled.div`
     padding: 1rem 2rem;
     display: flex;
-    background-color: #ff5eab;
+    background-color: #FF007A;
     justify-content: flex-end;
     height: 4rem;
     margin-top: -6rem;
