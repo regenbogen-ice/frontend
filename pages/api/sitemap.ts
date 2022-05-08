@@ -29,7 +29,7 @@ function generateSitemap() {
     <url>
         <loc>${process.env.NEXT_PUBLIC_APP_BASE}</loc>
         <changefreq>always</changefreq>
-        <priority>1</priority>
+        <priority>1.0</priority>
     </url>
 ${trainsToInclude.map(trainName => 
 `    <url>
