@@ -62,6 +62,7 @@ export default function IndexPage(): JSX.Element {
     const head = (
         <Head>
             <title>Wo ist der Regenbogen ICE?</title>
+            <link rel="canonical" href={APP_BASE + '/'} />
             <meta name="twitter:card" content="summary_large_image" />
             <meta name="twitter:title" content="Wo ist der Regenbogen ICE?" />
             <meta name="twitter:description" content="Tracke den Regenbogen-ICE auf seinem Weg durch ganz Deutschland" />
