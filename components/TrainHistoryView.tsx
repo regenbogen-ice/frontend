@@ -60,7 +60,7 @@ const ShowMore = styled.a`
 `
 
 export default function TrainHistoryView({basicData}: {basicData: TrainVehicleData}) {
-    const { data, error } = useSWR([basicData.number, 'history'], fetchFromAPI)
+    const { data, error }: { data?: TrainVehicleData, error?: Error } = useSWR([basicData.number, 'history'], fetchFromAPI)
     const [limitResults, setLimitResults] = useState(true)
 
     const showMore = (e: SyntheticEvent) => {

@@ -33,7 +33,10 @@ const GlobalStyles = createGlobalStyle`
 ` as any
 
 setTimeout(() => {
-    if(typeof navigator !== 'undefined' && navigator.serviceWorker) {
+    if(typeof navigator !== 'undefined' 
+        && navigator.serviceWorker
+        && window.location.hostname !== 'localhost'
+        && window.location.hostname !== '127.0.0.1') {
         navigator.serviceWorker.register('/sw.js')
     }
 }, 1000)
@@ -54,7 +57,7 @@ export default function App({Component, pageProps}: AppProps): JSX.Element {
                 <meta name="mobile-web-app-capable" content="yes" />
                 <link rel="preconnect" href="https://fonts.googleapis.com" />
                 <link rel="preconnect" href="https://fonts.gstatic.com" />
-                <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet" />=
+                <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&display=swap" rel="stylesheet" />=
             </Head>
             <GlobalStyles />
             <Component {...pageProps} />

@@ -1,7 +1,35 @@
 import { API_BASE } from './constants'
 
-export type TrainVehicleData = any
-export type TrainTripData = any
+export type TrainVehicleData = {
+    building_series: number,
+    name: string,
+    number: number,
+    train_type: 'ICE' | 'IC',
+    trips: TrainTripData[],
+}
+
+export type TrainTripData = {
+    destination_station: string,
+    group_index: number,
+    initial_departure: string,
+    marudor: string,
+    origin_station: string,
+    stops: TrainStopData[],
+    train_number: number,
+    train_type: string,
+    trip_timestamp: string,
+    vehice_timestamp: string,
+}
+
+export type TrainStopData = {
+    arrival: string | null,
+    cancelled: 0 | 1,
+    departure: string | null,
+    scheduled_arrival: string | null,
+    scheduled_departure: string | null,
+    station: string,
+}
+
 export type AutoCompleteResult = string[]
 
 function fixAPIResponse(rawResponse: TrainVehicleData) {

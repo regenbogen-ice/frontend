@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react'
 import styled, { css } from 'styled-components'
 import useSWR from 'swr'
 import { RAINBOWNAME, RAINBOWTZN } from '../scripts/constants'
-import { fetchFromAPI, TrainTripData, TrainVehicleData } from '../scripts/dataSources'
+import { AutoCompleteResult, fetchFromAPI, TrainTripData, TrainVehicleData } from '../scripts/dataSources'
 import { Skeleton } from './Common'
 import { DateTime } from 'luxon'
 import TrainHistoryView from './TrainHistoryView'
@@ -193,10 +193,6 @@ const BlueDot = styled.div`
     box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 `
 
-function DummyDetailsView() {
-    return null
-}
-
 function TrainSearch() {
     const router = useRouter()
 
@@ -204,7 +200,7 @@ function TrainSearch() {
     const [focused, setFocused] = useState(false)
     const [showSuggestions, setShowSuggestions] = useState(false)
 
-    const { data, error } = useSWR(text ? [text, 'autocomplete'] : null, fetchFromAPI, { refreshInterval: 0 })
+    const { data, error }: { data?: AutoCompleteResult, error?: Error } = useSWR(text ? [text, 'autocomplete'] : null, fetchFromAPI, { refreshInterval: 0 })
     
     const searchBox = useRef<HTMLInputElement>()
     
@@ -444,9 +440,9 @@ function RealTrainDetailsView({data}: {data: TrainVehicleData}): JSX.Element {
 }
 
 export default function ProxyTrainDetailsView({data}: {data: TrainVehicleData | null}): JSX.Element {
-    if(!data) {
-        return <DummyDetailsView />
-    } else {
+    if(data) {
         return <RealTrainDetailsView data={data} />
     }
+    
+    return null
 }

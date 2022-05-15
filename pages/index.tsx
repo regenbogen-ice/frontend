@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import TrainDetailsView from '../components/TrainDetailsView'
 import useSWR from 'swr'
 import { APP_BASE, RAINBOWTZN } from '../scripts/constants'
-import { fetchFromAPI } from '../scripts/dataSources'
+import { fetchFromAPI, TrainVehicleData } from '../scripts/dataSources'
 import type { TrainTripData } from '../scripts/dataSources'
 import { Skeleton } from '../components/Common'
 import { DateTime } from 'luxon'
@@ -57,7 +57,7 @@ const ExpandIcon = styled.div`
 
 export default function IndexPage(): JSX.Element {
 
-    const { data, error }: { data?: TrainTripData, error?: Error } = useSWR([RAINBOWTZN, 'trainTrip'], fetchFromAPI)
+    const { data, error }: { data?: TrainVehicleData, error?: Error } = useSWR([RAINBOWTZN, 'trainTrip'], fetchFromAPI)
 
     const head = (
         <Head>
@@ -100,10 +100,30 @@ export default function IndexPage(): JSX.Element {
         window.scrollTo({top: window.innerHeight, behavior: 'smooth'})
     }
 
-    let trainIndex = -1
+    return (
+        <>
+            {head}
+            <PageHeader>
+                <WebsiteTitle>Wo ist der Regenbogen ICE?</WebsiteTitle>
+                <QuickAnswer>
+                    <QuickAnswerContent trips={data.trips} />
+                </QuickAnswer>
+                <RainbowBand src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAGCAIAAACNcmNmAAAACXBIWXMAAC4jAAAuIwF4pT92AAAAIElEQVQI12N4wszM8L+HgeH/WwYmxslqDAy+/xlK2dsBXbUHbVjN9ncAAAAASUVORK5CYII=" />
+                <ExpandIcon onClick={onArrowClick}>
+                    <svg height="50px" viewBox="0 0 24 24" width="50px" fill="#FFFFFF"><path d="M24 24H0V0h24v24z" fill="none" opacity=".87"/><path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6-1.41-1.41z"/></svg>
+                </ExpandIcon>
+            </PageHeader>
+            <TrainDetailsView data={data} />
+            <Footer />
+        </>
+    )
+}
 
-    for(let index = data.trips.length - 1; index >= 0; index--) {
-        const trip = data.trips[index]
+function QuickAnswerContent({trips}: {trips: TrainTripData[]}) {
+    let trainIndex = null
+
+    for(let index = trips.length - 1; index >= 0; index--) {
+        const trip = trips[index]
 
         if(trip.stops.length === 0) continue
 
@@ -117,25 +137,15 @@ export default function IndexPage(): JSX.Element {
         }
     }
 
-    return (
-        <>
-            {head}
-            <PageHeader>
-                <WebsiteTitle>Wo ist der Regenbogen ICE?</WebsiteTitle>
-                {trainIndex === -1 ? (
-                    <QuickAnswer>Auf irgendeinem Abstellgleis{data.trips.length !== 0 ? <span> in der Nähe von <b>{data.trips[0].destination_station}</b></span> : null}</QuickAnswer>
-                ) : (
-                    <QuickAnswer>{doesIceStartInFuture(data.trips[trainIndex]) ? makeIceStartTimeMessage(data.trips[trainIndex]) : 'Jetzt gerade als'} <b>ICE {data.trips[trainIndex].train_number}</b> zwischen <b>{data.trips[trainIndex].origin_station}</b> und <b>{data.trips[trainIndex].destination_station}</b></QuickAnswer>
-                )}
-                <RainbowBand src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAGCAIAAACNcmNmAAAACXBIWXMAAC4jAAAuIwF4pT92AAAAIElEQVQI12N4wszM8L+HgeH/WwYmxslqDAy+/xlK2dsBXbUHbVjN9ncAAAAASUVORK5CYII=" />
-                <ExpandIcon onClick={onArrowClick}>
-                    <svg height="50px" viewBox="0 0 24 24" width="50px" fill="#FFFFFF"><path d="M24 24H0V0h24v24z" fill="none" opacity=".87"/><path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6-1.41-1.41z"/></svg>
-                </ExpandIcon>
-            </PageHeader>
-            <TrainDetailsView data={data} />
-            <Footer />
-        </>
-    )
+    if(trainIndex === null) {
+        return (
+            <>Auf irgendeinem Abstellgleis{trips.length !== 0 ? <span> in der Nähe von <b>{trips[0].destination_station}</b></span> : null}</>
+        )
+    } else {
+        return (
+            <>{doesIceStartInFuture(trips[trainIndex]) ? makeIceStartTimeMessage(trips[trainIndex]) : 'Jetzt gerade als'} <b>ICE {trips[trainIndex].train_number}</b> zwischen <b>{trips[trainIndex].origin_station}</b> und <b>{trips[trainIndex].destination_station}</b></>
+        )
+    }
 }
 
 function doesIceStartInFuture(trainTrip: TrainTripData) {
