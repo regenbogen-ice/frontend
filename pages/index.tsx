@@ -120,7 +120,7 @@ export default function IndexPage(): JSX.Element {
 }
 
 function QuickAnswerContent({trips}: {trips: TrainTripData[]}) {
-    let trainIndex = null
+    let trainIndex: number = null
 
     for(let index = trips.length - 1; index >= 0; index--) {
         const trip = trips[index]
@@ -130,7 +130,7 @@ function QuickAnswerContent({trips}: {trips: TrainTripData[]}) {
         const lastStopTime = trip.stops[trip.stops.length - 1].arrival
 
         if(lastStopTime !== null) {
-            if(DateTime.fromISO(lastStopTime, { zone: 'UTC' }).plus({minutes: 30}) > DateTime.now()) {
+            if(DateTime.fromISO(lastStopTime, { zone: 'UTC' }) > DateTime.now()) {
                 trainIndex = index
                 break
             }
@@ -139,11 +139,11 @@ function QuickAnswerContent({trips}: {trips: TrainTripData[]}) {
 
     if(trainIndex === null) {
         return (
-            <>Auf irgendeinem Abstellgleis{trips.length !== 0 ? <span> in der Nähe von <b>{trips[0].destination_station}</b></span> : null}</>
+            <>{trips.length !== 0 ? <span>Zuletzt gesehen als <b>{trips[0].train_type + '\xa0' + trips[0].train_number}</b> in <b>{trips[0].destination_station}</b></span> : null}</>
         )
     } else {
         return (
-            <>{doesIceStartInFuture(trips[trainIndex]) ? makeIceStartTimeMessage(trips[trainIndex]) : 'Jetzt gerade als'} <b>ICE {trips[trainIndex].train_number}</b> zwischen <b>{trips[trainIndex].origin_station}</b> und <b>{trips[trainIndex].destination_station}</b></>
+            <>{doesIceStartInFuture(trips[trainIndex]) ? makeIceStartTimeMessage(trips[trainIndex]) : 'Jetzt gerade als'} <b>{trips[trainIndex].train_type + '\xa0' + trips[trainIndex].train_number}</b> zwischen <b>{trips[trainIndex].origin_station}</b> und <b>{trips[trainIndex].destination_station}</b></>
         )
     }
 }
