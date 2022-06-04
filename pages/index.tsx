@@ -36,12 +36,11 @@ const QuickAnswer = styled.h1`
     word-break: break-word;
 `
 
-const RainbowBand = styled.img`
+const RainbowBandContainer = styled.svg`
     width: 85%;
     height: 37px;
     align-self: center;
     margin: 30px 0;
-    image-rendering: pixelated;
 `
 
 const ExpandIcon = styled.div`
@@ -90,7 +89,7 @@ export default function IndexPage(): JSX.Element {
                             </>
                         )}
                     </QuickAnswer>
-                    <RainbowBand src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAGCAIAAACNcmNmAAAACXBIWXMAAC4jAAAuIwF4pT92AAAAIElEQVQI12N4wszM8L+HgeH/WwYmxslqDAy+/xlK2dsBXbUHbVjN9ncAAAAASUVORK5CYII=" />
+                    <RainbowBand />
                 </PageHeader>
             </>
         )
@@ -108,7 +107,7 @@ export default function IndexPage(): JSX.Element {
                 <QuickAnswer>
                     <QuickAnswerContent trips={data.trips} />
                 </QuickAnswer>
-                <RainbowBand src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAGCAIAAACNcmNmAAAACXBIWXMAAC4jAAAuIwF4pT92AAAAIElEQVQI12N4wszM8L+HgeH/WwYmxslqDAy+/xlK2dsBXbUHbVjN9ncAAAAASUVORK5CYII=" />
+                <RainbowBand />
                 <ExpandIcon onClick={onArrowClick}>
                     <svg height="50px" viewBox="0 0 24 24" width="50px" fill="#FFFFFF"><path d="M24 24H0V0h24v24z" fill="none" opacity=".87"/><path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6-1.41-1.41z"/></svg>
                 </ExpandIcon>
@@ -116,6 +115,22 @@ export default function IndexPage(): JSX.Element {
             <TrainDetailsView data={data} />
             <Footer />
         </>
+    )
+}
+
+function RainbowBand() {
+    return (
+        <RainbowBandContainer
+            viewBox='0 0 1 6' 
+            preserveAspectRatio='none' 
+            shapeRendering='crispEdges'>
+            <rect x='0' y='0' width='100%' height='1' fill='#e40303' />
+            <rect x='0' y='1' width='100%' height='1' fill='#ff8c00' />
+            <rect x='0' y='2' width='100%' height='1' fill='#ffed00' />
+            <rect x='0' y='3' width='100%' height='1' fill='#008026' />
+            <rect x='0' y='4' width='100%' height='1' fill='#004dff' />
+            <rect x='0' y='5' width='100%' height='1' fill='#750787' />
+        </RainbowBandContainer>
     )
 }
 
