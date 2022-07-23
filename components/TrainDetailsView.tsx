@@ -8,7 +8,6 @@ import {
     TrainTripData,
     TrainVehicleData,
 } from '../scripts/dataSources'
-import { Skeleton } from './Common'
 import { DateTime } from 'luxon'
 import TrainHistoryView from './TrainHistoryView'
 import styles from '../styles/TrainDetailsView.module.css'
@@ -181,14 +180,16 @@ function TrainStop({
             if (!information) {
                 content = (
                     <span className={styles.trainStopContent}>
-                        <Skeleton
+                        <div
                             style={{
                                 width: '18rem',
                                 height: '3rem',
+                                background:
+                                    'linear-gradient(90deg, #aaa 0%, #adadad 100%)',
                                 margin: '5px 0',
                                 borderRadius: '3rem',
                             }}
-                        />
+                        ></div>
                     </span>
                 )
             } else {
