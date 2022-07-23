@@ -1,6 +1,5 @@
 import { useRouter } from 'next/router'
 import { useEffect, useRef, useState } from 'react'
-import styled, { css } from 'styled-components'
 import useSWR from 'swr'
 import { RAINBOWNAME, RAINBOWTZN } from '../scripts/constants'
 import {
