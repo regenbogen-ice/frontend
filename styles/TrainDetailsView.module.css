@@ -1,0 +1,186 @@
+.Root {
+    padding: 6rem;
+    min-height: calc(100vh - 12rem);
+}
+
+.titleBar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.title {
+    font-size: 3.5rem;
+}
+
+.subtitle {
+    font-size: 1.25rem;
+}
+
+.searchBar {
+    padding: 15px 25px;
+    margin: 15px;
+    border-radius: 25px;
+    box-shadow: 0 2px 7px rgba(0, 0, 0, 0.15);
+    cursor: text;
+    display: flex;
+    flex-grow: 1;
+    max-width: 300px;
+    position: relative;
+}
+
+.searchBarIcon {
+    cursor: pointer;
+}
+
+.searchForm {
+    flex-grow: 1;
+    position: relative;
+}
+
+.searchBarInput {
+    font-size: 20px;
+    width: 100%;
+    font-family: 'Roboto', sans-serif;
+}
+
+.trainStopsContainer {
+    display: flex;
+    flex-direction: column;
+    margin: 3rem 0;
+    align-items: flex-start;
+}
+
+.trainStopContainer {
+    font-size: 2.75rem;
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.trainStopContent {
+    margin-left: 3rem;
+    margin-bottom: 0.5rem;
+    margin-top: 0.5rem;
+    word-break: break-word;
+}
+
+.trainStopLink {
+    color: #0275d8;
+}
+
+.frontIconContainer {
+    display: flex;
+    height: 3.5rem;
+    width: 3.5rem;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.frontCircle {
+    background: #ff007a;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    z-index: 2;
+}
+
+.frontCircle.large {
+    width: 3.5rem;
+    height: 3.5rem;
+    background: #ff3395;
+}
+
+.trainIcon {
+    width: 2.5rem;
+    height: 2.5rem;
+    fill: #df2350;
+    z-index: 2;
+}
+
+.connectingLine {
+    background: #ff007a;
+    position: absolute;
+    top: 50%;
+    bottom: 50%;
+    left: 1.65rem;
+    width: 0.2rem;
+}
+
+.connectingLine.up {
+    top: 0;
+}
+
+.connectingLine.down {
+    bottom: 0;
+}
+
+.trainTimeSpan {
+    margin-left: 1rem;
+    word-break: break-word;
+}
+
+.trainAutoCompleteResults {
+    position: absolute;
+    width: 100%;
+    background-color: #fff;
+    top: calc(100% + 4px);
+    left: 0;
+    box-shadow: 0px 2px 7px rgba(0, 0, 0, 0.15);
+    z-index: 10;
+    max-height: 300px;
+    overflow-y: auto;
+    border-radius: 10px;
+    user-select: none;
+}
+
+.trainAutoCompleteSuggestion {
+    font-size: 20px;
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.trainAutoCompleteSuggestion:hover {
+    background-color: #ddd;
+}
+
+.undecoratedLink {
+    text-decoration: none;
+    color: inherit;
+}
+
+.noTrainStops {
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.blueDot {
+    background-color: #426bff;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    border: 0.3rem solid white;
+    position: absolute;
+    z-index: 10;
+    margin-left: 1px;
+    margin-top: -1.3rem;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+}
+
+@media only screen and (max-width: 600px) {
+    .Root {
+        padding: 3rem 3rem 8rem;
+        min-height: calc(100vh - 6rem);
+    }
+
+    .titleBar {
+        flex-direction: column;
+    }
+
+    .searchBar {
+        margin: 25px 0;
+    }
+}
