@@ -1,44 +1,25 @@
-import styled from 'styled-components'
-
-const FooterContainer = styled.div`
-    padding: 1rem 2rem;
-    display: flex;
-    background-color: #FF007A;
-    justify-content: flex-end;
-    height: 4rem;
-    margin-top: -6rem;
-`
-
-const Logo = styled.img`
-    height: 3rem;
-    width: 3rem;
-    border-radius: 50%;
-    margin: 5px 0;
-`
-
-const AndSign = styled.span`
-    font-size: 1.5rem;
-    color: #fff;
-`
-
-const CreatorContainer = styled.div`
-    display: flex;
-    align-items: center;
-    gap: 10px;
-`
+import styles from '../styles/Footer.module.css'
 
 export default function Footer() {
     return (
-        <FooterContainer>
-            <CreatorContainer>
+        <div className={styles.footerContainer}>
+            <div className={styles.createrContainer}>
                 <a href="https://ppluss.de/" target="_blank">
-                    <Logo src="/images/philippirl.webp" alt="PhilippIRL"></Logo>
+                    <img
+                        className={styles.logo}
+                        src="/images/philippirl.webp"
+                        alt="PhilippIRL"
+                    ></img>
                 </a>
-                <AndSign>&amp;</AndSign>
+                <span className={styles.andSign}>&amp;</span>
                 <a href="https://adridoesthings.com/" target="_blank">
-                    <Logo src="/images/adridoesthings.webp" alt="AdriDoesThings"></Logo>
+                    <img
+                        className={styles.logo}
+                        src="/images/adridoesthings.webp"
+                        alt="AdriDoesThings"
+                    ></img>
                 </a>
-            </CreatorContainer>
-        </FooterContainer>
+            </div>
+        </div>
     )
 }
