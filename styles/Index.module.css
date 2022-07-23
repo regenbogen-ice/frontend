@@ -1,0 +1,43 @@
+.header {
+    background-color: #ff007a;
+    height: 100%;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    position: relative;
+}
+
+.title {
+    font-size: 2.75rem;
+    font-weight: normal;
+    color: #dcdbdb;
+    margin: 20px 7.5vw;
+}
+
+.quickAnswer {
+    font-size: 4.5rem;
+    font-weight: normal;
+    margin: 20px 7.5vw;
+    max-width: 1000px;
+    word-break: break-word;
+}
+
+.rainbowBandContainer {
+    width: 85%;
+    height: 37px;
+    align-self: center;
+    margin: 30px 0;
+}
+
+.expandIcon {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}

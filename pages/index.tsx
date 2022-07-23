@@ -1,5 +1,5 @@
 import React from 'react'
-import styled from 'styled-components'
+import styles from '../styles/Index.module.css'
 import TrainDetailsView from '../components/TrainDetailsView'
 import useSWR from 'swr'
 import { APP_BASE, RAINBOWTZN } from '../scripts/constants'
@@ -8,50 +8,6 @@ import type { TrainTripData } from '../scripts/dataSources'
 import { DateTime } from 'luxon'
 import Head from 'next/head'
 import Footer from '../components/Footer'
-
-const PageHeader = styled.div`
-    background-color: #ff007a;
-    height: 100%;
-    color: #fff;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: left;
-    position: relative;
-`
-
-const WebsiteTitle = styled.h2`
-    font-size: 2.75rem;
-    font-weight: normal;
-    color: #dcdbdb;
-    margin: 20px 7.5vw;
-`
-
-const QuickAnswer = styled.h1`
-    font-size: 4.5rem;
-    font-weight: normal;
-    margin: 20px 7.5vw;
-    max-width: 1000px;
-    word-break: break-word;
-`
-
-const RainbowBandContainer = styled.svg`
-    width: 85%;
-    height: 37px;
-    align-self: center;
-    margin: 30px 0;
-`
-
-const ExpandIcon = styled.div`
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-`
 
 export default function IndexPage(): JSX.Element {
     const { data, error }: { data?: TrainVehicleData; error?: Error } = useSWR(
@@ -93,9 +49,9 @@ export default function IndexPage(): JSX.Element {
         return (
             <>
                 {head}
-                <PageHeader>
-                    <WebsiteTitle>Wo ist der Regenbogen ICE?</WebsiteTitle>
-                    <QuickAnswer>
+                <div className={styles.header}>
+                    <h2 className={styles.title}>Wo ist der Regenbogen ICE?</h2>
+                    <h1 className={styles.quickAnswer}>
                         {error ? (
                             <span>
                                 Offenbar spurlos verschwunden (
@@ -123,9 +79,9 @@ export default function IndexPage(): JSX.Element {
                                 ></div>
                             </>
                         )}
-                    </QuickAnswer>
+                    </h1>
                     <RainbowBand />
-                </PageHeader>
+                </div>
             </>
         )
     }
@@ -137,13 +93,13 @@ export default function IndexPage(): JSX.Element {
     return (
         <>
             {head}
-            <PageHeader>
-                <WebsiteTitle>Wo ist der Regenbogen ICE?</WebsiteTitle>
-                <QuickAnswer>
+            <div className={styles.header}>
+                <h2 className={styles.title}>Wo ist der Regenbogen ICE?</h2>
+                <h1 className={styles.quickAnswer}>
                     <QuickAnswerContent trips={data.trips} />
-                </QuickAnswer>
+                </h1>
                 <RainbowBand />
-                <ExpandIcon onClick={onArrowClick}>
+                <div className={styles.expandIcon} onClick={onArrowClick}>
                     <svg
                         height="50px"
                         viewBox="0 0 24 24"
@@ -153,8 +109,8 @@ export default function IndexPage(): JSX.Element {
                         <path d="M24 24H0V0h24v24z" fill="none" opacity=".87" />
                         <path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6-1.41-1.41z" />
                     </svg>
-                </ExpandIcon>
-            </PageHeader>
+                </div>
+            </div>
             <TrainDetailsView data={data} />
             <Footer />
         </>
@@ -163,7 +119,8 @@ export default function IndexPage(): JSX.Element {
 
 function RainbowBand() {
     return (
-        <RainbowBandContainer
+        <svg
+            className={styles.rainbowBandContainer}
             viewBox="0 0 1 6"
             preserveAspectRatio="none"
             shapeRendering="crispEdges"
@@ -174,7 +131,7 @@ function RainbowBand() {
             <rect x="0" y="3" width="100%" height="1" fill="#008026" />
             <rect x="0" y="4" width="100%" height="1" fill="#004dff" />
             <rect x="0" y="5" width="100%" height="1" fill="#750787" />
-        </RainbowBandContainer>
+        </svg>
     )
 }
 
