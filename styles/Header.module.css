@@ -1,0 +1,40 @@
+.headerBar {
+    padding: 1rem 2rem;
+    display: flex;
+    background-color: #ff007a;
+    justify-content: flex-start;
+    height: 2rem;
+    position: relative;
+    align-items: center;
+}
+
+.titleContainer {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.websiteLogo {
+    height: 2.5rem;
+    width: 2.5rem;
+    border-radius: 0.4rem;
+}
+
+.websiteTitle {
+    color: #fff;
+    display: flex;
+}
+
+@media only screen and (max-width: 800px) {
+    .headerBar {
+        justify-content: center;
+    }
+}
+
+@media only screen and (max-width: 620px) {
+    .websiteTitle {
+        display: none;
+    }
+}

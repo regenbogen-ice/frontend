@@ -1,50 +1,21 @@
-import styled from 'styled-components'
+import styles from '../styles/Header.module.css'
 import Link from 'next/link'
-
-const HeaderBar = styled.header`
-    padding: 1rem 2rem;
-    display: flex;
-    background-color: #FF007A;
-    justify-content: flex-start;
-    height: 2rem;
-    position: relative;
-    align-items: center;
-    @media only screen and (max-width: 800px) {
-        justify-content: center;
-    }
-`
-
-const WebsiteTitle = styled.h1`
-    color: #fff;
-    display: flex;
-    @media only screen and (max-width: 620px) {
-        display: none;
-    }
-`
-
-const TitleContainer = styled.a`
-    text-decoration: none;
-    color: inherit;
-    display: flex;
-    gap: 1rem;
-    align-items: center;
-`
-
-const WebsiteLogo = styled.img`
-    height: 2.5rem;
-    width: 2.5rem;
-    border-radius: .4rem;
-`
 
 export default function Header() {
     return (
-        <HeaderBar>
-            <Link passHref href='/'>
-                <TitleContainer>
-                    <WebsiteLogo src="/images/icon-bg-400.png"></WebsiteLogo>
-                    <WebsiteTitle>Wo ist der Regenbogen ICE?</WebsiteTitle>
-                </TitleContainer>
+        <header className={styles.headerBar}>
+            <Link passHref href="/">
+                <a className={styles.titleContainer}>
+                    <img
+                        className={styles.websiteLogo}
+                        src="/images/icon-bg-400.png"
+                        alt="ICE Regenbogenstreifen"
+                    ></img>
+                    <h1 className={styles.websiteTitle}>
+                        Wo ist der Regenbogen ICE?
+                    </h1>
+                </a>
             </Link>
-        </HeaderBar>
+        </header>
     )
 }
