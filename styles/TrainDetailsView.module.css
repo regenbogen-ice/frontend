@@ -175,7 +175,9 @@
         padding: 3rem 3rem 8rem;
         min-height: calc(100vh - 6rem);
     }
+}
 
+@media only screen and (max-width: 1000px) {
     .titleBar {
         flex-direction: column;
     }
