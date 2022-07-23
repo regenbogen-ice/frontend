@@ -1,0 +1,54 @@
+.historyContainer {
+    display: flex;
+    margin: 5rem 0;
+    flex-direction: column;
+}
+
+.centerContainer {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    flex-direction: column;
+}
+
+.subtitle {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.daysContainer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.dayContainer {
+    margin: 2rem 1rem;
+    width: min(500px, 100%);
+}
+
+.dayTitle {
+    font-size: 2.75rem;
+}
+
+.trainRoute {
+    font-size: 2rem;
+    display: block;
+    margin: 1rem 0;
+}
+
+.showMore {
+    margin: auto;
+    font-size: 20px;
+    background-color: #ff5eab11;
+    padding: 10px 20px;
+    text-decoration: none;
+    color: #ff5eab;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+    font-weight: bold;
+}
+
+.showMore:hover {
+    background-color: #ff5eab33;
+}

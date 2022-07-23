@@ -1,126 +1,104 @@
-import styled from 'styled-components'
 import useSWR from 'swr'
-import { fetchFromAPI, TrainTripData, TrainVehicleData } from '../scripts/dataSources'
+import styles from '../styles/TrainHistoryView.module.css'
+import {
+    fetchFromAPI,
+    TrainTripData,
+    TrainVehicleData,
+} from '../scripts/dataSources'
 import { DateTime } from 'luxon'
 import { useState } from 'react'
 import type { SyntheticEvent } from 'react'
 
-const HistoryContainer = styled.div`
-    display: flex;
-    margin: 5rem 0;
-    flex-direction: column;
-`
-
-const Subtitle = styled.h2`
-    font-size: 3rem;
-    margin-bottom: 1rem;
-`
-
-const DaysContainer = styled.div`
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-`
-
-const DayContainer = styled.div`
-    margin: 2rem 1rem;
-    width: min(500px, 100%);
-`
-
-const DayTitle = styled.h3`
-    font-size: 2.75rem;
-`
-
-const TrainRoute = styled.span`
-    font-size: 2rem;
-    display: block;
-    margin: 1rem 0;
-`
-
-const CenterContainer = styled.div`
-    display: flex;
-    width: 100%;
-    align-items: center;
-    flex-direction: column;
-`
-
-const ShowMore = styled.a`
-    margin: auto;
-    font-size: 20px;
-    background-color: #ff5eab11;
-    padding: 10px 20px;
-    text-decoration: none;
-    color: #ff5eab;
-    border-radius: 4px;
-    transition: background-color .2s;
-    font-weight: bold;
-    :hover {
-        background-color: #ff5eab33;
-    }
-`
-
-export default function TrainHistoryView({basicData}: {basicData: TrainVehicleData}) {
-    const { data, error }: { data?: TrainVehicleData, error?: Error } = useSWR([basicData.number, 'history'], fetchFromAPI)
+export default function TrainHistoryView({
+    basicData,
+}: {
+    basicData: TrainVehicleData
+}) {
+    const { data, error }: { data?: TrainVehicleData; error?: Error } = useSWR(
+        [basicData.number, 'history'],
+        fetchFromAPI
+    )
     const [limitResults, setLimitResults] = useState(true)
 
     const showMore = (e: SyntheticEvent) => {
         e.preventDefault()
-        
+
         setLimitResults(false)
     }
-    
-    if(data && !error) {
+
+    if (data && !error) {
         const days = {}
 
-        data.trips.forEach(tfz => {
+        data.trips.forEach((tfz) => {
             const time = DateTime.fromISO(tfz.initial_departure).toLocal()
 
             const date = time.toFormat('dd.MM.yyyy')
-            if(!days[date]) days[date] = []
+            if (!days[date]) days[date] = []
             days[date].push(tfz)
         })
 
-        Object.keys(days).forEach(day => days[day].reverse())
+        Object.keys(days).forEach((day) => days[day].reverse())
 
         let daysArr = Object.entries(days)
-        
-        if(limitResults) {
-            daysArr = daysArr.slice(0,6)
+
+        if (limitResults) {
+            daysArr = daysArr.slice(0, 6)
         }
 
         return (
-            <HistoryContainer>
-                <Subtitle>Historische Daten</Subtitle>
-                <CenterContainer>
-                    <DaysContainer>
+            <div className={styles.historyContainer}>
+                <h2 className={styles.subtitle}>Historische Daten</h2>
+                <div className={styles.centerContainer}>
+                    <div className={styles.daysContainer}>
                         {daysArr.map(([day, tfzs]) => {
-                            return <DayContainerView key={day} day={day} data={tfzs as any} />
+                            return (
+                                <DayContainerView
+                                    key={day}
+                                    day={day}
+                                    data={tfzs as any}
+                                />
+                            )
                         })}
-                    </DaysContainer>
+                    </div>
                     {limitResults ? (
-                        <ShowMore href="#" onClick={showMore}>Mehr anzeigen</ShowMore>
+                        <a
+                            className={styles.showMore}
+                            href="#"
+                            onClick={showMore}
+                        >
+                            Mehr anzeigen
+                        </a>
                     ) : null}
-                </CenterContainer>
-            </HistoryContainer>
+                </div>
+            </div>
         )
     }
 
     return null
 }
 
-function DayContainerView({day, data}: {day: string, data: TrainTripData[]}) {
+function DayContainerView({
+    day,
+    data,
+}: {
+    day: string
+    data: TrainTripData[]
+}) {
     return (
-        <DayContainer>
-            <DayTitle>{day}</DayTitle>
+        <div className={styles.dayContainer}>
+            <h3 className={styles.dayTitle}>{day}</h3>
             {data.map((route, index) => {
                 return <TrainRouteView key={index} route={route} />
             })}
-        </DayContainer>
+        </div>
     )
 }
 
-function TrainRouteView({route}: {route: TrainTripData}) {
+function TrainRouteView({ route }: { route: TrainTripData }) {
     return (
-        <TrainRoute><b>ICE {route.train_number}</b>: {route.origin_station} {'->'} {route.destination_station}</TrainRoute>
+        <span className={styles.trainRoute}>
+            <b>ICE {route.train_number}</b>: {route.origin_station} {'->'}{' '}
+            {route.destination_station}
+        </span>
     )
 }
