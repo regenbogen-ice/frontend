@@ -9,6 +9,9 @@ RUN yarn install --cache-folder ./ycache --immutable --immutable-cache --pure-lo
 
 FROM dependencies as build
 
+ENV BUILD_ENV=development
+ARG BUILD_ENV=development
+
 COPY ./components ./components
 COPY ./pages ./pages
 COPY ./public ./public
@@ -20,12 +23,8 @@ COPY ./tsconfig.json .
 
 RUN yarn next build
 
-
 FROM node:16-alpine
 WORKDIR /app
-
-ENV BUILD_ENV=development
-ARG BUILD_ENV=development
 
 COPY --from=build /app/package.json ./
 COPY --from=build /app/node_modules/ ./node_modules/
