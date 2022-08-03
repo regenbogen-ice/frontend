@@ -15,7 +15,7 @@ ARG BUILD_ENV=development
 COPY ./components ./components
 COPY ./pages ./pages
 COPY ./public ./public
-COPY ./scripts ./scripts
+COPY ./util ./util
 
 COPY ./next.config.js .
 COPY ./next-env.d.ts .
