@@ -10,15 +10,15 @@ export function useTrainVehicleCurrent(tzn: string | number, trainType: TrainTyp
 }
 
 export function useTrainVehicleHistory(tzn: string | number, trainType: TrainType) {
-    const { data, error } = useSWR([[tzn, trainType], 'trainTripHistory'])
+    const { data, error } = useSWR([[tzn, trainType], 'trainTripHistory'], fetchFromAPI)
 
-    return { data: data as TrainVehicle | undefined, error }
+    return { data: data as (TrainVehicle | undefined), error }
 }
 
 export function useAutoComplete(query: string) {
-    const { data, error } = useSWR([[query], 'autocompelete'])
+    const { data, error } = useSWR([[query], 'autocompelete'], fetchFromAPI)
 
-    return { data: data as AutoCompleteResponse | undefined, error }
+    return { data: data as (AutoCompleteResponse | undefined), error }
 }
 
 export function useRerenderPeriodically(interval) {

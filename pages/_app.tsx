@@ -3,6 +3,12 @@ import Head from 'next/head'
 import { createGlobalStyle } from 'styled-components'
 
 const GlobalStyles = createGlobalStyle`
+    :root {
+        --theme-color: #FF007A;
+        --text-color: #fff;
+        --text-dark-color: #ccc;
+    }
+
     * {
         margin: 0;
         padding: 0;
@@ -11,8 +17,8 @@ const GlobalStyles = createGlobalStyle`
     }
 
     body {
-        background-color: #FF007A;
-        color: #fff;
+        background-color: var(--theme-color);
+        color: var(--text-color);
         font-family: 'Inter', 'Roboto', sans-serif;
     }
 

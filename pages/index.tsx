@@ -148,7 +148,7 @@ function HeadSection() {
             <meta property="og:title" content="Wo ist der Regenbogen ICE?" />
             <meta property="og:image" content={process.env.NEXT_PUBLIC_APP_BASE + '/images/twittercard.png'} />
             <meta name="description" content="Tracke den Regenbogen-ICE auf dem ganzen Streckennetz der Deutschen Bahn!" />
-            <meta name="keywords" content="regenbogen ice, regenbogen ice fahrplan, regenbogen ice strecke, regenbogen ice nummer, regenbogen ice deutsche bahn, regenbogen ice db, zug" />
+            <meta name="keywords" content="regenbogen ice, wo ist der regenbogen ice, regenbogen ice fahrplan, regenbogen ice strecke, regenbogen ice nummer, regenbogen ice db, zug" /> 
         </Head>
     )
 }
@@ -157,11 +157,6 @@ export default function IndexPage() {
     useRerenderPeriodically(1000)
 
     const { data, error } = useTrainVehicleCurrent(RAINBOW_TZN, 'ICE')
-    const currentTrip: TrainTrip = useMemo(() => {
-        if(error || !data) return null
-
-        return findCurrentTrip(data)
-    }, [data, error])
 
     if(error || !data) {
         return (
@@ -182,6 +177,8 @@ export default function IndexPage() {
             </>
         )
     }
+
+    const currentTrip: TrainTrip = findCurrentTrip(data)
 
     return (
         <>

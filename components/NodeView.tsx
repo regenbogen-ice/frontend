@@ -1,13 +1,13 @@
 import styled, { css } from 'styled-components'
-import type { Children } from 'react'
-import { TrainStop, TrainTrip, TrainVehicle } from '../util/commonTypes'
+import { TrainStop, TrainTrip } from '../util/commonTypes'
 import { DateTime } from 'luxon'
-import { useRerenderPeriodically } from '../util/hooks'
+import type { ReactNode } from 'react'
 
 function shouldForwardProp(prop: string) {
     return ['children', 'href', 'target'].includes(prop)
 }
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 const NodeContainer: any = styled.div.withConfig({ shouldForwardProp })`
     position: absolute;
     height: 100%;
@@ -25,7 +25,7 @@ const NodeContainer: any = styled.div.withConfig({ shouldForwardProp })`
     shape-rendering: crispedges;
 `
 
-const Dot = styled.div`
+const Dot: any = styled.div`
     position: absolute;
 
     ${(props: any) => css`
@@ -41,7 +41,7 @@ const Dot = styled.div`
     z-index: 2;
 `
 
-const ConnectingLine = styled.div.withConfig({ shouldForwardProp })`
+const ConnectingLine: any = styled.div.withConfig({ shouldForwardProp })`
     position: absolute;
     width: 0;
 
@@ -55,7 +55,7 @@ const ConnectingLine = styled.div.withConfig({ shouldForwardProp })`
     transform: translateX(-50%);
 `
 
-const TopConnectingLine = styled(ConnectingLine)`
+const TopConnectingLine: any = styled(ConnectingLine)`
     top: 0;
 
     ${(props: any) => props.type === 'dotted' && css`
@@ -78,7 +78,7 @@ const TimetableRowContainer = styled.div`
     align-items: center;
 `
 
-const TimeDisplay = styled.span.withConfig({ shouldForwardProp })`
+const TimeDisplay: any = styled.span.withConfig({ shouldForwardProp })`
     margin: 15px 0;
     width: calc(5.5em + 15px);
     flex-shrink: 0;
@@ -109,10 +109,10 @@ const BlueDot = styled.div`
     box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 `
 
-const StopLabel = styled.b.withConfig({ shouldForwardProp })`
+const StopLabel: any = styled.b.withConfig({ shouldForwardProp })`
     ${(props: any) => css`
         text-decoration: ${props.cancelled ? 'line-through' : ''};
-        color: ${props.stopPassed ? '#ccc' : '#fff'}
+        color: ${props.stopPassed ? 'var(--text-dark-color)' : 'var(--text-color)'}
     `}
 `
 
@@ -120,7 +120,7 @@ const TimetableContainer = styled.span`
 
 `
 
-const TripChangeContainer = styled.div.withConfig({ shouldForwardProp })`
+const TripChangeContainer: any = styled.div.withConfig({ shouldForwardProp })`
     display: flex;
     flex-direction: column;
     ${(props: any) => css`
@@ -133,7 +133,7 @@ const TripChangeTop = styled.span`
     font-weight: bold;
 `
 
-const TripChangeBottom = styled.a.withConfig({ shouldForwardProp })`
+const TripChangeBottom: any = styled.a.withConfig({ shouldForwardProp })`
     font-weight: bold;
 
     ${(props: any) => css`
@@ -144,8 +144,13 @@ const TripChangeBottom = styled.a.withConfig({ shouldForwardProp })`
         }
     `}
 `
+/* eslint-enable @typescript-eslint/no-explicit-any */
 
-function Node({ top, dot, bottom, offset, blueDot }: any) {
+type ConnectingLineArgs = {width: string, color?: string, type: string}
+type DotArgs = {size: string, color: string}
+type NodeArgs = {top?: ConnectingLineArgs, dot: DotArgs, bottom?: ConnectingLineArgs, offset?: string, blueDot?: number}
+
+export function Node({ top, dot, bottom, offset, blueDot }: NodeArgs) {
     return (
         <NodeContainer width={dot.size} offset={offset}>
             {top ? (
@@ -162,7 +167,7 @@ function Node({ top, dot, bottom, offset, blueDot }: any) {
     )
 }
 
-function TimetableRow({children, time, timeColor, node}: any) {
+function TimetableRow({children, time, timeColor, node}: {children?: ReactNode, time?: string, timeColor?: string, node: NodeArgs}) {
     return (
         <TimetableRowContainer>
             <TimeDisplay color={timeColor}>{time || '\xa0'}</TimeDisplay>
@@ -182,16 +187,16 @@ export function TimetableRenderer({rows}: {rows: {stop: TrainStop, index?: numbe
                 
                 let bottom = null
                 // eslint-disable-next-line prefer-const
-                let dot = {size: '1rem', color: '#fff'}
+                let dot = {size: '1rem', color: 'var(--text-color)'}
                 let top = null
                 let blueDot: number = null
 
                 if(nextRow) {
-                    const color = DateTime.fromISO(nextRow?.stop?.arrival || nextRow.time) < DateTime.now() ? '#ccc' : '#fff'
+                    const color = DateTime.fromISO(nextRow?.stop?.arrival || nextRow.time) < DateTime.now() ? 'var(--text-dark-color)' : 'var(--text-color)'
                     bottom = {type: 'solid', width: '.2rem', color}
                 }
 
-                const colorToUse = DateTime.fromISO(currentRow?.stop?.arrival || currentRow.time) < DateTime.now() ? '#ccc' : '#fff'
+                const colorToUse = DateTime.fromISO(currentRow?.stop?.arrival || currentRow.time) < DateTime.now() ? 'var(--text-dark-color)' : 'var(--text-color)'
                 dot.color = colorToUse
 
                 if(lastRow) {
@@ -281,9 +286,12 @@ export function MultiTimetable({trainTrips, cutoffIndex}: {trainTrips: TrainTrip
     for(let i = cutoffIndex; i >= 0; i--) {
         const trainTrip = trainTrips[i]
         const stops = trainTrip.stops ?? []
+        
+        if(stops.length === 0) continue
+
         rowData = [
             ...rowData,
-            {type: 'tripChange', to: `${trainTrip.train_type} ${trainTrip.train_number} -> ${trainTrip.destination_station}`, time: trainTrip.stops[0].departure, marudor: trainTrip.marudor},
+            {type: 'tripChange', to: `${trainTrip.train_type} ${trainTrip.train_number} -> ${trainTrip.destination_station}`, time: trainTrip.stops[0].departure || trainTrip.stops[0].arrival, marudor: trainTrip.marudor},
             ...stops.map(stop => ({ type: 'stop', stop, index: stops.indexOf(stop), time: stop.departure || stop.arrival })),
         ]
     }
