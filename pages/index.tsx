@@ -154,7 +154,7 @@ function HeadSection() {
 }
 
 export default function IndexPage() {
-    useRerenderPeriodically(1000)
+    useRerenderPeriodically(3000)
 
     const { data, error } = useTrainVehicleCurrent(RAINBOW_TZN, 'ICE')
 

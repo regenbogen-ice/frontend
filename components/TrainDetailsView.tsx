@@ -1,5 +1,5 @@
 import { DateTime } from 'luxon'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import styled from 'styled-components'
 import { TrainTrip, TrainType, TrainVehicle } from '../util/commonTypes'
 import { useTrainVehicleHistory } from '../util/hooks'
@@ -128,6 +128,24 @@ function TrainHistoryView({tzn, trainType}: {tzn: string | number, trainType: Tr
     
     const [reduceItems, setReduceItems] = useState(true)
 
+    const days = useMemo(() => {
+        if(!data || error) return null
+
+        const days = {}
+
+        data.trips.forEach(trip => {
+            const date = DateTime.fromISO(trip.initial_departure)
+            const dateString = date.toFormat('dd.MM.yyyy')
+    
+            days[dateString] = [
+                trip,
+                ...(days[dateString] || []),
+            ]
+        })
+
+        return days
+    }, [data, error])
+
     if(error || !data) {
         return (
             <HistoryContainer>
@@ -135,18 +153,6 @@ function TrainHistoryView({tzn, trainType}: {tzn: string | number, trainType: Tr
             </HistoryContainer>
         )
     }
-
-    const days = {}
-
-    data.trips.forEach(trip => {
-        const date = DateTime.fromISO(trip.initial_departure)
-        const dateString = date.toFormat('dd.MM.yyyy')
-
-        days[dateString] = [
-            trip,
-            ...(days[dateString] || []),
-        ]
-    })
 
     let entries = Object.entries(days)
 
