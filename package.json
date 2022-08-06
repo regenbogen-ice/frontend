@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@sentry/react": "^7.9.0",
     "ackee-tracker": "^5.1.0",
     "framer-motion": "^6.5.1",
     "luxon": "^3.0.1",
