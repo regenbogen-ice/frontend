@@ -31,6 +31,7 @@ const GlobalStyles = createGlobalStyle`
     :root {
         --theme-color: #FF007A;
         --text-color: #fff;
+        --reverse-text-color: #000;
         --text-dark-color: #ccc;
     }
 

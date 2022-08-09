@@ -37,10 +37,11 @@ const config = configs[configKey]
 module.exports = {
   reactStrictMode: true,
   env: config,
-  rewrites: async () => {
-    return [
-      {source: '/robots.txt', destination: '/api/robotstxt'},
-      {source: '/sitemap.xml', destination: '/api/sitemap'},
-    ]
-  },
+  rewrites: async () => ([
+    {source: '/robots.txt', destination: '/api/robotstxt'},
+    {source: '/sitemap.xml', destination: '/api/sitemap'},
+  ]),
+  redirects: async () => ([
+    {source: '/details/:tzn', destination: '/vehicle/ICE/:tzn', permanent: false},
+  ]),
 }

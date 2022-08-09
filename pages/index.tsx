@@ -8,6 +8,7 @@ import { TrainTrip } from '../util/commonTypes'
 import { ShortTimetable } from '../components/NodeView'
 import { TrainDetailsView } from '../components/TrainDetailsView'
 import { RAINBOW_TZN } from '../util/constants'
+import SearchView from '../components/SearchView'
 
 const HeaderContainer = styled.div`
     padding: 0 20px;
@@ -76,7 +77,7 @@ function Header({currentTrip}: {currentTrip: TrainTrip}) {
                     <ShortTimetable trainTrip={currentTrip} />
                 </TimetableWrapper>
             </TopHeader>
-            <span>searchbox placeholder (tm)</span>
+            <SearchView />
             <RainbowStripe />
         </HeaderContainer>
     )

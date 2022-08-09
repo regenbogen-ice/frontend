@@ -60,7 +60,8 @@ const HistoryEntries = styled.div`
 `
 
 const HistoryEntry = styled.div`
-    width: 300px;
+    width: 100%;
+    max-width: 300px;
     margin-bottom: 40px;
     
     display: flex;

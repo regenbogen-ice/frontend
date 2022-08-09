@@ -1,5 +1,3 @@
-import { type } from "os"
-
 export type TrainVehicle = {
     name: string | null,
     building_series: number | null,
@@ -48,7 +46,8 @@ export type AutoCompleteResponse = AutoCompleteSuggestion[]
 
 export type AutoCompleteSuggestion = {
     guess: string,
-    train_type: string
+    train_type: string,
+    type: string
 }
 
 export type TrainType = 'ICE' | 'IC'

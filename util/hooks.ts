@@ -16,7 +16,7 @@ export function useTrainVehicleHistory(tzn: string | number, trainType: TrainTyp
 }
 
 export function useAutoComplete(query: string) {
-    const { data, error } = useSWR([[query], 'autocompelete'], fetchFromAPI)
+    const { data, error } = useSWR(query ? [[query], 'autocomplete'] : null, fetchFromAPI)
 
     return { data: data as (AutoCompleteResponse | undefined), error }
 }
