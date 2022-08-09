@@ -3,6 +3,7 @@ import { useRouter } from 'next/router'
 import { useMemo } from 'react'
 import styled from 'styled-components'
 import Header from '../../../components/Header'
+import Loader from '../../../components/Loader'
 import SearchView from '../../../components/SearchView'
 import { TrainDetailsView } from '../../../components/TrainDetailsView'
 import { TrainTrip, TrainType, TrainVehicle } from '../../../util/commonTypes'
@@ -74,7 +75,7 @@ function Vehicle({tzn, trainType}: {tzn: string, trainType: string}) {
                             {error.toString()}
                         </h1>
                     ) : (
-                        <h1>Loading...</h1>
+                        <Loader />
                     )}
                 </ErrorContainer>
             </>

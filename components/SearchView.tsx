@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router'
 import { SyntheticEvent, useCallback, useRef, useState } from 'react'
 import styled from 'styled-components'
 import { AutoCompleteSuggestion } from '../util/commonTypes'
@@ -61,19 +62,23 @@ type NavigateToSuggestion = any
 
 export default function SearchView() {
     const [value, setValue] = useState('')
-
     const { data, error } = useAutoComplete(value || null)
+    const router = useRouter()
 
     const navigateToSuggestion = useCallback((suggestion: AutoCompleteSuggestion) => {
-        // todo
+        switch(suggestion.type) {
+            case 'train_vehicle':
+                router.push(`/vehicle/${encodeURIComponent(suggestion.train_type)}/${encodeURIComponent(suggestion.guess)}`)
+                break
+        }
 
         setValue('')
-    }, [setValue])
+    }, [setValue, router])
 
     const formSubmit = useCallback((e: SyntheticEvent) => {
         e.preventDefault()
 
-        if(data[0]) {
+        if(data && data[0]) {
             navigateToSuggestion(data[0])
         }
     }, [data, navigateToSuggestion])
