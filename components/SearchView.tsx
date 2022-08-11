@@ -34,6 +34,8 @@ const SearchSuggestionContainer = styled.div`
     box-sizing: border-box;
     border-radius: 5px;
 
+    z-index: 5;
+
     background-color: var(--text-color);
     color: var(--reverse-text-color);
 
