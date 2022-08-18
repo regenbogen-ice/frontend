@@ -95,7 +95,7 @@ function Vehicle({tzn, trainType}: {tzn: string, trainType: string}) {
 }
 
 function VehicleHeader({trainTrip, trainVehicle}: {trainTrip: TrainTrip, trainVehicle: TrainVehicle}) {
-    const tripHeadline: string = useMemo(() => generateTripHeadline(trainTrip), [trainTrip])
+    const tripHeadline: string = generateTripHeadline(trainTrip)
 
     return (
         <HeaderContainer>
