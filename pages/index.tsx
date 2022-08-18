@@ -64,7 +64,7 @@ const TimetablePuppet = styled.div`
 `
 
 function Header({currentTrip}: {currentTrip: TrainTrip}) {
-    const tripHeadline: string = useMemo(() => generateTripHeadline(currentTrip), [currentTrip])
+    const tripHeadline: string = generateTripHeadline(currentTrip)
 
     return (
         <HeaderContainer>
