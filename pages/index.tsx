@@ -18,7 +18,7 @@ const HeaderContainer = styled.div`
     justify-content: center;
     flex-direction: column;
 
-    min-height: 100vh;
+    min-height: 100%;
 `
 
 const TopHeader = styled.div`
