@@ -3,6 +3,7 @@
 
 import Document from 'next/document'
 import { ServerStyleSheet } from 'styled-components'
+import { Html, Head, Main, NextScript } from 'next/document'
 
 export default class MyDocument extends Document {
   static async getInitialProps(ctx) {
@@ -29,5 +30,25 @@ export default class MyDocument extends Document {
     } finally {
       sheet.seal()
     }
+  }
+
+  render() {
+    return (
+      <Html>
+        <Head>
+          <link rel="preconnect" href="https://fonts.googleapis.com" />
+          <link rel="preconnect" href="https://fonts.gstatic.com" />
+          <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet" />
+          <link rel="icon" type="image/png" href="/images/icon-bg-32.png" />
+          <link rel='manifest' href='/manifest.json' crossOrigin='use-credentials' />
+          <link rel="apple-touch-icon" href="/images/icon-bg-400.png" />
+          <meta name="mobile-web-app-capable" content="yes" />
+        </Head>
+        <body>
+          <Main />
+          <NextScript />
+        </body>
+      </Html>
+    )
   }
 }
