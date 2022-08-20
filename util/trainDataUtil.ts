@@ -1,5 +1,5 @@
 import { TrainTrip, TrainVehicle } from './commonTypes'
-import { DateTime, Duration } from 'luxon'
+import { DateTime } from 'luxon'
 
 export function findCurrentTrip(trainVehice: TrainVehicle) {
     const trips = trainVehice.trips ?? []

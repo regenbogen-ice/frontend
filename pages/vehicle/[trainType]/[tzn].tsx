@@ -1,11 +1,10 @@
 import Head from 'next/head'
 import { useRouter } from 'next/router'
-import { useMemo } from 'react'
 import styled from 'styled-components'
-import Header from '../../../components/Header'
-import Loader from '../../../components/Loader'
-import SearchView from '../../../components/SearchView'
-import { TrainDetailsView } from '../../../components/TrainDetailsView'
+import Header from '../../../components/misc/Header'
+import Loader from '../../../components/misc/Loader'
+import SearchBox from '../../../components/search/SearchBox'
+import TrainDetailsView from '../../../components/layout/TrainDetailsView'
 import { TrainTrip, TrainType, TrainVehicle } from '../../../util/commonTypes'
 import { useRerenderPeriodically, useTrainVehicleCurrent } from '../../../util/hooks'
 import { findCurrentTrip, generateTripHeadline } from '../../../util/trainDataUtil'
@@ -101,7 +100,7 @@ function VehicleHeader({trainTrip, trainVehicle}: {trainTrip: TrainTrip, trainVe
         <HeaderContainer>
             <h1>Wo ist der {trainVehicle.train_type} {trainVehicle.name || 'Tz ' + trainVehicle.number}?</h1>
             <h2>{tripHeadline}</h2>
-            <SearchView />
+            <SearchBox />
         </HeaderContainer>
     )
 }

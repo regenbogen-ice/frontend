@@ -6,7 +6,6 @@ const HeaderContainer = styled.header`
     padding: 10px 15px;
 
     display: flex;
-    
 `
 
 const HomeLinkAnchor = styled.a`

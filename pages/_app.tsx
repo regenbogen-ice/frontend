@@ -1,22 +1,7 @@
 import type { AppProps } from 'next/app'
 import Head from 'next/head'
 import { createGlobalStyle } from 'styled-components'
-import { init as initSentry } from '@sentry/react'
-import { create as ackeeCreate } from 'ackee-tracker'
-
-if(process.env.NEXT_PUBLIC_SENTRY_DSN
-    && typeof window !== 'undefined') {
-    initSentry({
-        dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
-        tracesSampleRate: 1.0,
-        environment: process.env.NEXT_PUBLIC_ENV, 
-    })
-}
-
-if(process.env.NEXT_PUBLIC_ACKEE_UUID
-    && typeof window !== 'undefined') {
-    ackeeCreate('https://ackee.adridoesthings.com', { detailed: true }).record(process.env.NEXT_PUBLIC_ACKEE_UUID)
-}
+import '../util/tracking'
 
 setTimeout(() => {
     if(typeof navigator !== 'undefined' 

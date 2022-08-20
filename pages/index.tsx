@@ -1,14 +1,14 @@
 import Head from 'next/head'
 import styled from 'styled-components'
 import { useRerenderPeriodically, useTrainVehicleCurrent } from '../util/hooks'
-import { motion } from 'framer-motion'
-import { useMemo } from 'react'
 import { findCurrentTrip, generateTripHeadline } from '../util/trainDataUtil'
 import { TrainTrip } from '../util/commonTypes'
-import { ShortTimetable } from '../components/NodeView'
-import { TrainDetailsView } from '../components/TrainDetailsView'
-import { RAINBOW_TZN } from '../util/constants'
-import SearchView from '../components/SearchView'
+import TrainDetailsView from '../components/layout/TrainDetailsView'
+import { APP_BASE, RAINBOW_TZN } from '../util/constants'
+import SearchBox from '../components/search/SearchBox'
+import { ShortTimetable } from '../components/timetable/ShortTripTimetable'
+import RainbowStripe from '../components/misc/RainboxStripe'
+import Loader from '../components/misc/Loader'
 
 const HeaderContainer = styled.div`
     padding: 0 20px;
@@ -24,7 +24,7 @@ const HeaderContainer = styled.div`
 const TopHeader = styled.div`
     position: relative;
     display: flex;
-    min-height: 25rem;
+    min-height: 15rem;
     flex-direction: column;
 
     @media only screen and (min-width: 900px) {
@@ -33,19 +33,6 @@ const TopHeader = styled.div`
         flex-direction: row;
         gap: 10rem;
         padding: 3rem;
-    }
-`
-
-const RainbowStripeContainer = styled(motion.svg)`
-    width: 100vw;
-    height: 50px;
-    align-self: center;
-    margin: 30px 0;
-
-    shape-rendering: crispedges;
-
-    @media only screen and (min-width: 900px) {
-        margin-top: 10vh;
     }
 `
 
@@ -60,7 +47,12 @@ const Subtitle = styled.h2`
 const TimetableWrapper = styled.div``
 
 const TimetablePuppet = styled.div`
-    width: 20rem;
+    min-width: min(100vw, 20rem);
+    min-height: 10rem;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
 `
 
 function Header({currentTrip}: {currentTrip: TrainTrip}) {
@@ -77,63 +69,9 @@ function Header({currentTrip}: {currentTrip: TrainTrip}) {
                     <ShortTimetable trainTrip={currentTrip} />
                 </TimetableWrapper>
             </TopHeader>
-            <SearchView />
+            <SearchBox />
             <RainbowStripe />
         </HeaderContainer>
-    )
-}
-
-function RainbowStripe() {
-    const colors = ['#e40303', '#ff8c00', '#ffed00', '#008026', '#004dff', '#750787']
-
-    const stripeContainer = {
-        hidden: {
-            
-        },
-        show: {
-            transition: {
-                staggerChildren: .1,
-                staggerDirection: -1,
-            },
-        },
-    }
-
-    const stripeItem = {
-        hidden: {
-            width: '0%',
-        },
-        show: {
-            width: '100%',
-            transition: {
-                duration: .5,
-            },
-        },
-    }
-
-    return (
-        <RainbowStripeContainer
-            initial='hidden'
-            animate='show'
-            variants={stripeContainer}
-
-            viewBox='0 0 1 6' 
-            preserveAspectRatio='none'>
-            {colors.map((color, index) => {
-                return (
-                    <motion.rect
-                        key={'stripe' + index}
-
-                        variants={stripeItem}
-
-                        x='0'
-                        y={index}
-                        width='100%'
-                        height='1'
-                        fill={color} 
-                    />
-                )
-            })}
-        </RainbowStripeContainer>
     )
 }
 
@@ -141,13 +79,13 @@ function HeadSection() {
     return (
         <Head>
             <title>Wo ist der Regenbogen-ICE?</title>
-            <link rel="canonical" href={process.env.NEXT_PUBLIC_APP_BASE + '/'} />
+            <link rel="canonical" href={APP_BASE + '/'} />
             <meta name="twitter:card" content="summary_large_image" />
             <meta name="twitter:title" content="Wo ist der Regenbogen ICE?" />
             <meta name="twitter:description" content="Tracke den Regenbogen-ICE auf seinem Weg durch ganz Deutschland" />
-            <meta name="twitter:image:src" content={process.env.NEXT_PUBLIC_APP_BASE + '/images/twittercard.png'} />
+            <meta name="twitter:image:src" content={APP_BASE + '/images/twittercard.png'} />
             <meta property="og:title" content="Wo ist der Regenbogen ICE?" />
-            <meta property="og:image" content={process.env.NEXT_PUBLIC_APP_BASE + '/images/twittercard.png'} />
+            <meta property="og:image" content={APP_BASE + '/images/twittercard.png'} />
             <meta name="description" content="Tracke den Regenbogen-ICE auf dem ganzen Streckennetz der Deutschen Bahn!" />
             <meta name="keywords" content="regenbogen ice, wo ist der regenbogen ice, regenbogen ice fahrplan, regenbogen ice strecke, regenbogen ice nummer, regenbogen ice db, zug" /> 
         </Head>
@@ -160,20 +98,24 @@ export default function IndexPage() {
     const { data, error } = useTrainVehicleCurrent(RAINBOW_TZN, 'ICE')
 
     if(error || !data) {
+        const loading = !error
+
         return (
             <>
                 <HeadSection />
                 <HeaderContainer>
-                    <TopHeader>
+                    <TopHeader style={{marginBottom: loading ? '200px' : null}}>
                         <div>
                             <Title>Wo ist der Regenbogen-ICE?</Title>
                             <Subtitle>
-                                {error ? `Keine Ahnung. (${error.toString()})` : '...'}
+                                {error ? `Keine Ahnung. (${error.toString()})` : '\xa0'}
                             </Subtitle>
                         </div>
-                        <TimetablePuppet />
+                        <TimetablePuppet>
+                            {loading ? <Loader /> : null}
+                        </TimetablePuppet>
                     </TopHeader>
-                    <RainbowStripe />
+                    {!loading ? <RainbowStripe /> : null}
                 </HeaderContainer>
             </>
         )

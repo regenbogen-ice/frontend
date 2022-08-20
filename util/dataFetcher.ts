@@ -25,7 +25,6 @@ const fetchFromAPI = async (arg: any, method: string): Promise<any> => {
     if(!response.ok) throw new Error('HTTP ' + response.status)
 
     const json = await response.json()
-    
     return json
 }
 

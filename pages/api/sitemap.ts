@@ -1,3 +1,5 @@
+import { APP_BASE } from '../../util/constants'
+
 const trainsToInclude = [
     'Europa/Europe',
     'Bundesrepublik Deutschland',
@@ -27,13 +29,13 @@ function generateSitemap() {
     return `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
-        <loc>${process.env.NEXT_PUBLIC_APP_BASE}</loc>
+        <loc>${APP_BASE}</loc>
         <changefreq>always</changefreq>
         <priority>1.0</priority>
     </url>
 ${trainsToInclude.map(trainName => 
 `    <url>
-        <loc>${process.env.NEXT_PUBLIC_APP_BASE}/details/${encodeURIComponent(trainName)}</loc>
+        <loc>${APP_BASE}/details/${encodeURIComponent(trainName)}</loc>
         <changefreq>always</changefreq>
     </url>`).join('\n')}
 </urlset>`
