@@ -3,6 +3,8 @@ import { useMemo, useState } from 'react'
 import { TrainTrip, TrainType } from '../../util/commonTypes'
 import { useTrainVehicleHistory } from '../../util/hooks'
 import HistoryList from '../history/HistoryList'
+import { InlineError } from '../misc/Error'
+import Loader from '../misc/Loader'
 import { Button, HistoryContainer } from './styles'
 
 export default function TrainHistoryView({tzn, trainType}: {tzn: string | number, trainType: TrainType}) {
@@ -31,7 +33,15 @@ export default function TrainHistoryView({tzn, trainType}: {tzn: string | number
     if(error || !data) {
         return (
             <HistoryContainer>
-                <h1>{error ? `Historie kann nicht geladen werden. (${error.toString()})` : 'Lade Historie...'}</h1>
+                {error ? (
+                    <h2>
+                        Historie kann nicht geladen werden.
+                        {' '}
+                        <InlineError error={error} />
+                    </h2>
+                ) : (
+                    <Loader />
+                )}
             </HistoryContainer>
         )
     }

@@ -8,6 +8,7 @@ import TrainDetailsView from '../../../components/layout/TrainDetailsView'
 import { TrainTrip, TrainType, TrainVehicle } from '../../../util/commonTypes'
 import { useRerenderPeriodically, useTrainVehicleCurrent } from '../../../util/hooks'
 import { findCurrentTrip, generateTripHeadline } from '../../../util/trainDataUtil'
+import { FullScreenError } from '../../../components/misc/Error'
 
 const ErrorContainer = styled.div`
     width: 100vw;
@@ -62,6 +63,15 @@ function Vehicle({tzn, trainType}: {tzn: string, trainType: string}) {
             <title>{`Wo ist das ${trainType} Tfz ${tzn}?`}</title>
         </Head>
     )
+
+    if(error) {
+        return (
+            <>
+                {head}
+                <FullScreenError error={error} />
+            </>
+        )
+    }
 
     if(noUseableData) {
         return (

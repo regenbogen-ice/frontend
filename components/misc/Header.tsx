@@ -3,9 +3,11 @@ import styled from 'styled-components'
 
 const HeaderContainer = styled.header`
     width: 100vw;
+    min-height: 30px;
     padding: 10px 15px;
 
     display: flex;
+    align-items: center;
 `
 
 const HomeLinkAnchor = styled.a`

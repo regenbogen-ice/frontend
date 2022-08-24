@@ -1,5 +1,10 @@
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE
 
+export class HTTPError extends Error {
+    status: number = null
+    backendMessage: string = null
+}
+
 const fetchFromAPI = async (arg: any, method: string): Promise<any> => {
     let response: Response | null = null
 
@@ -22,7 +27,16 @@ const fetchFromAPI = async (arg: any, method: string): Promise<any> => {
             throw new Error('invalid method')
     }
 
-    if(!response.ok) throw new Error('HTTP ' + response.status)
+    if(!response.ok) {
+        const httpErr = new HTTPError('HTTP ' + response.status)
+
+        httpErr.status = response.status
+        try {
+            httpErr.backendMessage = (await response.json()).error
+        } catch(e) {}
+
+        throw httpErr
+    }
 
     const json = await response.json()
     return json

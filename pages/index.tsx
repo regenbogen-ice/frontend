@@ -9,6 +9,7 @@ import SearchBox from '../components/search/SearchBox'
 import { ShortTimetable } from '../components/timetable/ShortTripTimetable'
 import RainbowStripe from '../components/misc/RainboxStripe'
 import Loader from '../components/misc/Loader'
+import { InlineError } from '../components/misc/Error'
 
 const HeaderContainer = styled.div`
     padding: 0 20px;
@@ -108,7 +109,13 @@ export default function IndexPage() {
                         <div>
                             <Title>Wo ist der Regenbogen-ICE?</Title>
                             <Subtitle>
-                                {error ? `Keine Ahnung. (${error.toString()})` : '\xa0'}
+                                {error ? (
+                                    <>
+                                        Keine Ahnung.
+                                        {' '}
+                                        <InlineError error={error} />
+                                    </>
+                                ) : '\xa0'}
                             </Subtitle>
                         </div>
                         <TimetablePuppet>
