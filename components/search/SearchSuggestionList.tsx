@@ -1,4 +1,5 @@
 import { AutoCompleteSuggestion } from '../../util/commonTypes'
+//import UicID from '../misc/UicID'
 import { NavigateToSuggestion } from './SearchBox'
 import { SearchSuggestionContainer, SearchSuggestionEntryContainer } from './styles'
 
@@ -18,6 +19,11 @@ function SearchSuggestionEntry({suggestion, navigateToSuggestion}: {suggestion: 
             return (
                 <SearchSuggestionEntryContainer onClick={() => navigateToSuggestion(suggestion)}>{suggestion.guess} {suggestion.train_type !== 'ICE' && `(${suggestion.train_type})`}</SearchSuggestionEntryContainer>
             )
+
+        //case 'coach':
+        //    return (
+        //        <SearchSuggestionEntryContainer onClick={() => navigateToSuggestion(suggestion)}><UicID uic={suggestion.guess} /></SearchSuggestionEntryContainer>
+        //    )
 
         default:
             return null

@@ -17,6 +17,10 @@ export default function SearchBox() {
             case 'train_vehicle':
                 router.push(`/vehicle/${encodeURIComponent(suggestion.train_type)}/${encodeURIComponent(suggestion.guess)}`)
                 break
+
+            case 'coach':
+                router.push(`/coach/${encodeURIComponent(suggestion.train_type)}/${encodeURIComponent(suggestion.guess)}`)
+                break
         }
 
         setValue('')

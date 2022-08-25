@@ -9,6 +9,7 @@ import { TrainTrip, TrainType, TrainVehicle } from '../../../util/commonTypes'
 import { useRerenderPeriodically, useTrainVehicleCurrent } from '../../../util/hooks'
 import { findCurrentTrip, generateTripHeadline } from '../../../util/trainDataUtil'
 import { FullScreenError } from '../../../components/misc/Error'
+import { HeaderContainer } from '../../../components/misc/CommonStyles'
 
 const ErrorContainer = styled.div`
     width: 100vw;
@@ -21,21 +22,6 @@ const ErrorContainer = styled.div`
 
     padding: 20px;
     box-sizing: border-box;
-`
-
-const HeaderContainer = styled.div`
-    width: 100%;
-    padding: 100px 20px;
-    padding-bottom: 60px;
-
-    box-sizing: border-box;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    text-align: center;
-    gap: 15px;
 `
 
 export default function VehicleParameterWaitingView() {
