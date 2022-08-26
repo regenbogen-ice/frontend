@@ -23,7 +23,7 @@ export const NodeContainer: any = styled.div.withConfig({ shouldForwardProp })`
     shape-rendering: crispedges;
 `
 
-export const Dot: any = styled.div`
+export const Dot: any = styled.div.withConfig({ shouldForwardProp })`
     position: absolute;
 
     ${(props: any) => css`
@@ -58,6 +58,10 @@ export const TopConnectingLine: any = styled(ConnectingLine)`
 
     ${(props: any) => props.type === 'dotted' && css`
         top: ${props.width};
+
+        @supports (-moz-appearance:none) {
+            top: calc(${props.width} * -1);
+        }
     `}
 
     height: 50%;
