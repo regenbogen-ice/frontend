@@ -79,7 +79,7 @@ export default function SingleRowRenderer({currentRow, nextRow, lastRow}: {curre
         }
 
         return (
-            <TimetableRow key={currentRow.index} node={{bottom, dot, top, blueDot}} time={timeString} timeColor={timeColor}>
+            <TimetableRow key={currentRow.index} node={{bottom, dot, top, blueDot}} time={{time: timeString, color: timeColor, cancelled: currentRow.stop.cancelled}}>
                 <StopLabel cancelled={currentRow.stop.cancelled} stopPassed={stopPassed}>{currentRow.stop.station}</StopLabel>
             </TimetableRow>
         )
@@ -97,11 +97,17 @@ export default function SingleRowRenderer({currentRow, nextRow, lastRow}: {curre
     }
 }
 
-function TimetableRow({children, time, timeColor, node}: {children?: ReactNode, time?: string, timeColor?: string, node: NodeArgs}) {
+function TimetableRow({children, time, node}: {children?: ReactNode, time?: {time: string, color: string, cancelled?: boolean}, node: NodeArgs}) {
     return (
         <TimetableRowContainer>
-            <TimeDisplay color={timeColor}>{time || '\xa0'}</TimeDisplay>
+            {time ? (
+                <TimeDisplay color={time.color} cancelled={time.cancelled}>{time.time}</TimeDisplay>
+            ): (
+                <TimeDisplay>{'\xa0'}</TimeDisplay>
+            )}
+
             <Node offset={'3.75em'} {...node} />
+            
             {children}
         </TimetableRowContainer>
     )

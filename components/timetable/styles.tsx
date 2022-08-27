@@ -95,6 +95,10 @@ export const TimeDisplay: any = styled.span.withConfig({ shouldForwardProp })`
     ${(props: any) => css`
         color: ${props.color};
     `}
+
+    ${(props: any) => props.cancelled && css`
+        text-decoration: line-through;
+    `}
 `
 
 export const BlueDot = styled.div`
