@@ -3,7 +3,7 @@ import styled from 'styled-components'
 export const SectionWrapper = styled.div`
     margin: 50px 0;
     padding: 20px;
-    width: calc(100% - 6rem);
+    width: calc(100% - 4rem);
     max-width: 450px;
 `
 
@@ -40,7 +40,7 @@ export const HistoryContainer = styled.div`
 
     margin: auto;
     
-    width: calc(100% - 60px);
+    width: calc(100% - 2rem);
     max-width: calc(980px + 10vw);
     padding: 20px;
     box-sizing: border-box;
