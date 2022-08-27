@@ -4,7 +4,7 @@ import styled from 'styled-components'
 const HeaderContainer = styled.header`
     width: 100%;
     min-height: 30px;
-    padding: 10px 15px;
+    padding: 10px;
     
     box-sizing: border-box;
 
