@@ -15,7 +15,7 @@ export default function TrainDetailsView({vehicle, currentTrip}: {vehicle: Train
                     <SectionTitle>Triebfahrzeug</SectionTitle>
                     <InfoTitle>Zugname</InfoTitle>
                     <InfoValue>{vehicle.name || '-'}</InfoValue>
-                    <InfoTitle>Tzn</InfoTitle>
+                    <InfoTitle>Triebzugnummer</InfoTitle>
                     <InfoValue>{vehicle.number || '-'}</InfoValue>
                     <InfoTitle>Baureihe</InfoTitle>
                     <InfoValue>{vehicle.building_series || '-'}</InfoValue>

@@ -2,7 +2,7 @@ import { motion } from 'framer-motion'
 import styled from 'styled-components'
 
 const RainbowStripeContainer = styled(motion.svg)`
-    width: 100vw;
+    width: calc(100% + 40px);
     height: 50px;
     align-self: center;
     margin: 30px 0;

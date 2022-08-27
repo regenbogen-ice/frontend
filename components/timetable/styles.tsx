@@ -112,6 +112,8 @@ export const BlueDot = styled.div`
 `
 
 export const StopLabel: any = styled.b.withConfig({ shouldForwardProp })`
+    word-break: break-word;
+    
     ${(props: any) => css`
         text-decoration: ${props.cancelled ? 'line-through' : ''};
         color: ${props.stopPassed ? 'var(--text-dark-color)' : 'var(--text-color)'}

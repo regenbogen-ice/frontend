@@ -2,9 +2,11 @@ import Link from 'next/link'
 import styled from 'styled-components'
 
 const HeaderContainer = styled.header`
-    width: 100vw;
+    width: 100%;
     min-height: 30px;
     padding: 10px 15px;
+    
+    box-sizing: border-box;
 
     display: flex;
     align-items: center;

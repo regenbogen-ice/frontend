@@ -17,6 +17,7 @@ export const SearchContainer = styled.form`
 
 export const SearchInput = styled.input`
     font-size: 16px;
+    max-width: 50vw;
 `
 
 export const SearchBarIcon = styled.svg``
