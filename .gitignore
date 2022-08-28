@@ -35,3 +35,6 @@ yarn-error.log*
 
 # old source code
 /old
+
+# typescript
+tsconfig.tsbuildinfo

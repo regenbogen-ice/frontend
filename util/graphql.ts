@@ -1,4 +1,4 @@
-import { API_BASE } from './constants'
+import { GRAPHQL_URL } from './constants'
 
 const TrainVehicleQuery = `
     query Query($trainType: String!, $query: String!) {
@@ -55,7 +55,7 @@ const AutoCompleteQuery = `
 `
 
 async function fetchFromGraphQL(query: string, variables: { [key: string]: string }, key: string) {
-    const response = await fetch(API_BASE + '../graphql', {
+    const response = await fetch(GRAPHQL_URL, {
         method: 'POST',
         headers: {
             'content-type': 'application/json',
