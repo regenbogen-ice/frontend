@@ -9,18 +9,18 @@ export default function TrainDetailsView({vehicle, currentTrip}: {vehicle: Train
             <DetailsContainer>
                 <SectionWrapper>
                     <SectionTitle>Fahrtverlauf</SectionTitle>
-                    <MultiTimetable trainTrips={vehicle.trips} cutoffIndex={vehicle.trips.indexOf(currentTrip)} />
+                    <MultiTimetable trainTrips={vehicle.trips!} cutoffIndex={vehicle.trips!.indexOf(currentTrip)} />
                 </SectionWrapper>
                 <SectionWrapper>
                     <SectionTitle>Triebfahrzeug</SectionTitle>
                     <InfoTitle>Zugname</InfoTitle>
-                    <InfoValue>{vehicle.name || '-'}</InfoValue>
+                    <InfoValue>{vehicle.train_vehicle_name || '-'}</InfoValue>
                     <InfoTitle>Triebzugnummer</InfoTitle>
-                    <InfoValue>{vehicle.number || '-'}</InfoValue>
+                    <InfoValue>{vehicle.train_vehicle_number || '-'}</InfoValue>
                     <InfoTitle>Baureihe</InfoTitle>
                     <InfoValue>{vehicle.building_series || '-'}</InfoValue>
                 </SectionWrapper>
-                <TrainHistoryView tzn={vehicle.number} trainType={vehicle.train_type as TrainType} />
+                <TrainHistoryView tzn={vehicle.train_vehicle_number} trainType={vehicle.train_type as TrainType} />
             </DetailsContainer>
         </>
     )

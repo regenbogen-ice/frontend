@@ -64,14 +64,7 @@ function Vehicle({tzn, trainType}: {tzn: string, trainType: string}) {
             <>
                 {head}
                 <ErrorContainer>
-                    {error ? (
-                        <h1>
-                            Unable to fetch vehicle: <br />
-                            {error.toString()}
-                        </h1>
-                    ) : (
-                        <Loader />
-                    )}
+                    <Loader />
                 </ErrorContainer>
             </>
         )
@@ -94,7 +87,7 @@ function VehicleHeader({trainTrip, trainVehicle}: {trainTrip: TrainTrip, trainVe
 
     return (
         <HeaderContainer>
-            <h1>Wo ist der {trainVehicle.train_type} {trainVehicle.name || 'Tz ' + trainVehicle.number}?</h1>
+            <h1>Wo ist der {trainVehicle.train_type} {trainVehicle.train_vehicle_name || 'Tz ' + trainVehicle.train_vehicle_number}?</h1>
             <h2>{tripHeadline}</h2>
             <SearchBox />
         </HeaderContainer>

@@ -4,14 +4,14 @@ import type { ReactNode } from 'react'
 import { StopLabel, TimeDisplay, TimetableRowContainer, TripChangeBottom, TripChangeContainer, TripChangeTop } from './styles'
 import { Node, NodeArgs } from './Node'
 
-export type RowRendererArgs = {stop: TrainStop, index?: number, type: string, time: string, to?: string, marudor?: string}
+export type RowRendererArgs = {stop?: TrainStop, index: number, type: string, time: string, to?: string | null, marudor?: string}
 
 export default function SingleRowRenderer({currentRow, nextRow, lastRow}: {currentRow: RowRendererArgs, nextRow: RowRendererArgs, lastRow: RowRendererArgs}) {
     let bottom = null
     // eslint-disable-next-line prefer-const
     let dot = {size: '1rem', color: 'var(--text-color)'}
     let top = null
-    let blueDot: number = null
+    let blueDot: number | null = null
 
     if(nextRow) {
         const color = DateTime.fromISO(nextRow?.stop?.arrival || nextRow.time) < DateTime.now() ? 'var(--text-dark-color)' : 'var(--text-color)'
@@ -25,10 +25,10 @@ export default function SingleRowRenderer({currentRow, nextRow, lastRow}: {curre
         top = {type: 'solid', width: '.2rem', color: colorToUse}
     }
 
-    if(currentRow.type === 'stop') {
+    if(currentRow.type === 'stop' && currentRow.stop) {
 
         if(nextRow?.type === 'stop') {
-            if(nextRow.index !== currentRow.index + 1) {
+            if(bottom !== null && nextRow.index !== currentRow.index + 1) {
                 bottom.type = 'dotted'
             }
         } else {
@@ -36,7 +36,7 @@ export default function SingleRowRenderer({currentRow, nextRow, lastRow}: {curre
         }
 
         if(lastRow?.type === 'stop') {
-            if(lastRow.index !== currentRow.index - 1) {
+            if(top !== null && lastRow.index !== currentRow.index - 1) {
                 top.type = 'dotted'
             }
         } else {
@@ -44,7 +44,7 @@ export default function SingleRowRenderer({currentRow, nextRow, lastRow}: {curre
         }
 
         const time = DateTime.fromISO(currentRow.time)
-        const plannedTime = DateTime.fromISO(currentRow.stop.scheduled_departure || currentRow.stop.scheduled_arrival)
+        const plannedTime = DateTime.fromISO(currentRow.stop.scheduled_departure || currentRow.stop.scheduled_arrival!)
 
         const stopPassed = time < DateTime.now()
 
@@ -55,10 +55,10 @@ export default function SingleRowRenderer({currentRow, nextRow, lastRow}: {curre
             timeColor = '#FFD600'
         }
 
-        const lastDepature = lastRow && lastRow.type === 'stop' ? DateTime.fromISO(lastRow.stop.departure) : null
-        const thisArrival = DateTime.fromISO(currentRow.stop.arrival)
-        const thisDepature = DateTime.fromISO(currentRow.stop.departure)
-        const nextArrival = nextRow && nextRow.type === 'stop' ? DateTime.fromISO(nextRow.stop.arrival) : null
+        const lastDepature = lastRow?.type === 'stop' && lastRow.stop ? DateTime.fromISO(lastRow.stop.departure!) : null
+        const thisArrival = DateTime.fromISO(currentRow.stop.arrival!)
+        const thisDepature = DateTime.fromISO(currentRow.stop.departure!)
+        const nextArrival = nextRow?.type === 'stop' && nextRow.stop ? DateTime.fromISO(nextRow.stop.arrival!) : null
 
         if(DateTime.now() >= thisArrival && DateTime.now() <= thisDepature) {
             blueDot = 50
@@ -95,6 +95,8 @@ export default function SingleRowRenderer({currentRow, nextRow, lastRow}: {curre
             </TimetableRow>
         )
     }
+    
+    return null
 }
 
 function TimetableRow({children, time, node}: {children?: ReactNode, time?: {time: string, color: string, cancelled?: boolean}, node: NodeArgs}) {

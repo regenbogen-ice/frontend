@@ -10,7 +10,7 @@ export function ShortTimetable({trainTrip}: {trainTrip: TrainTrip}) {
     for(let i = 0; i < allStops.length; i++) {
         const stop = allStops[i]
 
-        if(DateTime.fromISO(stop.arrival || stop.departure) > DateTime.now()) {
+        if(DateTime.fromISO(stop.arrival || stop.departure!) > DateTime.now()) {
             if(allStops[i - 1]) {
                 if(i === allStops.length - 1) {
                     selectedStops.add(allStops[i - 2])
@@ -27,7 +27,7 @@ export function ShortTimetable({trainTrip}: {trainTrip: TrainTrip}) {
 
     if(selectedStops.size < 3) {
         const middleNode = allStops[Math.floor(allStops.length / 2)]
-        const departure = DateTime.fromISO(middleNode.departure)
+        const departure = DateTime.fromISO(middleNode.departure!)
 
         if(departure > DateTime.now()) {
             selectedStops.add(allStops[1])
@@ -40,6 +40,6 @@ export function ShortTimetable({trainTrip}: {trainTrip: TrainTrip}) {
 
     selectedStops.add(allStops[allStops.length - 1])
 
-    const rowData = Array.from(selectedStops).map(stop => ({ type: 'stop', stop, index: allStops.indexOf(stop), time: stop.departure || stop.arrival }))
+    const rowData = Array.from(selectedStops).map(stop => ({ type: 'stop', stop, index: allStops.indexOf(stop), time: stop.departure || stop.arrival! }))
     return <TimetableRenderer rows={rowData} />
 }

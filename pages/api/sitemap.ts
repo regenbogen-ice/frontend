@@ -1,3 +1,4 @@
+import type { NextApiRequest, NextApiResponse } from 'next'
 import { APP_BASE } from '../../util/constants'
 
 const trainsToInclude = [
@@ -41,7 +42,7 @@ ${trainsToInclude.map(trainName =>
 </urlset>`
 }
 
-export default function handler(req, res) {
+export default function handler(req: NextApiRequest, res: NextApiResponse) {
     res.setHeader('Content-Type', 'application/xml')
     res.send(generateSitemap())
 } 

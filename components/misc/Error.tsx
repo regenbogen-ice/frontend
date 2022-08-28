@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { HTTPError } from '../../util/dataFetcher'
+import { StatusError } from '../../util/dataFetcher'
 import Header from './Header'
 
 const FullscreenErrorContainer = styled.div`
@@ -46,34 +46,34 @@ export function FullScreenError({error}: {error?: Error}) {
 }
 
 export function InlineError({error}: {error?: Error}) {
-    if(error instanceof HTTPError) {
+    if(error instanceof StatusError) {
         return (
             <>
-                {error.status}: {error.backendMessage}
+                {error.title}: {error.description}
             </>
         )
     }
 
     return (
         <>
-            {error.toString()}
+            {error?.toString()}
         </>
     )
 }
 
 export function Error({error}: {error?: Error}) {
-    if(error instanceof HTTPError) {
+    if(error instanceof StatusError) {
         return (
             <ErrorContainer>
-                <StatusCode>{error.status}</StatusCode>
-                <ErrorMessage>{error.backendMessage}</ErrorMessage>
+                <StatusCode>{error.title}</StatusCode>
+                <ErrorMessage>{error.description}</ErrorMessage>
             </ErrorContainer>
         )
     }
 
     return (
         <ErrorContainer>
-            <h2>{error.toString()}</h2>
+            <h2>{error?.toString()}</h2>
         </ErrorContainer>
     )
 }

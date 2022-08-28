@@ -1,7 +1,11 @@
+export type TrainVehicleResponse = {
+    train_vehicle: TrainVehicle,
+}
+
 export type TrainVehicle = {
-    name: string | null,
-    building_series: number | null,
-    number: number,
+    train_vehicle_name?: string,
+    building_series?: string,
+    train_vehicle_number: number,
     train_type: string,
     trips?: TrainTrip[],
     coach_sequences?: TrainCoachSeqence[]
@@ -14,9 +18,7 @@ export type TrainTrip = {
     origin_station: string | null,
     destination_station: string | null,
     initial_departure: string,
-    trip_timestamp: string,
-    vehicle_timestamp: string,
-    marudor?: string
+    bahn_expert?: string
     stops?: TrainStop[]
 }
 
@@ -33,16 +35,26 @@ export type TrainCoach = {
     category: string
 }
 
+type Time = {
+    scheduled_departure: string,
+    departure: string,
+    scheduled_arrival: string | null,
+    arrival: string | null,
+} | {
+    scheduled_departure: string | null,
+    departure: string | null,
+    scheduled_arrival: string,
+    arrival: string,
+}
+
 export type TrainStop = {
     cancelled: boolean,
     station: string,
-    scheduled_departure: string | null,
-    departure: string | null,
-    scheduled_arrival: string | null
-    arrival: string | null,
-}
+} & Time
 
-export type AutoCompleteResponse = AutoCompleteSuggestion[]
+export type AutoCompleteResponse = {
+    autocomplete: AutoCompleteSuggestion[],
+}
 
 export type AutoCompleteSuggestion = {
     guess: string,

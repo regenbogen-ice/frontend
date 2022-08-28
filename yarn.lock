@@ -453,6 +453,11 @@
   dependencies:
     tslib "^2.4.0"
 
+"@types/ackee-tracker@^5.0.2":
+  version "5.0.2"
+  resolved "https://registry.yarnpkg.com/@types/ackee-tracker/-/ackee-tracker-5.0.2.tgz#f8440a4257431ab111ce10caa9394b8fc72e111a"
+  integrity sha512-0ieQOQmXlud6ez+USJLLdiXlo1if+vetB5ep0YpiE2IY+AzuEZe50ohbSNZq2VbbwG9ZBW2GhKShKEczRkmHuw==
+
 "@types/hoist-non-react-statics@*":
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/@types/hoist-non-react-statics/-/hoist-non-react-statics-3.3.1.tgz#1124aafe5118cb591977aeb1ceaaed1070eb039f"

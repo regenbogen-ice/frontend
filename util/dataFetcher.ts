@@ -1,45 +1,44 @@
-const API_BASE = process.env.NEXT_PUBLIC_API_BASE
+import { fetchAutoComplete, fetchTrainHistory, fetchTrainVehicle } from './graphql'
 
-export class HTTPError extends Error {
-    status: number = null
-    backendMessage: string = null
+export class StatusError extends Error {
+    constructor(title: string, description: string) {
+        super(title + ' ' + description)
+
+        this.title = title
+        this.description = description
+    }
+
+    title?: string | null = null
+    description: string | null = null
 }
 
 const fetchFromAPI = async (arg: any, method: string): Promise<any> => {
-    let response: Response | null = null
+    let response: any | null = null
 
     if(!arg) throw new Error('missing arg')
 
     switch(method) {
         case 'trainTripCurrent':
-            response = await fetch(API_BASE + 'v1/train_vehicle?q=' + encodeURIComponent(arg[0]) + '&trip_limit=5&include_routes=true&include_marudor_link=true&train_type=' + encodeURIComponent(arg[1]))
+            response = await fetchTrainVehicle(arg[1], arg[0].toString())
             break
 
         case 'trainTripHistory':
-            response = await fetch(API_BASE + 'v1/train_vehicle?q=' + encodeURIComponent(arg[0]) + '&trip_limit=500&include_routes=false&train_type=' + encodeURIComponent(arg[1]))
+            response = await fetchTrainHistory(arg[1], arg[0].toString())
             break
 
         case 'autocomplete':
-            response = await fetch(API_BASE + 'v2/autocomplete/' + encodeURIComponent(arg))
+            response = await fetchAutoComplete(arg[0])
             break
 
         default:
             throw new Error('invalid method')
     }
 
-    if(!response.ok) {
-        const httpErr = new HTTPError('HTTP ' + response.status)
-
-        httpErr.status = response.status
-        try {
-            httpErr.backendMessage = (await response.json()).error
-        } catch(e) {}
-
-        throw httpErr
+    if(!response) {
+        throw new StatusError('404', 'Nichts gefunden')
     }
 
-    const json = await response.json()
-    return json
+    return response
 }
 
 export default fetchFromAPI

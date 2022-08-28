@@ -2,7 +2,7 @@ import { BlueDot, BottomConnectingLine, Dot, NodeContainer, TopConnectingLine } 
 
 type ConnectingLineArgs = {width: string, color?: string, type: string}
 type DotArgs = {size: string, color: string}
-export type NodeArgs = {top?: ConnectingLineArgs, dot: DotArgs, bottom?: ConnectingLineArgs, offset?: string, blueDot?: number}
+export type NodeArgs = {top?: ConnectingLineArgs | null, dot: DotArgs, bottom?: ConnectingLineArgs | null, offset?: string, blueDot?: number | null}
 
 export function Node({ top, dot, bottom, offset, blueDot }: NodeArgs) {
     return (

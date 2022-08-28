@@ -21,6 +21,7 @@
     "swr": "^1.3.0"
   },
   "devDependencies": {
+    "@types/ackee-tracker": "^5.0.2",
     "@types/luxon": "^3.0.0",
     "@types/node": "^18.7.13",
     "@types/react": "^18.0.17",

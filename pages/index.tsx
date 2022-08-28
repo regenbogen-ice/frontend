@@ -105,7 +105,7 @@ export default function IndexPage() {
             <>
                 <HeadSection />
                 <HeaderContainer>
-                    <TopHeader style={{marginBottom: loading ? '200px' : null}}>
+                    <TopHeader style={{marginBottom: loading ? '200px' : undefined}}>
                         <div>
                             <Title>Wo ist der Regenbogen-ICE?</Title>
                             <Subtitle>

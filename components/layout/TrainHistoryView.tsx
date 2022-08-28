@@ -13,9 +13,9 @@ export default function TrainHistoryView({tzn, trainType}: {tzn: string | number
     const [reduceItems, setReduceItems] = useState(true)
 
     const days = useMemo(() => {
-        if(!data || error) return null
+        if(!data?.trips || error) return null
 
-        const days = {}
+        const days: {[key: string]: TrainTrip[]} = {}
 
         data.trips.forEach(trip => {
             const date = DateTime.fromISO(trip.initial_departure)
@@ -30,7 +30,7 @@ export default function TrainHistoryView({tzn, trainType}: {tzn: string | number
         return days
     }, [data, error])
 
-    if(error || !data) {
+    if(!days) {
         return (
             <HistoryContainer>
                 {error ? (
