@@ -1,5 +1,6 @@
 import Head from 'next/head'
 import { useRouter } from 'next/router'
+import { NoDataComponent } from '../../components/misc/CommonComponents'
 import { HeaderContainer } from '../../components/misc/CommonStyles'
 import Header from '../../components/misc/Header'
 import UicID, { formatUIC } from '../../components/misc/UicID'
@@ -10,8 +11,8 @@ export default function ParameterWaitingView() {
     const router = useRouter()
     const { uic } = router.query
     
-    if(!uic) {
-        return null
+    if(!router.isReady) {
+        return <NoDataComponent error={null} title={''} />
     }
 
     return (
