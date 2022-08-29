@@ -12,7 +12,7 @@ export default function VehicleParameterWaitingView() {
     const { trainNumber, trainType } = router.query
     
     if(!trainType || !trainNumber) {
-        return null
+        return <NoDataComponent error={null} title={`${trainType} ${trainNumber}`} />
     }
 
     return (

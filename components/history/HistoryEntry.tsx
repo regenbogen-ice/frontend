@@ -1,5 +1,8 @@
 import { DateTime } from 'luxon'
+import Link from 'next/link'
 import { TrainTrip } from '../../util/commonTypes'
+import { getTrainTripLink } from '../../util/trainDataUtil'
+import { InternalLink } from '../misc/CommonStyles'
 import { Node } from '../timetable/Node'
 import { HistoryEntryContainer, HistoryEntryTitle, HistoryRow, HistoryRowText } from './styles'
 
@@ -18,9 +21,13 @@ export default function HistoryEntry({day, trips}: {day: string, trips: TrainTri
                             bottom={index === trips.length - 1 ? null : {type: 'solid', width: '.2em'}} 
                         />
                         <HistoryRowText>
-                            Um {departure} als {trip.train_type} {trip.train_number}
-                            <br/>{trip.origin_station} {'->'}
-                            <br/>{trip.destination_station}
+                            <Link href={getTrainTripLink(trip.train_type, trip.train_number, trip.initial_departure)} passHref>
+                                <InternalLink>
+                                    Um {departure} als {trip.train_type} {trip.train_number}
+                                    <br/>{trip.origin_station} {'->'}
+                                    <br/>{trip.destination_station}
+                                </InternalLink>
+                            </Link>                            
                         </HistoryRowText>
                     </HistoryRow>
                 )

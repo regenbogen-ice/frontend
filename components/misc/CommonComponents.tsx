@@ -31,7 +31,7 @@ export function HtmlTitle({title}: {title: string}) {
 }
 
 
-export function NoDataComponent({error, title}: {error: Error, title: string}) {
+export function NoDataComponent({error, title}: {error: Error | null, title: string}) {
     if(error) {
         return (
             <>
