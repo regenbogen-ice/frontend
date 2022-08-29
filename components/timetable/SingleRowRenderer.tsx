@@ -3,8 +3,9 @@ import { DateTime } from 'luxon'
 import type { ReactNode } from 'react'
 import { StopLabel, TimeDisplay, TimetableRowContainer, TripChangeBottom, TripChangeContainer, TripChangeTop } from './styles'
 import { Node, NodeArgs } from './Node'
+import Link from 'next/link'
 
-export type RowRendererArgs = {stop?: TrainStop, index: number, type: string, time: string, to?: string | null, marudor?: string}
+export type RowRendererArgs = {stop?: TrainStop, index: number, type: string, time: string, to?: string | null, link?: string}
 
 export default function SingleRowRenderer({currentRow, nextRow, lastRow}: {currentRow: RowRendererArgs, nextRow: RowRendererArgs, lastRow: RowRendererArgs}) {
     let bottom = null
@@ -90,7 +91,13 @@ export default function SingleRowRenderer({currentRow, nextRow, lastRow}: {curre
             <TimetableRow key={currentRow.index} node={{bottom, dot, top, blueDot}}>
                 <TripChangeContainer color={colorToUse}>
                     <TripChangeTop>{currentRow.index !== 0 ? 'Weiter als' : null}</TripChangeTop>
-                    <TripChangeBottom href={currentRow.marudor} target='_blank' color={colorToUse}>{currentRow.to}</TripChangeBottom>
+                    {currentRow.link ? (
+                        <Link href={currentRow.link} passHref>
+                            <TripChangeBottom color={colorToUse}>{currentRow.to}</TripChangeBottom>
+                        </Link>
+                    ) : (
+                        <TripChangeBottom color={colorToUse}>{currentRow.to}</TripChangeBottom>
+                    )}
                 </TripChangeContainer>
             </TimetableRow>
         )

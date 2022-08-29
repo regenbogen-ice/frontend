@@ -1,4 +1,5 @@
 import { TrainTrip } from '../../util/commonTypes'
+import { getTrainTripLink } from '../../util/trainDataUtil'
 import { RowRendererArgs } from './SingleRowRenderer'
 import TimetableRenderer from './TimetableRenderer'
 
@@ -14,8 +15,18 @@ export default function MultiTimetable({trainTrips, cutoffIndex}: {trainTrips: T
 
         rowData = [
             ...rowData,
-            {type: 'tripChange', to: `${trainTrip.train_type} ${trainTrip.train_number} -> ${trainTrip.destination_station}`, time: stops[0].departure || stops[0].arrival!, marudor: trainTrip.bahn_expert, index: rowIndex++},
-            ...stops.map(stop => ({ type: 'stop', stop, index: rowIndex++, time: stop.departure || stop.arrival! })),
+            {
+                type: 'tripChange',
+                to: `${trainTrip.train_type} ${trainTrip.train_number} -> ${trainTrip.destination_station}`,
+                time: stops[0].departure || stops[0].arrival!,
+                link: getTrainTripLink(trainTrip.train_type, trainTrip.train_number, trainTrip.initial_departure),
+                index: rowIndex++,
+            },
+            ...stops.map(stop => ({
+                type: 'stop',
+                stop, index: rowIndex++,
+                time: stop.departure || stop.arrival!,
+            })),
         ]
     }
     

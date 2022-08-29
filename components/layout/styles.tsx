@@ -8,7 +8,7 @@ export const SectionWrapper = styled.div`
 `
 
 export const SectionTitle = styled.h1`
-    margin-bottom: 1em;
+    margin-bottom: .75em;
 `
 
 export const DetailsContainer = styled.div`
@@ -32,6 +32,16 @@ export const InfoTitle = styled.h2`
 export const InfoValue = styled.p`
     font-weight: bold;
     font-size: 1.5rem;
+    margin-bottom: 25px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+`
+
+export const InfoLink = styled.p`
+    font-weight: bold;
+    font-size: 1.1rem;
     margin-bottom: 25px;
 `
 

@@ -1,4 +1,4 @@
-import { fetchAutoComplete, fetchTrainHistory, fetchTrainVehicle } from './graphql'
+import { fetchAutoComplete, fetchTrainHistory, fetchTrainTrip, fetchTrainVehicle } from './graphql'
 
 export class StatusError extends Error {
     constructor(title: string, description: string) {
@@ -18,11 +18,11 @@ const fetchFromAPI = async (arg: any, method: string): Promise<any> => {
     if(!arg) throw new Error('missing arg')
 
     switch(method) {
-        case 'trainTripCurrent':
+        case 'trainVehicleCurrent':
             response = await fetchTrainVehicle(arg[1], arg[0].toString())
             break
 
-        case 'trainTripHistory':
+        case 'trainVehicleHistory':
             response = await fetchTrainHistory(arg[1], arg[0].toString())
             break
 
@@ -30,12 +30,19 @@ const fetchFromAPI = async (arg: any, method: string): Promise<any> => {
             response = await fetchAutoComplete(arg[0])
             break
 
+        case 'trainTrips':
+            response = await fetchTrainTrip(arg[1], arg[0], arg[2])
+            break
+
         default:
             throw new Error('invalid method')
     }
 
-    if(!response) {
+    if(!response ||
+        (Array.isArray(response) && response.length === 0)) {
         throw new StatusError('404', 'Nichts gefunden')
+    } else if(typeof response.errors?.length === 'number' && response.errors.length > 0) {
+        throw new StatusError(response.errors[0].message, `Error Code: ${response.errors[0].error_code}`)
     }
 
     return response

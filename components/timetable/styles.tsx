@@ -2,7 +2,7 @@ import styled, { css } from 'styled-components'
 
 
 function shouldForwardProp(prop: string) {
-    return ['children', 'href', 'target'].includes(prop)
+    return ['children', 'href', 'target', 'onClick'].includes(prop)
 }
 
 /* eslint-disable @typescript-eslint/no-explicit-any  */

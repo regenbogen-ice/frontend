@@ -4,12 +4,14 @@ import { DetailsContainer, InfoTitle, InfoValue, SectionTitle, SectionWrapper } 
 import TrainHistoryView from './TrainHistoryView'
 
 export default function TrainDetailsView({vehicle, currentTrip}: {vehicle: TrainVehicle, currentTrip: TrainTrip}) {
+    if(!vehicle.trips) return null
+
     return (
         <>
             <DetailsContainer>
                 <SectionWrapper>
                     <SectionTitle>Fahrtverlauf</SectionTitle>
-                    <MultiTimetable trainTrips={vehicle.trips!} cutoffIndex={vehicle.trips!.indexOf(currentTrip)} />
+                    <MultiTimetable trainTrips={vehicle.trips} cutoffIndex={vehicle.trips.indexOf(currentTrip)} />
                 </SectionWrapper>
                 <SectionWrapper>
                     <SectionTitle>Triebfahrzeug</SectionTitle>

@@ -2,6 +2,7 @@ import { useRouter } from 'next/router'
 import { SyntheticEvent, useCallback, useState } from 'react'
 import { AutoCompleteSuggestion } from '../../util/commonTypes'
 import { useAutoComplete } from '../../util/hooks'
+import { getCoachLink, getTrainTripLink, getTrainVehicleLink } from '../../util/trainDataUtil'
 import SearchSuggestionList from './SearchSuggestionList'
 import { SearchBarIcon, SearchContainer, SearchInput } from './styles'
 
@@ -15,11 +16,15 @@ export default function SearchBox() {
     const navigateToSuggestion = useCallback((suggestion: AutoCompleteSuggestion) => {
         switch(suggestion.type) {
             case 'train_vehicle':
-                router.push(`/vehicle/${encodeURIComponent(suggestion.train_type)}/${encodeURIComponent(suggestion.guess)}`)
+                router.push(getTrainVehicleLink(suggestion.train_type, suggestion.guess))
                 break
 
             case 'coach':
-                router.push(`/coach/${encodeURIComponent(suggestion.train_type)}/${encodeURIComponent(suggestion.guess)}`)
+                router.push(getCoachLink(suggestion.guess))
+                break
+
+            case 'train_trip':
+                router.push(getTrainTripLink(suggestion.train_type, Number(suggestion.guess)))
                 break
         }
 

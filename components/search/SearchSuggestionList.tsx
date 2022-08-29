@@ -20,6 +20,11 @@ function SearchSuggestionEntry({suggestion, navigateToSuggestion}: {suggestion: 
                 <SearchSuggestionEntryContainer onClick={() => navigateToSuggestion(suggestion)}>{suggestion.guess} {suggestion.train_type !== 'ICE' && `(${suggestion.train_type})`}</SearchSuggestionEntryContainer>
             )
 
+        case 'train_trip':
+            return (
+                <SearchSuggestionEntryContainer onClick={() => navigateToSuggestion(suggestion)}>{suggestion.train_type} {suggestion.guess}</SearchSuggestionEntryContainer>
+            )
+
         //case 'coach':
         //    return (
         //        <SearchSuggestionEntryContainer onClick={() => navigateToSuggestion(suggestion)}><UicID uic={suggestion.guess} /></SearchSuggestionEntryContainer>

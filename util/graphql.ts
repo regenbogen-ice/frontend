@@ -54,7 +54,34 @@ const AutoCompleteQuery = `
     }
 `
 
-async function fetchFromGraphQL(query: string, variables: { [key: string]: string }, key: string) {
+const TrainTripQuery = `
+    query Query($trainType: String!, $trainNumber: Int!, $initialDeparture: DateTime) {
+        train_trip(train_type: $trainType, train_number: $trainNumber, limit: 1, initial_departure: $initialDeparture) {
+            train_type
+            train_number
+            origin_station
+            destination_station
+            bahn_expert
+            initial_departure
+            stops {
+                station
+                cancelled
+                scheduled_arrival
+                scheduled_departure
+                arrival
+                departure
+            }
+            train_vehicles {
+                train_vehicle_number
+                train_vehicle_name
+                building_series
+                train_type
+            }
+        }
+    }
+`
+
+async function fetchFromGraphQL(query: string, variables: { [key: string]: string | number | undefined }, key: string) {
     const response = await fetch(GRAPHQL_URL, {
         method: 'POST',
         headers: {
@@ -69,6 +96,10 @@ async function fetchFromGraphQL(query: string, variables: { [key: string]: strin
 
     const json = await response.json()
 
+    if(!response.ok) {
+        return json
+    }
+
     return json.data[key]
 }
 
@@ -82,4 +113,10 @@ export function fetchTrainHistory(trainType: string, query: string) {
 
 export function fetchAutoComplete(query: string) {
     return fetchFromGraphQL(AutoCompleteQuery, { query }, 'autocomplete')
+}
+
+export function fetchTrainTrip(trainType: string, trainNumber: number, initialDeparture: string | null) {
+    const initialDepartureObject = initialDeparture ? { initialDeparture } : {}
+
+    return fetchFromGraphQL(TrainTripQuery, { trainType, trainNumber, ...initialDepartureObject }, 'train_trip')
 }
