@@ -1,13 +1,11 @@
 import styled, { css } from 'styled-components'
 
-
-function shouldForwardProp(prop: string) {
-    return ['children', 'href', 'target', 'onClick'].includes(prop)
+/* eslint-disable @typescript-eslint/no-explicit-any  */
+function shouldForwardProp(prop: string | number) {
+    return (['children', 'href', 'target', 'onClick'] as (string | number)[]).includes(prop)
 }
 
-/* eslint-disable @typescript-eslint/no-explicit-any  */
-/* eslint-disable @typescript-eslint/ban-ts-comment  */
-// @ts-ignore
+
 export const NodeContainer: any = styled.div.withConfig({ shouldForwardProp })`
     position: absolute;
     height: 100%;
@@ -25,7 +23,6 @@ export const NodeContainer: any = styled.div.withConfig({ shouldForwardProp })`
     shape-rendering: crispedges;
 `
 
-// @ts-ignore
 export const Dot: any = styled.div.withConfig({ shouldForwardProp })`
     position: absolute;
 
@@ -42,7 +39,6 @@ export const Dot: any = styled.div.withConfig({ shouldForwardProp })`
     z-index: 2;
 `
 
-// @ts-ignore
 export const ConnectingLine: any = styled.div.withConfig({ shouldForwardProp })`
     position: absolute;
     width: 0;
@@ -84,12 +80,18 @@ export const TimetableRowContainer = styled.div`
     align-items: center;
 `
 
-// @ts-ignore
-export const TimeDisplay: any = styled.span.withConfig({ shouldForwardProp })`
-    margin: 15px 0;
+export const TimeWrapper: any = styled.div.withConfig({ shouldForwardProp })`
     width: calc(5.5em + 15px);
     flex-shrink: 0;
+    margin: 5px 0;
+    min-height: 2rem;
 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+`
+
+export const TimeDisplay: any = styled.span.withConfig({ shouldForwardProp })`
     display: flex;
     align-items: center;
     justify-content: left;
@@ -120,7 +122,6 @@ export const BlueDot = styled.div`
     box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 `
 
-// @ts-ignore
 export const StopLabel: any = styled.b.withConfig({ shouldForwardProp })`
     word-break: break-word;
     
@@ -134,7 +135,6 @@ export const TimetableContainer = styled.span`
 
 `
 
-// @ts-ignore
 export const TripChangeContainer: any = styled.div.withConfig({ shouldForwardProp })`
     display: flex;
     flex-direction: column;
@@ -148,7 +148,6 @@ export const TripChangeTop = styled.span`
     font-weight: bold;
 `
 
-// @ts-ignore
 export const TripChangeBottom: any = styled.a.withConfig({ shouldForwardProp })`
     font-weight: bold;
 

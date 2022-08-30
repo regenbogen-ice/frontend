@@ -1,11 +1,13 @@
 import { TrainStop } from '../../util/commonTypes'
 import { DateTime } from 'luxon'
 import type { ReactNode } from 'react'
-import { StopLabel, TimeDisplay, TimetableRowContainer, TripChangeBottom, TripChangeContainer, TripChangeTop } from './styles'
+import { StopLabel, TimeDisplay, TimetableRowContainer, TimeWrapper, TripChangeBottom, TripChangeContainer, TripChangeTop } from './styles'
 import { Node, NodeArgs } from './Node'
 import Link from 'next/link'
 
 export type RowRendererArgs = {stop?: TrainStop, index: number, type: string, time: string, to?: string | null, link?: string}
+
+type Time = {time: string, color: string, cancelled?: boolean}
 
 export default function SingleRowRenderer({currentRow, nextRow, lastRow}: {currentRow: RowRendererArgs, nextRow: RowRendererArgs, lastRow: RowRendererArgs}) {
     let bottom = null
@@ -44,17 +46,24 @@ export default function SingleRowRenderer({currentRow, nextRow, lastRow}: {curre
             dot.size = '1.5rem'
         }
 
-        const time = DateTime.fromISO(currentRow.time)
-        const plannedTime = DateTime.fromISO(currentRow.stop.scheduled_departure || currentRow.stop.scheduled_arrival!)
+        const stopTime = currentRow.stop.departure || currentRow.stop.arrival
+        const stopPassed = DateTime.fromISO(stopTime!) < DateTime.now()
 
-        const stopPassed = time < DateTime.now()
+        const times: Time[] = [[currentRow.stop.arrival, currentRow.stop.scheduled_arrival], [currentRow.stop.departure, currentRow.stop.scheduled_departure]]
+            .filter(([time, scheduledTime]) => time && scheduledTime)
+            .map(([time, scheduledTime]) => {
+                const timeObj = DateTime.fromISO(time!)
+                const formattedTime = timeObj.toFormat('HH:mm')
+                const delayed = DateTime.fromISO(scheduledTime!).plus({ minutes: 3 }) < timeObj
 
-        const timeString = time.toFormat('HH:mm')
-        let timeColor = colorToUse
-
-        if(!stopPassed && time > plannedTime.plus(1000 * 60 * 2)) {
-            timeColor = '#FFD600'
-        }
+                const normalColor = delayed ? '#FFD600' : 'var(--text-color)'
+                
+                return {
+                    time: formattedTime,
+                    color: stopPassed ? 'var(--text-dark-color)' : normalColor,
+                    cancelled: currentRow.stop?.cancelled,
+                }
+            })
 
         const lastDepature = lastRow?.type === 'stop' && lastRow.stop ? DateTime.fromISO(lastRow.stop.departure!) : null
         const thisArrival = DateTime.fromISO(currentRow.stop.arrival!)
@@ -80,7 +89,7 @@ export default function SingleRowRenderer({currentRow, nextRow, lastRow}: {curre
         }
 
         return (
-            <TimetableRow key={currentRow.index} node={{bottom, dot, top, blueDot}} time={{time: timeString, color: timeColor, cancelled: currentRow.stop.cancelled}}>
+            <TimetableRow key={currentRow.index} node={{bottom, dot, top, blueDot}} times={times}>
                 <StopLabel cancelled={currentRow.stop.cancelled} stopPassed={stopPassed}>{currentRow.stop.station}</StopLabel>
             </TimetableRow>
         )
@@ -106,14 +115,14 @@ export default function SingleRowRenderer({currentRow, nextRow, lastRow}: {curre
     return null
 }
 
-function TimetableRow({children, time, node}: {children?: ReactNode, time?: {time: string, color: string, cancelled?: boolean}, node: NodeArgs}) {
+function TimetableRow({children, times, node}: {children?: ReactNode, times?: Time[], node: NodeArgs}) {
     return (
         <TimetableRowContainer>
-            {time ? (
-                <TimeDisplay color={time.color} cancelled={time.cancelled}>{time.time}</TimeDisplay>
-            ): (
-                <TimeDisplay>{'\xa0'}</TimeDisplay>
-            )}
+            <TimeWrapper>
+                {times && times.map((time, index) => {
+                    return <TimeDisplay key={index} color={time.color} cancelled={time.cancelled}>{time.time}</TimeDisplay>
+                })}
+            </TimeWrapper>
 
             <Node offset={'3.75em'} {...node} />
             

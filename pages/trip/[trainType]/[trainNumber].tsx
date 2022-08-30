@@ -1,3 +1,4 @@
+import { DateTime } from 'luxon'
 import { useRouter } from 'next/router'
 import TripDetailsView from '../../../components/layout/TripDetailsView'
 import { HtmlTitle, NoDataComponent } from '../../../components/misc/CommonComponents'
@@ -45,10 +46,16 @@ function Trip({trainNumber, trainType, initialDeparture}: {trainNumber: string, 
 }
 
 function TripHeader({trainTrip}: {trainTrip: TrainTrip}) {
+    const date = DateTime.fromISO(trainTrip.initial_departure).toFormat('dd.MM.yyyy')
+
     return (
         <HeaderContainer>
             <h1>{trainTrip.train_type} {trainTrip.train_number}</h1>
-            <h2>{trainTrip.origin_station} {'->'} {trainTrip.destination_station}</h2>
+            <h2>
+                {date}
+                <br />
+                {trainTrip.origin_station} {'->'} {trainTrip.destination_station}
+            </h2>
             <SearchBox />
         </HeaderContainer>
     )
