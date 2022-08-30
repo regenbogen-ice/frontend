@@ -44,3 +44,7 @@ export const ExternalLinkContainer = styled.a`
 export const InternalLink = styled.a`
     color: var(--text-color);
 `
+
+export const UndecoratedInternalLink = styled(InternalLink)`
+    text-decoration: none;
+`

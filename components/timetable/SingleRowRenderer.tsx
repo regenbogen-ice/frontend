@@ -102,7 +102,7 @@ export default function SingleRowRenderer({currentRow, nextRow, lastRow}: {curre
                     <TripChangeTop>{currentRow.index !== 0 ? 'Weiter als' : null}</TripChangeTop>
                     {currentRow.link ? (
                         <Link href={currentRow.link} passHref>
-                            <TripChangeBottom color={colorToUse}>{currentRow.to}</TripChangeBottom>
+                            <TripChangeBottom target='_blank' color={colorToUse}>{currentRow.to}</TripChangeBottom>
                         </Link>
                     ) : (
                         <TripChangeBottom color={colorToUse}>{currentRow.to}</TripChangeBottom>

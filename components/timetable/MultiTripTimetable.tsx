@@ -19,7 +19,8 @@ export default function MultiTimetable({trainTrips, cutoffIndex}: {trainTrips: T
                 type: 'tripChange',
                 to: `${trainTrip.train_type} ${trainTrip.train_number} -> ${trainTrip.destination_station}`,
                 time: stops[0].departure || stops[0].arrival!,
-                link: getTrainTripLink(trainTrip.train_type, trainTrip.train_number, trainTrip.initial_departure),
+                //link: getTrainTripLink(trainTrip.train_type, trainTrip.train_number, trainTrip.initial_departure),
+                link: trainTrip.bahn_expert,
                 index: rowIndex++,
             },
             ...stops.map(stop => ({
