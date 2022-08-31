@@ -2,12 +2,6 @@ import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { InternalLink, UndecoratedInternalLink } from './CommonStyles'
 
-const OuterFooterContainer = styled.div`
-    margin-top: 70px;
-
-    position: relative;
-`
-
 const FooterContainer = styled.footer`
     width: 100%;
     height: 70px;
@@ -18,9 +12,6 @@ const FooterContainer = styled.footer`
     display: flex;
     align-items: center;
     justify-content: space-between;
-
-    position: absolute;
-    bottom: 0;
 `
 
 const FooterSection = styled.div`
@@ -49,20 +40,18 @@ function MailLink() {
 
 export default function Footer() {
     return (
-        <OuterFooterContainer>
-            <FooterContainer>
-                <FooterSection>
-                    <MailLink />
-                </FooterSection>
-                <FooterSection>
-                    <UndecoratedInternalLink href='https://ppluss.de' target='_blank'>
-                        <ProfilePicture src='/images/philippirl.webp' />
-                    </UndecoratedInternalLink>
-                    <UndecoratedInternalLink href='https://adridoesthings.com' target='_blank'>
-                        <ProfilePicture src='/images/adridoesthings.webp' />
-                    </UndecoratedInternalLink>
-                </FooterSection>
-            </FooterContainer>
-        </OuterFooterContainer>
+        <FooterContainer>
+            <FooterSection>
+                <MailLink />
+            </FooterSection>
+            <FooterSection>
+                <UndecoratedInternalLink href='https://ppluss.de' target='_blank'>
+                    <ProfilePicture src='/images/philippirl.webp' />
+                </UndecoratedInternalLink>
+                <UndecoratedInternalLink href='https://adridoesthings.com' target='_blank'>
+                    <ProfilePicture src='/images/adridoesthings.webp' />
+                </UndecoratedInternalLink>
+            </FooterSection>
+        </FooterContainer>
     )
 }
