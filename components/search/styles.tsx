@@ -46,13 +46,27 @@ export const SearchSuggestionContainer = styled.div`
 export const SearchSuggestionEntryContainer = styled.div`
     text-align: left;
 
-    padding: 7px 10px;
+    padding: 6px 6px;
     width: 100%;
 
     cursor: pointer;
     transition: background-color .1s;
 
+    display: flex;
+    align-items: center;
+
     :hover {
         background: var(--text-dark-color);
+    }
+
+    > svg {
+        fill: var(--reverse-text-color);
+
+        height: 20px;
+        width: 20px;
+
+        flex-shrink: 0;
+
+        padding-right: 5px;
     }
 `

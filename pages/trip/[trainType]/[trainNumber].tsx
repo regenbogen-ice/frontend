@@ -6,6 +6,7 @@ import { HeaderContainer } from '../../../components/misc/CommonStyles'
 import Header from '../../../components/misc/Header'
 import SearchBox from '../../../components/search/SearchBox'
 import { TrainTrip, TrainType } from '../../../util/commonTypes'
+import { REFRESH_INTERVAL } from '../../../util/constants'
 import { useRerenderPeriodically, useTrainTrips } from '../../../util/hooks'
 
 export default function VehicleParameterWaitingView() {
@@ -26,7 +27,7 @@ export default function VehicleParameterWaitingView() {
 }
 
 function Trip({trainNumber, trainType, initialDeparture}: {trainNumber: string, trainType: string, initialDeparture: string | null}) {
-    useRerenderPeriodically(3000)
+    useRerenderPeriodically(REFRESH_INTERVAL)
 
     const { data, error } = useTrainTrips(Number(trainNumber), trainType as TrainType, initialDeparture)
     if(error || !data) {

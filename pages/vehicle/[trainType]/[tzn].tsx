@@ -7,6 +7,7 @@ import { useRerenderPeriodically, useTrainVehicleCurrent } from '../../../util/h
 import { findCurrentTrip, generateTripHeadline } from '../../../util/trainDataUtil'
 import { HeaderContainer } from '../../../components/misc/CommonStyles'
 import { HtmlTitle, NoDataComponent } from '../../../components/misc/CommonComponents'
+import { REFRESH_INTERVAL } from '../../../util/constants'
 
 export default function VehicleParameterWaitingView() {
     const router = useRouter()
@@ -22,7 +23,7 @@ export default function VehicleParameterWaitingView() {
 }
 
 function Vehicle({tzn, trainType}: {tzn: string, trainType: string}) {
-    useRerenderPeriodically(3000)
+    useRerenderPeriodically(REFRESH_INTERVAL)
 
     const { data, error } = useTrainVehicleCurrent(tzn, trainType as TrainType)
     if(error || !data) {

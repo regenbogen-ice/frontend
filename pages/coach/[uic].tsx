@@ -5,6 +5,7 @@ import { HeaderContainer } from '../../components/misc/CommonStyles'
 import Header from '../../components/misc/Header'
 import UicID, { formatUIC } from '../../components/misc/UicID'
 import SearchBox from '../../components/search/SearchBox'
+import { REFRESH_INTERVAL } from '../../util/constants'
 import { useRerenderPeriodically } from '../../util/hooks'
 
 export default function ParameterWaitingView() {
@@ -21,7 +22,7 @@ export default function ParameterWaitingView() {
 }
 
 function Coach({uic}: {uic: string}) {
-    useRerenderPeriodically(3000)
+    useRerenderPeriodically(REFRESH_INTERVAL)
 
     return (
         <>

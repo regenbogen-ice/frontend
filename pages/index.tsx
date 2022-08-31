@@ -4,7 +4,7 @@ import { useRerenderPeriodically, useTrainVehicleCurrent } from '../util/hooks'
 import { findCurrentTrip, generateTripHeadline } from '../util/trainDataUtil'
 import { TrainTrip } from '../util/commonTypes'
 import TrainDetailsView from '../components/layout/TrainDetailsView'
-import { APP_BASE, RAINBOW_TZN } from '../util/constants'
+import { APP_BASE, RAINBOW_TZN, REFRESH_INTERVAL } from '../util/constants'
 import SearchBox from '../components/search/SearchBox'
 import { ShortTimetable } from '../components/timetable/ShortTripTimetable'
 import RainbowStripe from '../components/misc/RainboxStripe'
@@ -94,7 +94,7 @@ function HeadSection() {
 }
 
 export default function IndexPage() {
-    useRerenderPeriodically(3000)
+    useRerenderPeriodically(REFRESH_INTERVAL)
 
     const { data, error } = useTrainVehicleCurrent(RAINBOW_TZN, 'ICE')
 
