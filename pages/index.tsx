@@ -10,6 +10,7 @@ import { ShortTimetable } from '../components/timetable/ShortTripTimetable'
 import RainbowStripe from '../components/misc/RainboxStripe'
 import Loader from '../components/misc/Loader'
 import { InlineError } from '../components/misc/Error'
+import Footer from '../components/misc/Footer'
 
 const HeaderContainer = styled.div`
     padding: 0 20px;
@@ -39,16 +40,14 @@ const TopHeader = styled.div`
 
 const Title = styled.h1`
     margin: 20px 0;
-`
 
-const Subtitle = styled.h2`
-    margin: 20px 0;
+    word-break: break-word;
 `
 
 const TimetableWrapper = styled.div``
 
 const TimetablePuppet = styled.div`
-    min-width: min(100vw, 20rem);
+    min-width: min(25vw, 20rem);
     min-height: 10rem;
 
     display: flex;
@@ -64,7 +63,7 @@ function Header({currentTrip}: {currentTrip: TrainTrip}) {
             <TopHeader>
                 <div>
                     <Title>Wo ist der Regenbogen-ICE?</Title>
-                    <Subtitle>{tripHeadline}</Subtitle>
+                    <Title as={'h2'}>{tripHeadline}</Title>
                 </div>
                 <TimetableWrapper>
                     <ShortTimetable trainTrip={currentTrip} />
@@ -108,7 +107,7 @@ export default function IndexPage() {
                     <TopHeader style={{marginBottom: loading ? '200px' : undefined}}>
                         <div>
                             <Title>Wo ist der Regenbogen-ICE?</Title>
-                            <Subtitle>
+                            <Title as={'h2'}>
                                 {error ? (
                                     <>
                                         Keine Ahnung.
@@ -116,7 +115,7 @@ export default function IndexPage() {
                                         <InlineError error={error} />
                                     </>
                                 ) : '\xa0'}
-                            </Subtitle>
+                            </Title>
                         </div>
                         <TimetablePuppet>
                             {loading ? <Loader /> : null}
@@ -135,6 +134,7 @@ export default function IndexPage() {
             <HeadSection />
             <Header currentTrip={currentTrip} />
             <TrainDetailsView currentTrip={currentTrip} vehicle={data} />
+            <Footer />
         </>
     )
 }

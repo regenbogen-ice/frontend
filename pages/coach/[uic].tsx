@@ -2,6 +2,7 @@ import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { NoDataComponent } from '../../components/misc/CommonComponents'
 import { HeaderContainer } from '../../components/misc/CommonStyles'
+import Footer from '../../components/misc/Footer'
 import Header from '../../components/misc/Header'
 import UicID, { formatUIC } from '../../components/misc/UicID'
 import SearchBox from '../../components/search/SearchBox'
@@ -31,6 +32,7 @@ function Coach({uic}: {uic: string}) {
             </Head>
             <Header />
             <CoachHeader uic={uic} />
+            <Footer />
         </>
     )
 }

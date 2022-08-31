@@ -8,6 +8,7 @@ import { findCurrentTrip, generateTripHeadline } from '../../../util/trainDataUt
 import { HeaderContainer } from '../../../components/misc/CommonStyles'
 import { HtmlTitle, NoDataComponent } from '../../../components/misc/CommonComponents'
 import { REFRESH_INTERVAL } from '../../../util/constants'
+import Footer from '../../../components/misc/Footer'
 
 export default function VehicleParameterWaitingView() {
     const router = useRouter()
@@ -39,6 +40,7 @@ function Vehicle({tzn, trainType}: {tzn: string, trainType: string}) {
             <Header />
             <VehicleHeader trainTrip={trainTrip} title={pageTitle} />
             <TrainDetailsView vehicle={data} currentTrip={trainTrip} />
+            <Footer />
         </>
     )
 }

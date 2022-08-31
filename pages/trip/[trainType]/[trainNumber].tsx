@@ -3,6 +3,7 @@ import { useRouter } from 'next/router'
 import TripDetailsView from '../../../components/layout/TripDetailsView'
 import { HtmlTitle, NoDataComponent } from '../../../components/misc/CommonComponents'
 import { HeaderContainer } from '../../../components/misc/CommonStyles'
+import Footer from '../../../components/misc/Footer'
 import Header from '../../../components/misc/Header'
 import SearchBox from '../../../components/search/SearchBox'
 import { TrainTrip, TrainType } from '../../../util/commonTypes'
@@ -42,6 +43,7 @@ function Trip({trainNumber, trainType, initialDeparture}: {trainNumber: string, 
             <Header />
             <TripHeader trainTrip={currentTrip} />
             <TripDetailsView currentTrip={currentTrip} vehicles={currentTrip.train_vehicles || []} />
+            <Footer />
         </>
     )
 }
