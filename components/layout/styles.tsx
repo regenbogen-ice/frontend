@@ -19,7 +19,6 @@ export const DetailsContainer = styled.div`
     flex-direction: row;
     column-gap: 10vw;
 
-    margin: auto;
     max-width: 3000px;
 `
 

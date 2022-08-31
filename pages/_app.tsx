@@ -42,6 +42,18 @@ const GlobalStyles = createGlobalStyle`
         height: 100%;
         overflow-x: clip;
     }
+
+    #__next {
+        display: flex;
+        flex-direction: column;
+
+        justify-content: space-between;
+    }
+
+    #__next > * {
+        flex-shrink: 0;
+        flex-grow: 0;
+    }
 `
 
 export default function App({ Component, pageProps }: AppProps) {

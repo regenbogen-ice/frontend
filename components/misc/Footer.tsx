@@ -8,7 +8,7 @@ const OuterFooterContainer = styled.div`
     position: relative;
 `
 
-const FooterContainer = styled.header`
+const FooterContainer = styled.footer`
     width: 100%;
     height: 70px;
     padding: 10px 20px;
