@@ -1,67 +1,84 @@
-import React from 'react'
-import styled from 'styled-components'
-import TrainDetailsView from '../components/TrainDetailsView'
-import useSWR from 'swr'
-import { APP_BASE, RAINBOWTZN } from '../scripts/constants'
-import { fetchFromAPI } from '../scripts/dataSources'
-import type { TrainTripData } from '../scripts/dataSources'
-import { Skeleton } from '../components/Common'
-import { DateTime } from 'luxon'
 import Head from 'next/head'
-import Footer from '../components/Footer'
+import styled from 'styled-components'
+import { useRerenderPeriodically, useTrainVehicleCurrent } from '../util/hooks'
+import { findCurrentTrip, generateTripHeadline } from '../util/trainDataUtil'
+import { TrainTrip } from '../util/commonTypes'
+import TrainDetailsView from '../components/layout/TrainDetailsView'
+import { APP_BASE, RAINBOW_TZN, REFRESH_INTERVAL } from '../util/constants'
+import SearchBox from '../components/search/SearchBox'
+import { ShortTimetable } from '../components/timetable/ShortTripTimetable'
+import RainbowStripe from '../components/misc/RainboxStripe'
+import Loader from '../components/misc/Loader'
+import { InlineError } from '../components/misc/Error'
+import Footer from '../components/misc/Footer'
 
-const PageHeader = styled.div`
-    background-color: #FF007A;
-    height: 100%;
-    color: #fff;
+const HeaderContainer = styled.div`
+    padding: 0 20px;
+    
     display: flex;
-    flex-direction: column;
+    align-items: center;
     justify-content: center;
-    align-items: left;
+    flex-direction: column;
+
+    min-height: 100%;
+`
+
+const TopHeader = styled.div`
     position: relative;
+    display: flex;
+    min-height: 15rem;
+    flex-direction: column;
+
+    @media only screen and (min-width: 900px) {
+        align-items: center;
+        min-height: 35vh;
+        flex-direction: row;
+        gap: 10rem;
+        padding: 3rem;
+    }
 `
 
-const WebsiteTitle = styled.h2`
-    font-size: 2.75rem;
-    font-weight: normal;
-    color: #DCDBDB;
-    margin: 20px 7.5vw;
-`
+const Title = styled.h1`
+    margin: 20px 0;
 
-const QuickAnswer = styled.h1`
-    font-size: 4.5rem;
-    font-weight: normal;
-    margin: 20px 7.5vw;
-    max-width: 1000px;
     word-break: break-word;
 `
 
-const RainbowBand = styled.img`
-    width: 85%;
-    height: 37px;
-    align-self: center;
-    margin: 30px 0;
-    image-rendering: pixelated;
-`
+const TimetableWrapper = styled.div``
 
-const ExpandIcon = styled.div`
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
+const TimetablePuppet = styled.div`
+    min-width: min(25vw, 20rem);
+    min-height: 10rem;
+
     display: flex;
     justify-content: center;
     align-items: center;
-    cursor: pointer;
 `
 
-export default function IndexPage(): JSX.Element {
+function Header({currentTrip}: {currentTrip: TrainTrip}) {
+    const tripHeadline: string = generateTripHeadline(currentTrip)
 
-    const { data, error }: { data?: TrainTripData, error?: Error } = useSWR([RAINBOWTZN, 'trainTrip'], fetchFromAPI)
+    return (
+        <HeaderContainer>
+            <TopHeader>
+                <div>
+                    <Title>Wo ist der Regenbogen-ICE?</Title>
+                    <Title as={'h2'}>{tripHeadline}</Title>
+                </div>
+                <TimetableWrapper>
+                    <ShortTimetable trainTrip={currentTrip} />
+                </TimetableWrapper>
+            </TopHeader>
+            <SearchBox />
+            <RainbowStripe />
+        </HeaderContainer>
+    )
+}
 
-    const head = (
+function HeadSection() {
+    return (
         <Head>
-            <title>Wo ist der Regenbogen ICE?</title>
+            <title>Wo ist der Regenbogen-ICE?</title>
             <link rel="canonical" href={APP_BASE + '/'} />
             <meta name="twitter:card" content="summary_large_image" />
             <meta name="twitter:title" content="Wo ist der Regenbogen ICE?" />
@@ -70,102 +87,54 @@ export default function IndexPage(): JSX.Element {
             <meta property="og:title" content="Wo ist der Regenbogen ICE?" />
             <meta property="og:image" content={APP_BASE + '/images/twittercard.png'} />
             <meta name="description" content="Tracke den Regenbogen-ICE auf dem ganzen Streckennetz der Deutschen Bahn!" />
-            <meta name="keywords" content="regenbogen ice, regenbogen ice fahrplan, regenbogen ice strecke, regenbogen ice nummer, regenbogen ice deutsche bahn, regenbogen ice db, zug" />
+            <meta name="keywords" content="regenbogen ice, wo ist der regenbogen ice, regenbogen ice fahrplan, regenbogen ice strecke, regenbogen ice nummer, regenbogen ice db, zug" /> 
         </Head>
     )
+}
 
-    if(!data || error) {
+export default function IndexPage() {
+    useRerenderPeriodically(REFRESH_INTERVAL)
+
+    const { data, error } = useTrainVehicleCurrent(RAINBOW_TZN, 'ICE')
+
+    if(error || !data) {
+        const loading = !error
+
         return (
             <>
-                {head}
-                <PageHeader>
-                    <WebsiteTitle>Wo ist der Regenbogen ICE?</WebsiteTitle>
-                    <QuickAnswer>
-                        {error ? (
-                            <span>Offenbar spurlos verschwunden ({error.toString()})</span>
-                        ) : (
-                            <>
-                                <Skeleton style={{height: '72px', width: '70vw', background: '#fff'}}></Skeleton>
-                                <Skeleton style={{height: '72px', width: '40vw', background: '#fff'}}></Skeleton>
-                            </>
-                        )}
-                    </QuickAnswer>
-                    <RainbowBand src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAGCAIAAACNcmNmAAAACXBIWXMAAC4jAAAuIwF4pT92AAAAIElEQVQI12N4wszM8L+HgeH/WwYmxslqDAy+/xlK2dsBXbUHbVjN9ncAAAAASUVORK5CYII=" />
-                </PageHeader>
+                <HeadSection />
+                <HeaderContainer>
+                    <TopHeader style={{marginBottom: loading ? '200px' : undefined}}>
+                        <div>
+                            <Title>Wo ist der Regenbogen-ICE?</Title>
+                            <Title as={'h2'}>
+                                {error ? (
+                                    <>
+                                        Keine Ahnung.
+                                        {' '}
+                                        <InlineError error={error} />
+                                    </>
+                                ) : '\xa0'}
+                            </Title>
+                        </div>
+                        <TimetablePuppet>
+                            {loading ? <Loader /> : null}
+                        </TimetablePuppet>
+                    </TopHeader>
+                    {!loading ? <RainbowStripe /> : null}
+                </HeaderContainer>
             </>
         )
     }
 
-    const onArrowClick = () => {
-        window.scrollTo({top: window.innerHeight, behavior: 'smooth'})
-    }
-
-    let trainIndex = -1
-
-    for(let index = data.trips.length - 1; index >= 0; index--) {
-        const trip = data.trips[index]
-
-        if(trip.stops.length === 0) continue
-
-        const lastStopTime = trip.stops[trip.stops.length - 1].arrival
-
-        if(lastStopTime !== null) {
-            if(DateTime.fromISO(lastStopTime, { zone: 'UTC' }).plus({minutes: 30}) > DateTime.now()) {
-                trainIndex = index
-                break
-            }
-        }
-    }
+    const currentTrip: TrainTrip = findCurrentTrip(data)
 
     return (
         <>
-            {head}
-            <PageHeader>
-                <WebsiteTitle>Wo ist der Regenbogen ICE?</WebsiteTitle>
-                {trainIndex === -1 ? (
-                    <QuickAnswer>Auf irgendeinem Abstellgleis{data.trips.length !== 0 ? <span> in der Nähe von <b>{data.trips[0].destination_station}</b></span> : null}</QuickAnswer>
-                ) : (
-                    <QuickAnswer>{doesIceStartInFuture(data.trips[trainIndex]) ? makeIceStartTimeMessage(data.trips[trainIndex]) : 'Jetzt gerade als'} <b>ICE {data.trips[trainIndex].train_number}</b> zwischen <b>{data.trips[trainIndex].origin_station}</b> und <b>{data.trips[trainIndex].destination_station}</b></QuickAnswer>
-                )}
-                <RainbowBand src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAGCAIAAACNcmNmAAAACXBIWXMAAC4jAAAuIwF4pT92AAAAIElEQVQI12N4wszM8L+HgeH/WwYmxslqDAy+/xlK2dsBXbUHbVjN9ncAAAAASUVORK5CYII=" />
-                <ExpandIcon onClick={onArrowClick}>
-                    <svg height="50px" viewBox="0 0 24 24" width="50px" fill="#FFFFFF"><path d="M24 24H0V0h24v24z" fill="none" opacity=".87"/><path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6-1.41-1.41z"/></svg>
-                </ExpandIcon>
-            </PageHeader>
-            <TrainDetailsView data={data} />
+            <HeadSection />
+            <Header currentTrip={currentTrip} />
+            <TrainDetailsView currentTrip={currentTrip} vehicle={data} />
             <Footer />
         </>
     )
-}
-
-function doesIceStartInFuture(trainTrip: TrainTripData) {
-    const firstDepartureTime = getFirstDepartureTime(trainTrip)
-
-    return firstDepartureTime > DateTime.now()
-}
-
-function makeIceStartTimeMessage(trainTrip: TrainTripData) {
-    const firstDepartureTime = getFirstDepartureTime(trainTrip)
-
-    let dateText = ''
-
-    if(firstDepartureTime.toLocal() > DateTime.now().endOf('day')) { // if first departure is after today
-        if(firstDepartureTime.toLocal() > DateTime.now().plus({days: 1}).endOf('day')) { // if first departure is after tomorrow
-            dateText = 'dem ' + firstDepartureTime.toLocal().toFormat('dd.mm.') + ' um '
-        } else {
-            dateText = 'morgen um '
-        }
-    }
-
-    return 'Ab ' + dateText + firstDepartureTime.toLocal().toFormat('HH:mm') + ' als'
-}
-
-
-function getFirstDepartureTime(trainTrip: TrainTripData): DateTime {
-    if(!trainTrip.stops || !trainTrip.stops[0].departure) {
-        return null
-    }
-
-    const firstDeparture = trainTrip.stops[0].departure
-    return DateTime.fromISO(firstDeparture, { zone: 'UTC' })
 }

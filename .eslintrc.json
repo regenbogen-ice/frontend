@@ -1,4 +1,5 @@
 {
+  "root": true,
   "extends": ["plugin:@typescript-eslint/recommended", "next/core-web-vitals"],
   "rules": {
     "@typescript-eslint/quotes": ["error", "single", {"allowTemplateLiterals": true}],
