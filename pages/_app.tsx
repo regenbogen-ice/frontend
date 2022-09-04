@@ -1,5 +1,6 @@
 import type { AppProps } from 'next/app'
 import { createGlobalStyle } from 'styled-components'
+import Tmp from '../components/tmp'
 import '../util/tracking'
 
 setTimeout(() => {
@@ -45,6 +46,8 @@ const GlobalStyles = createGlobalStyle`
 `
 
 export default function App({ Component, pageProps }: AppProps) {
+    return <Tmp />
+
     return (
         <>
             <Component {...pageProps} />
