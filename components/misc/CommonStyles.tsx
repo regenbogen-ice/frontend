@@ -43,6 +43,14 @@ export const ExternalLinkContainer = styled.a`
 
 export const InternalLink = styled.a`
     color: var(--text-color);
+    fill: var(--text-color);
+
+    display: flex;
+`
+
+export const LinkIcon = styled.svg`
+    width: 35px;
+    height: 35px;
 `
 
 export const UndecoratedInternalLink = styled(InternalLink)`

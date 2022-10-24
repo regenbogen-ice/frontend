@@ -1,5 +1,6 @@
 import type { AppProps } from 'next/app'
-import { createGlobalStyle } from 'styled-components'
+import { createGlobalStyle, css, ThemeContext } from 'styled-components'
+import { useThemeColor } from '../util/theme'
 import '../util/tracking'
 
 setTimeout(() => {
@@ -11,9 +12,9 @@ setTimeout(() => {
     }
 }, 1000)
 
-const GlobalStyles = createGlobalStyle`
+const GlobalStyles: any = createGlobalStyle`
     :root {
-        --theme-color: #FF007A;
+        --theme-color: ${({backgroundColor}: {backgroundColor: string}) => backgroundColor};
         --text-color: #fff;
         --reverse-text-color: #000;
         --text-dark-color: #ccc;
@@ -30,6 +31,10 @@ const GlobalStyles = createGlobalStyle`
         background-color: var(--theme-color);
         color: var(--text-color);
         font-family: 'Inter', 'Roboto', sans-serif;
+
+        ${({transitionThemeColor}: any) => transitionThemeColor && css`
+            transition: background-color .2s;
+        `}
     }
 
     @media only screen and (min-width: 800px) {
@@ -45,10 +50,14 @@ const GlobalStyles = createGlobalStyle`
 `
 
 export default function App({ Component, pageProps }: AppProps) {
+    const [themeColor, transitionThemeColor, changeThemeColor] = useThemeColor()
+
     return (
         <>
-            <Component {...pageProps} />
-            <GlobalStyles />
+            <ThemeContext.Provider value={{ themeColor, changeThemeColor }}>
+                <Component {...pageProps} />
+            </ThemeContext.Provider>
+            <GlobalStyles backgroundColor={themeColor} transitionThemeColor={transitionThemeColor} />
         </>
     )
 }
