@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 const THEME_STORAGE_KEY = 'regenbogenICEThemeColor'
 export const DEFAULT_COLOR = '#FF007A'
 
-export function useThemeColor() {
+export function useThemeColor(): [string, boolean, (newThemeColor: string) => void] {
     const [themeColor, setThemeColor] = useState(DEFAULT_COLOR)
     const [transitionThemeColor, setTransitionThemeColor] = useState(false)
 

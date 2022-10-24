@@ -1,4 +1,5 @@
 import type { AppProps } from 'next/app'
+import Head from 'next/head'
 import { createGlobalStyle, css, ThemeContext } from 'styled-components'
 import { useThemeColor } from '../util/theme'
 import '../util/tracking'
@@ -54,10 +55,14 @@ export default function App({ Component, pageProps }: AppProps) {
 
     return (
         <>
+            <GlobalStyles backgroundColor={themeColor} transitionThemeColor={transitionThemeColor} />
+            <Head>
+                <meta name='theme-color' content={themeColor} />
+            </Head>
+
             <ThemeContext.Provider value={{ themeColor, changeThemeColor }}>
                 <Component {...pageProps} />
             </ThemeContext.Provider>
-            <GlobalStyles backgroundColor={themeColor} transitionThemeColor={transitionThemeColor} />
         </>
     )
 }
