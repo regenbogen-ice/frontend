@@ -7,6 +7,7 @@ const TrainVehicleQuery = `
             train_vehicle_name
             train_vehicle_number
             building_series
+            building_series_name
             trips(limit: 5, ignore_finished_trips: true) {
                 destination_station
                 origin_station

@@ -1,6 +1,7 @@
 import type { AppProps } from 'next/app'
 import Head from 'next/head'
 import { createGlobalStyle, css, ThemeContext } from 'styled-components'
+import ErrorBoundary from '../components/misc/ErrorBoundary'
 import { useThemeColor } from '../util/theme'
 import '../util/tracking'
 
@@ -61,7 +62,9 @@ export default function App({ Component, pageProps }: AppProps) {
             </Head>
 
             <ThemeContext.Provider value={{ themeColor, changeThemeColor }}>
-                <Component {...pageProps} />
+                <ErrorBoundary>
+                    <Component {...pageProps} />
+                </ErrorBoundary>
             </ThemeContext.Provider>
         </>
     )

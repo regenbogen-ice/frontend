@@ -3,6 +3,12 @@ import MultiTimetable from '../timetable/MultiTripTimetable'
 import { DetailsContainer, InfoTitle, InfoValue, SectionTitle, SectionWrapper } from './styles'
 import TrainHistoryView from './TrainHistoryView'
 
+function getVehicleType(vehicle: TrainVehicle) {
+    if(vehicle.building_series_name) return vehicle.building_series_name
+    if(vehicle.building_series) return `Baureihe ${vehicle.building_series}`
+    return '-'
+}
+
 export default function TrainDetailsView({vehicle, currentTrip}: {vehicle: TrainVehicle, currentTrip: TrainTrip}) {
     if(!vehicle.trips) return null
 
@@ -19,8 +25,8 @@ export default function TrainDetailsView({vehicle, currentTrip}: {vehicle: Train
                     <InfoValue>{vehicle.train_vehicle_name || '-'}</InfoValue>
                     <InfoTitle>Triebzugnummer</InfoTitle>
                     <InfoValue>{vehicle.train_vehicle_number || '-'}</InfoValue>
-                    <InfoTitle>Baureihe</InfoTitle>
-                    <InfoValue>{vehicle.building_series || '-'}</InfoValue>
+                    <InfoTitle>Zugtyp</InfoTitle>
+                    <InfoValue>{getVehicleType(vehicle)}</InfoValue>
                 </SectionWrapper>
                 <TrainHistoryView tzn={vehicle.train_vehicle_number} trainType={vehicle.train_type as TrainType} />
             </DetailsContainer>
