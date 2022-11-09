@@ -5,6 +5,7 @@ export type TrainVehicleResponse = {
 export type TrainVehicle = {
     train_vehicle_name?: string,
     building_series?: string,
+    building_series_name?: string,
     train_vehicle_number: number,
     train_type: TrainType,
     trips?: TrainTrip[],

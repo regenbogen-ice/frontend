@@ -3,7 +3,9 @@ import { DateTime } from 'luxon'
 import { RAINBOW_NAME, RAINBOW_TZN } from './constants'
 
 export function findCurrentTrip(trainVehicle: TrainVehicle) {
-    const trips = trainVehicle.trips ?? []
+    let trips = trainVehicle.trips ?? []
+
+    trips = trips.filter(doesTripHaveStops)
 
     for(let i = trips.length - 1; i >= 0; i--) {
         const trip = trips[i]
@@ -16,6 +18,10 @@ export function findCurrentTrip(trainVehicle: TrainVehicle) {
     }
 
     return ((trips.length && trips[0]) || null)!
+}
+
+function doesTripHaveStops(trip: TrainTrip) {
+    return Boolean(trip.stops && trip.stops.length)
 }
 
 export function isTripOver(trip: TrainTrip, bufferMinutes = 0) {
