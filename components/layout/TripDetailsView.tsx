@@ -8,7 +8,7 @@ import { InternalLink } from '../misc/CommonStyles'
 import FullTimetable from '../timetable/CompleteTripTimetable'
 import { DetailsContainer, InfoTitle, InfoValue, SectionTitle, SectionWrapper } from './styles'
 
-function TripDate({initialDeparture}: {initialDeparture: string}) {
+export function TripDate({initialDeparture}: {initialDeparture: string}) {
     const formattedDate = useMemo(() => (
         DateTime.fromISO(initialDeparture).toFormat('dd.MM.yyyy')
     ), [initialDeparture])
@@ -18,7 +18,7 @@ function TripDate({initialDeparture}: {initialDeparture: string}) {
     )
 }
 
-function TrainVehicleInfo({vehicles}: {vehicles: TrainVehicle[]}) {
+export function TrainVehicleInfo({vehicles}: {vehicles: TrainVehicle[]}) {
     
     return (
         <>
@@ -26,7 +26,7 @@ function TrainVehicleInfo({vehicles}: {vehicles: TrainVehicle[]}) {
             <InfoValue>
                 {vehicles.map(vehicle => {
                     return (
-                        <Link key={vehicle.train_vehicle_number} href={getTrainVehicleLink(vehicle.train_type, String(vehicle.train_vehicle_number))} passHref>
+                        <Link key={vehicle.train_vehicle_number} href={getTrainVehicleLink(vehicle.train_type, String(vehicle.train_vehicle_number))} passHref legacyBehavior>
                             <InternalLink>{vehicle.train_vehicle_name || `Tz ${vehicle.train_vehicle_number}`}</InternalLink>
                         </Link>
                     )

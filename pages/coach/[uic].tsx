@@ -1,13 +1,15 @@
 import Head from 'next/head'
 import { useRouter } from 'next/router'
+import CoachDetailsView from '../../components/layout/CoachDetailsView'
 import { NoDataComponent } from '../../components/misc/CommonComponents'
 import { HeaderContainer } from '../../components/misc/CommonStyles'
 import Footer from '../../components/misc/Footer'
-import Header from '../../components/misc/Header'
+import NavigationBar from '../../components/misc/NavigationBar'
 import UicID, { formatUIC } from '../../components/misc/UicID'
 import SearchBox from '../../components/search/SearchBox'
+import { Coach } from '../../util/commonTypes'
 import { REFRESH_INTERVAL } from '../../util/constants'
-import { useRerenderPeriodically } from '../../util/hooks'
+import { useCoach, useRerenderPeriodically } from '../../util/hooks'
 
 export default function ParameterWaitingView() {
     const router = useRouter()
@@ -18,32 +20,40 @@ export default function ParameterWaitingView() {
     }
 
     return (
-        <Coach uic={uic as string} />
+        <CoachView uic={uic as string} />
     )
 }
 
-function Coach({uic}: {uic: string}) {
+function CoachView({uic}: {uic: string}) {
     useRerenderPeriodically(REFRESH_INTERVAL)
+
+    const { data, error } = useCoach(uic)
+    if(error || !data) {
+        return <NoDataComponent error={error} title={`Wagen ${formatUIC(uic)}`} />
+    }
+
+    const coach = data[0]
 
     return (
         <>
             <Head>
-                <title>{`Wagen ${formatUIC(uic)}`}</title>
+                <title>{`Wagen ${formatUIC(coach.uic)}`}</title>
             </Head>
-            <Header />
-            <CoachHeader uic={uic} />
+            <NavigationBar />
+            <CoachHeader coach={coach} />
+            <CoachDetailsView coach={coach} />
             <Footer />
         </>
     )
 }
 
-function CoachHeader({uic}: {uic: string}) {
+function CoachHeader({coach}: {coach: Coach}) {
     return (
         <HeaderContainer>
             <h1>
-                <UicID uic={uic} />    
+                <UicID uic={coach.uic} />    
             </h1>
-            <h2>placeholder</h2>
+            <h2>{coach.category}</h2>
             <SearchBox />
         </HeaderContainer>
     )

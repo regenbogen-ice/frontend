@@ -56,7 +56,7 @@ export default function SingleRowRenderer({currentRow, nextRow, lastRow}: {curre
                 const formattedTime = timeObj.toFormat('HH:mm')
                 const delayed = DateTime.fromISO(scheduledTime!).plus({ minutes: 3 }) < timeObj
 
-                const normalColor = delayed ? '#FFD600' : 'var(--text-color)'
+                const normalColor = delayed ? 'var(--warning-color)' : 'var(--text-color)'
                 
                 return {
                     time: formattedTime,
@@ -101,12 +101,22 @@ export default function SingleRowRenderer({currentRow, nextRow, lastRow}: {curre
                 <TripChangeContainer color={colorToUse}>
                     <TripChangeTop>{currentRow.index !== 0 ? 'Weiter als' : null}</TripChangeTop>
                     {currentRow.link ? (
-                        <Link href={currentRow.link} passHref>
+                        <Link href={currentRow.link} passHref legacyBehavior>
                             <TripChangeBottom target='_blank' color={colorToUse}>{currentRow.to}</TripChangeBottom>
                         </Link>
                     ) : (
                         <TripChangeBottom color={colorToUse}>{currentRow.to}</TripChangeBottom>
                     )}
+                </TripChangeContainer>
+            </TimetableRow>
+        )
+    } else if(currentRow.type === 'noStops') {
+        dot.size = '1.5rem'
+
+        return (
+            <TimetableRow key={currentRow.index} node={{bottom, dot, top, blueDot}}>
+                <TripChangeContainer>
+                    <b>Keine Daten!</b>
                 </TripChangeContainer>
             </TimetableRow>
         )

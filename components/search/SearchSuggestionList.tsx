@@ -35,7 +35,7 @@ function SearchSuggestionEntry({suggestion, navigateToSuggestion}: {suggestion: 
                 </SearchSuggestionEntryContainer>
             )
 
-        /*case 'coach':
+        case 'coach':
             return (
                 <SearchSuggestionEntryContainer onClick={() => navigateToSuggestion(suggestion)}>
                     <svg viewBox="0 0 24 24">
@@ -43,7 +43,7 @@ function SearchSuggestionEntry({suggestion, navigateToSuggestion}: {suggestion: 
                     </svg>
                     <UicID uic={suggestion.guess} />
                 </SearchSuggestionEntryContainer>
-            )*/
+            )
 
         default:
             return null

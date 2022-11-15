@@ -4,7 +4,7 @@ import TripDetailsView from '../../../components/layout/TripDetailsView'
 import { HtmlTitle, NoDataComponent } from '../../../components/misc/CommonComponents'
 import { HeaderContainer } from '../../../components/misc/CommonStyles'
 import Footer from '../../../components/misc/Footer'
-import Header from '../../../components/misc/Header'
+import NavigationBar from '../../../components/misc/NavigationBar'
 import SearchBox from '../../../components/search/SearchBox'
 import { TrainTrip, TrainType } from '../../../util/commonTypes'
 import { REFRESH_INTERVAL } from '../../../util/constants'
@@ -40,7 +40,7 @@ function Trip({trainNumber, trainType, initialDeparture}: {trainNumber: string, 
     return (
         <>
             <HtmlTitle title={`${currentTrip.train_type} ${currentTrip.train_number}`} />
-            <Header />
+            <NavigationBar />
             <TripHeader trainTrip={currentTrip} />
             <TripDetailsView currentTrip={currentTrip} vehicles={currentTrip.train_vehicles || []} />
             <Footer />
@@ -57,7 +57,7 @@ function TripHeader({trainTrip}: {trainTrip: TrainTrip}) {
             <h2>
                 {date}
                 <br />
-                {trainTrip.origin_station} {'->'} {trainTrip.destination_station}
+                {trainTrip.origin_station || '?'} {'->'} {trainTrip.destination_station || '?'}
             </h2>
             <SearchBox />
         </HeaderContainer>

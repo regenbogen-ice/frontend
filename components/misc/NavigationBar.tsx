@@ -37,10 +37,10 @@ const HeaderTitle = styled.span`
     }
 `
 
-export default function Header() {
+export default function NavigationBar() {
     return (
         <HeaderContainer>
-            <Link href='/' passHref>
+            <Link href='/' passHref legacyBehavior>
                 <HomeLinkAnchor>
                     <BackIcon viewBox='0 0 492 492'><g><path d='M198.608,246.104L382.664,62.04c5.068-5.056,7.856-11.816,7.856-19.024c0-7.212-2.788-13.968-7.856-19.032l-16.128-16.12
                     C361.476,2.792,354.712,0,347.504,0s-13.964,2.792-19.028,7.864L109.328,227.008c-5.084,5.08-7.868,11.868-7.848,19.084

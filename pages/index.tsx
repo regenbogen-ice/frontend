@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import styled from 'styled-components'
 import { useRerenderPeriodically, useTrainVehicleCurrent } from '../util/hooks'
-import { findCurrentTrip, generateTripHeadline } from '../util/trainDataUtil'
+import { findCurrentTrip, generateTripHeadline, getTrainTripWithStops } from '../util/trainDataUtil'
 import { TrainTrip } from '../util/commonTypes'
 import TrainDetailsView from '../components/layout/TrainDetailsView'
 import { APP_BASE, RAINBOW_TZN, REFRESH_INTERVAL } from '../util/constants'
@@ -58,6 +58,8 @@ const TimetablePuppet = styled.div`
 function Header({currentTrip}: {currentTrip: TrainTrip}) {
     const tripHeadline: string = generateTripHeadline(currentTrip)
 
+    const tripWithStops = getTrainTripWithStops(currentTrip)
+
     return (
         <HeaderContainer>
             <TopHeader>
@@ -66,7 +68,7 @@ function Header({currentTrip}: {currentTrip: TrainTrip}) {
                     <Title as={'h2'}>{tripHeadline}</Title>
                 </div>
                 <TimetableWrapper>
-                    <ShortTimetable trainTrip={currentTrip} />
+                    {tripWithStops && <ShortTimetable trainTrip={tripWithStops} />}
                 </TimetableWrapper>
             </TopHeader>
             <SearchBox />
@@ -97,37 +99,49 @@ export default function IndexPage() {
 
     const { data, error } = useTrainVehicleCurrent(RAINBOW_TZN, 'ICE')
 
-    if(error || !data) {
-        const loading = !error
-
+    if(error) {
         return (
             <>
                 <HeadSection />
                 <HeaderContainer>
-                    <TopHeader style={{marginBottom: loading ? '200px' : undefined}}>
+                    <TopHeader>
                         <div>
                             <Title>Wo ist der Regenbogen-ICE?</Title>
                             <Title as={'h2'}>
-                                {error ? (
-                                    <>
-                                        Keine Ahnung.
-                                        {' '}
-                                        <InlineError error={error} />
-                                    </>
-                                ) : '\xa0'}
+                                Keine Ahnung.
+                                {' '}
+                                <InlineError error={error} />
                             </Title>
                         </div>
-                        <TimetablePuppet>
-                            {loading ? <Loader /> : null}
-                        </TimetablePuppet>
                     </TopHeader>
-                    {!loading ? <RainbowStripe /> : null}
+                    <RainbowStripe />
                 </HeaderContainer>
             </>
         )
     }
 
-    const currentTrip: TrainTrip = findCurrentTrip(data)
+    if(!data) {
+        return (
+            <>
+                <HeadSection />
+                <HeaderContainer>
+                    <TopHeader style={{marginBottom: '200px'}}>
+                        <div>
+                            <Title>Wo ist der Regenbogen-ICE?</Title>
+                            <Title as={'h2'}>
+                                {'\xa0'}
+                            </Title>
+                        </div>
+                        <TimetablePuppet>
+                            <Loader />
+                        </TimetablePuppet>
+                    </TopHeader>
+                </HeaderContainer>
+            </>
+        )
+    }
+
+    const currentTrip = findCurrentTrip(data)
 
     return (
         <>
