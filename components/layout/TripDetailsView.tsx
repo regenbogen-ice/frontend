@@ -19,7 +19,6 @@ export function TripDate({initialDeparture}: {initialDeparture: string}) {
 }
 
 export function TrainVehicleInfo({vehicles}: {vehicles: TrainVehicle[]}) {
-    
     return (
         <>
             <InfoTitle>{vehicles.length > 1 ? 'Triebfahrzeuge' : 'Triebfahrzeug'}</InfoTitle>
