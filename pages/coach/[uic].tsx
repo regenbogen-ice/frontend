@@ -53,7 +53,7 @@ function CoachHeader({coach}: {coach: Coach}) {
             <h1>
                 <UicID uic={coach.uic} />    
             </h1>
-            <h2>{coach.category}</h2>
+            <h2>{coach.type}</h2>
             <SearchBox />
         </HeaderContainer>
     )
