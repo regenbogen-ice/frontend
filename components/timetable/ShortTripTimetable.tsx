@@ -1,8 +1,8 @@
-import { TrainStop, TrainTrip } from '../../util/commonTypes'
+import { TrainStop, TrainTripWithStops } from '../../util/commonTypes'
 import { DateTime } from 'luxon'
 import TimetableRenderer from './TimetableRenderer'
 
-export function ShortTimetable({trainTrip}: {trainTrip: TrainTrip}) {
+export function ShortTimetable({trainTrip}: {trainTrip: TrainTripWithStops}) {
     const allStops = trainTrip.stops ?? []
     const selectedStops = new Set<TrainStop>()
 

@@ -8,7 +8,7 @@ export type TrainVehicle = {
     building_series_name?: string,
     train_vehicle_number: number,
     train_type: TrainType,
-    trips?: TrainTrip[],
+    trips: TrainTrip[],
     coach_sequences?: TrainCoachSeqence[],
 }
 
@@ -16,12 +16,16 @@ export type TrainTrip = {
     group_index: number,
     train_number: number,
     train_type: TrainType,
-    origin_station: string | null,
-    destination_station: string | null,
+    origin_station?: string,
+    destination_station?: string,
     initial_departure: string,
     bahn_expert?: string,
     stops?: TrainStop[],
     train_vehicles?: TrainVehicle[],
+}
+
+export type TrainTripWithStops = TrainTrip & {
+    stops: TrainStop[],
 }
 
 export type TrainCoachSeqence = {
@@ -62,6 +66,22 @@ export type AutoCompleteSuggestion = {
     guess: string,
     train_type: TrainType,
     type: string,
+}
+
+export type Coach = {
+    index: number,
+    class: number,
+    type: string,
+    uic: string,
+    category: string,
+    coach_sequence: {
+        train_vehicle?: TrainVehicle
+    },
+    coach_links: [
+        {
+            trip: TrainTrip,
+        },
+    ],
 }
 
 export type TrainType = 'ICE' | 'IC'

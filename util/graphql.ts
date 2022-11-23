@@ -82,6 +82,43 @@ const TrainTripQuery = `
     }
 `
 
+const CoachQuery = `
+    query Query($uic: String!) {
+        coach(uic: $uic) {
+            index
+            class
+            type
+            uic
+            category
+            coach_sequence {
+                train_vehicle {
+                    train_vehicle_number
+                    train_vehicle_name
+                    train_type
+                }
+            }
+            coach_links {
+                trip {
+                    train_type
+                    train_number
+                    origin_station
+                    destination_station
+                    initial_departure
+                    bahn_expert
+                    stops {
+                        cancelled
+                        station
+                        scheduled_departure
+                        departure
+                        scheduled_arrival
+                        arrival
+                    }
+                }
+            }
+        }
+    }
+`
+
 async function fetchFromGraphQL(query: string, variables: { [key: string]: string | number | undefined }, key: string) {
     const response = await fetch(GRAPHQL_URL, {
         method: 'POST',
@@ -97,7 +134,7 @@ async function fetchFromGraphQL(query: string, variables: { [key: string]: strin
 
     const json = await response.json()
 
-    if(!response.ok) {
+    if(!response.ok || json.errors) {
         return json
     }
 
@@ -120,4 +157,8 @@ export function fetchTrainTrip(trainType: string, trainNumber: number, initialDe
     const initialDepartureObject = initialDeparture ? { initialDeparture } : {}
 
     return fetchFromGraphQL(TrainTripQuery, { trainType, trainNumber, ...initialDepartureObject }, 'train_trip')
+}
+
+export function fetchCoach(uic: string) {
+    return fetchFromGraphQL(CoachQuery, { uic }, 'coach')
 }

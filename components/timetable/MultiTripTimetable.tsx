@@ -1,5 +1,4 @@
 import { TrainTrip } from '../../util/commonTypes'
-import { getTrainTripLink } from '../../util/trainDataUtil'
 import { RowRendererArgs } from './SingleRowRenderer'
 import TimetableRenderer from './TimetableRenderer'
 
@@ -11,15 +10,16 @@ export default function MultiTimetable({trainTrips, cutoffIndex}: {trainTrips: T
         const trainTrip = trainTrips[i]
         const stops = trainTrip.stops ?? []
         
-        if(stops.length === 0) continue
+        //if(stops.length === 0) continue
+
+        const tripTime = stops[0]?.departure || stops[0]?.arrival || ''
 
         rowData = [
             ...rowData,
             {
                 type: 'tripChange',
-                to: `${trainTrip.train_type} ${trainTrip.train_number} -> ${trainTrip.destination_station}`,
-                time: stops[0].departure || stops[0].arrival!,
-                //link: getTrainTripLink(trainTrip.train_type, trainTrip.train_number, trainTrip.initial_departure),
+                to: `${trainTrip.train_type} ${trainTrip.train_number}${trainTrip.destination_station ? ' -> ' + trainTrip.destination_station : ''}`,
+                time: tripTime,
                 link: trainTrip.bahn_expert,
                 index: rowIndex++,
             },
@@ -29,6 +29,14 @@ export default function MultiTimetable({trainTrips, cutoffIndex}: {trainTrips: T
                 time: stop.departure || stop.arrival!,
             })),
         ]
+
+        if(!stops?.length) {
+            rowData.push({
+                type: 'noStops',
+                index: rowIndex++,
+                time: tripTime,
+            })
+        }
     }
     
     return <TimetableRenderer rows={rowData} />

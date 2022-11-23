@@ -74,3 +74,7 @@ export const Button = styled.button`
     border-radius: 15px;
     cursor: pointer;
 `
+
+export const CoachEnumValue = styled(InfoValue)`
+    word-break: break-all;
+`

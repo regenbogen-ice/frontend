@@ -1,11 +1,9 @@
-import { TrainTrip, TrainType, TrainVehicle } from './commonTypes'
+import { TrainTrip, TrainTripWithStops, TrainType, TrainVehicle } from './commonTypes'
 import { DateTime } from 'luxon'
 import { RAINBOW_NAME, RAINBOW_TZN } from './constants'
 
 export function findCurrentTrip(trainVehicle: TrainVehicle) {
-    let trips = trainVehicle.trips ?? []
-
-    trips = trips.filter(doesTripHaveStops)
+    const trips = trainVehicle.trips
 
     for(let i = trips.length - 1; i >= 0; i--) {
         const trip = trips[i]
@@ -17,11 +15,17 @@ export function findCurrentTrip(trainVehicle: TrainVehicle) {
         return trip
     }
 
-    return ((trips.length && trips[0]) || null)!
+    return trips[0]
 }
 
-function doesTripHaveStops(trip: TrainTrip) {
-    return Boolean(trip.stops && trip.stops.length)
+export function getTrainTripWithStops(trip: TrainTrip) {
+    if(!trip?.stops?.length) return null
+
+    return trip as TrainTripWithStops
+}
+
+export function getTrainTripsWithStops(trips: TrainTrip[]) {
+    return trips.map(getTrainTripWithStops).filter(trip => trip !== null)
 }
 
 export function isTripOver(trip: TrainTrip, bufferMinutes = 0) {
@@ -43,9 +47,11 @@ export function hasTripStarted(trip: TrainTrip) {
 }
 
 export function generateTripHeadline(trip: TrainTrip, includeName = true) {
-    if(!trip.stops) return ''
-
     const suffix = includeName ? ` als ${trip.train_type} ${trip.train_number}` : ''
+
+    if(!trip.stops) {
+        return `Zug gefunden${suffix}`
+    }
 
     if(isTripOver(trip)) {
         const arrival = DateTime.fromISO(trip.stops[trip.stops.length - 1].arrival!)

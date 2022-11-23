@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import { StatusError } from '../../util/dataFetcher'
-import Header from './Header'
+import NavigationBar from './NavigationBar'
 
 const FullscreenErrorContainer = styled.div`
     display: flex;
@@ -37,7 +37,7 @@ const ErrorMessage = styled.h2`
 export function FullScreenError({error}: {error?: Error}) {
     return (
         <>
-            <Header />
+            <NavigationBar />
             <FullscreenErrorContainer>
                 <Error error={error} />
             </FullscreenErrorContainer>

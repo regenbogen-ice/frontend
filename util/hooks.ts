@@ -1,6 +1,6 @@
 import useSWR from 'swr'
 import fetchFromAPI from './dataFetcher'
-import { AutoCompleteSuggestion, TrainTrip, TrainType, TrainVehicle } from './commonTypes'
+import { AutoCompleteSuggestion, TrainTrip, TrainType, TrainVehicle, Coach } from './commonTypes'
 import { useEffect, useState } from 'react'
 
 export function useTrainVehicleCurrent(tzn: string | number | null, trainType: TrainType) {
@@ -25,6 +25,12 @@ export function useTrainTrips(trainNumber: number, trainType: TrainType, initial
     const { data, error } = useSWR([[trainNumber, trainType, initialDeparture], 'trainTrips'], fetchFromAPI)
 
     return { data: data as (TrainTrip[] | undefined), error }
+}
+
+export function useCoach(uic: string) {
+    const { data, error } = useSWR([[uic], 'coach'], fetchFromAPI)
+
+    return { data: data as (Coach[] | null), error }
 }
 
 export function useRerenderPeriodically(interval: number) {

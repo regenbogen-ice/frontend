@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router'
-import Header from '../../../components/misc/Header'
+import NavigationBar from '../../../components/misc/NavigationBar'
 import SearchBox from '../../../components/search/SearchBox'
 import TrainDetailsView from '../../../components/layout/TrainDetailsView'
 import { TrainTrip, TrainType } from '../../../util/commonTypes'
@@ -37,7 +37,7 @@ function Vehicle({tzn, trainType}: {tzn: string, trainType: string}) {
     return (
         <>
             <HtmlTitle title={pageTitle} />
-            <Header />
+            <NavigationBar />
             <VehicleHeader trainTrip={trainTrip} title={pageTitle} />
             <TrainDetailsView vehicle={data} currentTrip={trainTrip} />
             <Footer />

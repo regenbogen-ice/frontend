@@ -1,4 +1,4 @@
-import { fetchAutoComplete, fetchTrainHistory, fetchTrainTrip, fetchTrainVehicle } from './graphql'
+import { fetchAutoComplete, fetchCoach, fetchTrainHistory, fetchTrainTrip, fetchTrainVehicle } from './graphql'
 
 export class StatusError extends Error {
     constructor(title: string, description: string) {
@@ -32,6 +32,10 @@ const fetchFromAPI = async (arg: any, method: string): Promise<any> => {
 
         case 'trainTrips':
             response = await fetchTrainTrip(arg[1], arg[0], arg[2])
+            break
+
+        case 'coach':
+            response = await fetchCoach(arg[0])
             break
 
         default:
