@@ -20,11 +20,11 @@ const LoadingAnimation = keyframes`
 const LoaderItem = styled.span`
     animation: .5s ${LoadingAnimation} infinite alternate;
 
-    :nth-child(2) {
+    &:nth-child(2) {
         animation-delay: .2s;
     }
 
-    :nth-child(3) {
+    &:nth-child(3) {
         animation-delay: .4s;
     }
 `

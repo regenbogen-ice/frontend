@@ -154,7 +154,7 @@ export const TripChangeBottom: any = styled.a.withConfig({ shouldForwardProp })`
     ${(props: any) => css`
         color: ${props.color};
 
-        :visited {
+        &:visited {
             color: ${props.color};
         }
     `}

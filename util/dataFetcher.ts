@@ -12,7 +12,7 @@ export class StatusError extends Error {
     description: string | null = null
 }
 
-const fetchFromAPI = async (arg: any, method: string): Promise<any> => {
+const fetchFromAPI = async ([arg, method]: [any, string]): Promise<any> => {
     let response: any | null = null
 
     if(!arg) throw new Error('missing arg')

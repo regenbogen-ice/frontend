@@ -10,10 +10,10 @@ export default function ThemeSwitcher() {
         e.preventDefault()
 
         console.log(theme)
-        if(theme.themeColor === DEFAULT_COLOR) {
+        if(theme?.themeColor === DEFAULT_COLOR) {
             theme.changeThemeColor('#000')
         } else {
-            theme.changeThemeColor(DEFAULT_COLOR)
+            theme?.changeThemeColor?.(DEFAULT_COLOR)
         }
     }
 

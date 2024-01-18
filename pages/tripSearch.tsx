@@ -2,7 +2,6 @@ import { DateTime } from 'luxon'
 import { useRouter } from 'next/router'
 import { SyntheticEvent } from 'react'
 import styled from 'styled-components'
-import { Button } from '../components/layout/styles'
 import Footer from '../components/misc/Footer'
 import { TrainType } from '../util/commonTypes'
 import { getTrainTripLink } from '../util/trainDataUtil'
@@ -54,7 +53,7 @@ export default function SearchTripPage() {
         const time = formData.get('time') as string + ' ' + formData.get('date') as string
         const formattedTime = DateTime.fromFormat(time, 'HH:mm yyyy-MM-dd', {zone: 'local'}).toISO({includeOffset: true})
         
-        const link = getTrainTripLink(type as TrainType, parseInt(number), formattedTime)
+        const link = getTrainTripLink(type as TrainType, parseInt(number), formattedTime!)
         router.push(link)
     }
 

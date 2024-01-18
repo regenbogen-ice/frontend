@@ -1,7 +1,7 @@
 const configs = {
   development: {
     NEXT_PUBLIC_ENV: 'local',
-    NEXT_PUBLIC_GRAPHQL_URL: 'https://dev.regenbogen-ice.de/graphql',
+    NEXT_PUBLIC_GRAPHQL_URL: 'https://regenbogen-ice.de/graphql',
     NEXT_PUBLIC_APP_BASE: 'https://mainpc20481.ppluss.de',
   },
   canary: {
@@ -40,4 +40,7 @@ module.exports = {
   redirects: async () => ([
     {source: '/details/:tzn', destination: '/vehicle/ICE/:tzn', permanent: false},
   ]),
+  compiler: {
+    styledComponents: true,
+  },
 }
