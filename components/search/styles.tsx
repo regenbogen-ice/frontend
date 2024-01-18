@@ -55,7 +55,7 @@ export const SearchSuggestionEntryContainer = styled.div`
     display: flex;
     align-items: center;
 
-    :hover {
+    &:hover {
         background: var(--text-dark-color);
     }
 

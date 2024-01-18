@@ -88,6 +88,10 @@ export default function SingleRowRenderer({currentRow, nextRow, lastRow}: {curre
             }
         }
 
+        if(currentRow.stop.cancelled) {
+            blueDot = null
+        }
+
         return (
             <TimetableRow key={currentRow.index} node={{bottom, dot, top, blueDot}} times={times}>
                 <StopLabel cancelled={currentRow.stop.cancelled} stopPassed={stopPassed}>{currentRow.stop.station}</StopLabel>
