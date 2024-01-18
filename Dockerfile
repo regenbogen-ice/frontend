@@ -23,7 +23,7 @@ COPY ./tsconfig.json .
 
 RUN yarn next build
 
-FROM node:16-alpine
+FROM node:20-alpine
 WORKDIR /app
 
 COPY --from=build /app/package.json ./
