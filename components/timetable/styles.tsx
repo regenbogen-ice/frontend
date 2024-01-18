@@ -1,10 +1,8 @@
 import styled, { css } from 'styled-components'
 
-//* eslint-disable @typescript-eslint/no-explicit-any  */
 function shouldForwardProp(prop: string | number) {
     return (['children', 'href', 'target', 'onClick'] as (string | number)[]).includes(prop)
 }
-
 
 export const NodeContainer = styled.div.withConfig({ shouldForwardProp })<{offset?: string, width?: string}>`
     position: absolute;
