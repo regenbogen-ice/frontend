@@ -54,10 +54,10 @@ export default function Footer() {
             </FooterSection>
             <FooterSection>
                 <UndecoratedInternalLink href='https://ppluss.de' target='_blank'>
-                    <ProfilePicture src='/images/philippirl.webp' />
+                    <ProfilePicture src='/images/philippirl.webp' loading='lazy' />
                 </UndecoratedInternalLink>
                 <UndecoratedInternalLink href='https://adridoesthings.com' target='_blank'>
-                    <ProfilePicture src='/images/adridoesthings.webp' />
+                    <ProfilePicture src='/images/adridoesthings.webp' loading='lazy' />
                 </UndecoratedInternalLink>
             </FooterSection>
         </FooterContainer>
