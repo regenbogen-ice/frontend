@@ -24,8 +24,8 @@ export default function HistoryEntry({day, trips}: {day: string, trips: TrainTri
                             <Link href={getTrainTripLink(trip.train_type, trip.train_number, trip.initial_departure)} passHref legacyBehavior>
                                 <UndecoratedInternalLink>
                                     Um {departure} als {trip.train_type} {trip.train_number}
-                                    <br/>{trip.origin_station} {'->'}
-                                    <br/>{trip.destination_station}
+                                    <br/>{trip.origin_station || '?'} {'->'}
+                                    <br/>{trip.destination_station || '?'}
                                 </UndecoratedInternalLink>
                             </Link>
                         </HistoryRowText>
