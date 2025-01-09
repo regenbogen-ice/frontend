@@ -29,7 +29,8 @@ export function getTrainTripsWithStops(trips: TrainTrip[]) {
 }
 
 export function isTripOver(trip: TrainTrip, bufferMinutes = 0) {
-    if(!trip.stops) return true
+    if(!trip.stops?.length) return true
+
 
     const arrivalTimeString = trip.stops[trip.stops.length - 1].arrival
     const arrivalTime = DateTime.fromISO(arrivalTimeString!)
@@ -49,8 +50,14 @@ export function hasTripStarted(trip: TrainTrip) {
 export function generateTripHeadline(trip: TrainTrip, includeName = true) {
     const suffix = includeName ? ` als ${trip.train_type} ${trip.train_number}` : ''
 
-    if(!trip.stops) {
-        return `Zug gefunden${suffix}`
+    if(!trip.stops?.length) {
+        let dateSentence = ''
+        if(trip.initial_departure) {
+            const trainDate = DateTime.fromISO(trip.initial_departure).toFormat('dd.MM.yyyy')
+            dateSentence = ' am ' + trainDate
+        }
+
+        return `Zug zuletzt gefunden${dateSentence}${suffix}`
     }
 
     if(isTripOver(trip)) {
