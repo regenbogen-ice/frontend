@@ -24,25 +24,21 @@ const ENVIRONMENTS: { [name: string]: Environment } = {
     },
 }
 
-let environmentKey = 'development'
-
-if(process.env.BUILD_ENV) {
-
-  if(process.env.BUILD_ENV === 'main') {
-    environmentKey = 'production'
-  } else {
-    environmentKey = process.env.BUILD_ENV
-  }
-
-}
+const environmentKey = {
+    main: 'production',
+    canary: 'canary',
+    
+    production: 'production',
+    development: 'development',
+}[process.env.BUILD_ENV ?? ''] ?? 'development'
 
 module.exports = {
-  reactStrictMode: true,
-  env: ENVIRONMENTS[environmentKey],
-  redirects: async () => ([
-    { source: '/details/:tzn', destination: '/vehicle/ICE/:tzn', permanent: false },
-  ]),
-  compiler: {
-    styledComponents: true,
-  },
+    reactStrictMode: true,
+    env: ENVIRONMENTS[environmentKey],
+    redirects: async () => ([
+        { source: '/details/:tzn', destination: '/vehicle/ICE/:tzn', permanent: false },
+    ]),
+    compiler: {
+        styledComponents: true,
+    },
 }
