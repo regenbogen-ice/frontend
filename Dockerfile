@@ -15,6 +15,8 @@ COPY ./next.config.ts .
 COPY ./next-env.d.ts .
 COPY ./tsconfig.json .
 
+ARG BUILD_ENV=production
+
 RUN pnpm build
 
 FROM base AS image
