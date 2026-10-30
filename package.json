@@ -9,27 +9,33 @@
     "lint": "tsc --noEmit && eslint ."
   },
   "dependencies": {
-    "@sentry/react": "^10.41.0",
-    "ackee-tracker": "^5.1.2",
-    "framer-motion": "^12.34.4",
+    "@sentry/react": "^10.78.0",
+    "ackee-tracker": "^5.1.3",
+    "framer-motion": "^12.43.0",
     "luxon": "^3.7.2",
-    "next": "^16.1.6",
-    "react": "^19.2.4",
-    "react-dom": "^19.2.4",
-    "styled-components": "^6.3.11",
-    "swr": "^2.4.1"
+    "next": "^16.4.3",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "styled-components": "^6.6.0",
+    "swr": "^2.5.1"
   },
   "devDependencies": {
+    "@babel/core": "^7.29.7",
     "@types/ackee-tracker": "^5.0.4",
-    "@types/luxon": "^3.7.1",
-    "@types/node": "^24.11.0",
-    "@types/react": "^19.2.14",
+    "@types/luxon": "^3.7.6",
+    "@types/node": "^24.19.2",
+    "@types/react": "^19.3.0",
     "@types/styled-components": "^5.1.36",
     "@typescript-eslint/eslint-plugin": "^6.21.0",
-    "babel-plugin-styled-components": "^2.1.4",
+    "babel-plugin-styled-components": "^2.3.1",
     "eslint": "^8.57.1",
-    "eslint-config-next": "^15.5.12",
+    "eslint-config-next": "^15.5.28",
     "typescript": "^5.9.3"
   },
-  "packageManager": "pnpm@10.30.3+sha512.c961d1e0a2d8e354ecaa5166b822516668b7f44cb5bd95122d590dd81922f606f5473b6d23ec4a5be05e7fcd18e8488d47d978bbe981872f1145d06e9a740017"
+  "packageManager": "pnpm@10.30.3+sha512.c961d1e0a2d8e354ecaa5166b822516668b7f44cb5bd95122d590dd81922f606f5473b6d23ec4a5be05e7fcd18e8488d47d978bbe981872f1145d06e9a740017",
+  "pnpm": {
+    "overrides": {
+      "minimatch@9": "^9.0.7"
+    }
+  }
 }
